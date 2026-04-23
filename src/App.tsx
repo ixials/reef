@@ -109,6 +109,24 @@ export default function App() {
         b.author.toLowerCase().includes(search.toLowerCase()) ||
         b.tags.some((t) => t.includes(search.toLowerCase())),
     );
+    if (sort === "recent") {
+      b = [...b].sort((a, z) => {
+        if (!a.endDate && !z.endDate) return 0;
+        if (!a.endDate) return 1;
+        if (!z.endDate) return -1;
+
+        const parse = (d: string) => {
+          const [month, day, year] = d.split("/");
+          return new Date(
+            2000 + Number(year),
+            Number(month) - 1,
+            Number(day),
+          ).getTime();
+        };
+
+        return parse(z.endDate) - parse(a.endDate);
+      });
+    }
     if (sort === "rating-down") b = [...b].sort((a, z) => z.rating - a.rating);
     if (sort === "rating-up") b = [...b].sort((a, z) => a.rating - z.rating);
     return b;
@@ -213,7 +231,7 @@ export default function App() {
                         width="13"
                         height="13"
                         viewBox="0 0 14 14"
-                        fill={view === v ? "#e7e4de" : "#aba8a3"}
+                        fill={view === v ? "#E7E4DE" : "#ABA8A3"}
                       >
                         <rect x="0" y="0" width="6" height="6" rx="1" />
                         <rect x="8" y="0" width="6" height="6" rx="1" />
@@ -225,7 +243,7 @@ export default function App() {
                         width="13"
                         height="13"
                         viewBox="0 0 14 14"
-                        fill={view === v ? "#e7e4de" : "#aba8a3"}
+                        fill={view === v ? "#E7E4DE" : "#ABA8A3"}
                       >
                         <rect x="0" y="1" width="14" height="2" rx="1" />
                         <rect x="0" y="6" width="14" height="2" rx="1" />
@@ -250,7 +268,7 @@ export default function App() {
             </div>
 
             {/* Content */}
-            <div className="min-h-[120px] bg-[#E7E4DE]">
+            <div className="h-[calc(100vh-220px)] overflow-y-auto bg-[#E7E4DE]">
               {loading && (
                 <div className="py-10 text-center text-xs text-black">
                   Loading…

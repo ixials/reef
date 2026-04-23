@@ -13,7 +13,6 @@ export interface Book {
   startDate: string;
   endDate: string;
   tags: string[];
-  color: string;
   notes: string;
 }
 

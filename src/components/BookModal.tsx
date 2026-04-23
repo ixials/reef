@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Book } from "../gist";
-import { COLORS } from "../colors";
 import { StarRating } from "./StarRating";
-import { Tag, tagColor } from "./Tag";
+import { Tag } from "./Tag";
 
 type BookFormData = Omit<Book, "id">;
 
@@ -30,7 +29,6 @@ export function BookModal({
           startDate: book.startDate,
           endDate: book.endDate,
           tags: book.tags,
-          color: book.color,
           notes: book.notes,
         }
       : {
@@ -40,7 +38,6 @@ export function BookModal({
           startDate: "",
           endDate: "",
           tags: [],
-          color: COLORS[0],
           notes: "",
         },
   );
@@ -48,11 +45,12 @@ export function BookModal({
 
   const addTag = () => {
     const t = tagInput.trim().toLowerCase();
-    if (t && !form.tags.includes(t))
-      setForm((f) => {
-        const newTags = [...f.tags, t];
-        return { ...f, tags: newTags, color: tagColor(newTags[0]) };
-      });
+    if (t && !form.tags.includes(t)) {
+      setForm((f) => ({
+        ...f,
+        tags: [...f.tags, t],
+      }));
+    }
     setTagInput("");
   };
 
@@ -139,7 +137,6 @@ export function BookModal({
                   return {
                     ...f,
                     tags: newTags,
-                    color: newTags.length ? tagColor(newTags[0]) : "#ABA8A3",
                   };
                 })
               }
