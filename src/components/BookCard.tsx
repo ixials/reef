@@ -40,7 +40,7 @@ export function BookCard({ book, onEdit, isAdmin }: BookItemProps) {
           {book.notes}
         </div>
       ) : (
-        <div className="h-10 my-3 bg-[#D8D6D0]" />
+        <br />
       )}
 
       <div className="flex justify-between items-center">
