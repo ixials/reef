@@ -30,8 +30,7 @@ export function BookCard({ book, onEdit, isAdmin }: BookItemProps) {
         <div className="flex flex-col items-end gap-1">
           <StarRating rating={book.rating} size={16} />
           <div className="text-[12px] text-black">
-            {book.startDate}
-            {book.endDate ? `—${book.endDate}` : ""}
+            {book.startDate}—{book.endDate ? `${book.endDate}` : ""}
           </div>
         </div>
       </div>
@@ -71,22 +70,29 @@ export function BookRow({ book, onEdit, isAdmin }: BookItemProps) {
       className={`flex items-center gap-3 px-3.5 py-3 border-b border-black last:border-b-0 transition-colors ${isAdmin ? "cursor-pointer hover:bg-[#D8D6D0]" : ""}`}
     >
       <span
-        className="w-3 h-3 rounded-full shrink-0"
+        className="w-3.5 h-3.5 rounded-full shrink-0"
         style={{ background: TAG_PALETTE[book.tags[0]] || "#ABA8A3" }}
       />
       <div className="flex-1 min-w-0">
-        <div className="font-bold text-[12px] text-gray-800 truncate">
+        <div className="font-bold text-[12px] text-gray-800 truncate max-w-[220px] sm:max-w-none">
           {book.title}
         </div>
-        <div className="text-[12px] text-black mt-0.5 flex items-center gap-1">
+        <div className="text-[12px] text-black mt-0.5 flex items-center gap-1 truncate">
           {book.author}
         </div>
       </div>
       <div className="flex flex-col items-end gap-0.5">
         <StarRating rating={book.rating} size={16} />
-        <div className="text-[12px] text-black">
+        <div className="text-[12px] text-black text-right leading-tight">
           {book.startDate}
-          {book.endDate ? `—${book.endDate}` : ""}
+          {book.endDate ? (
+            <>
+              <br />
+              {book.endDate}
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>

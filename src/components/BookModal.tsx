@@ -169,7 +169,9 @@ export function BookModal({
           <button
             onClick={() => onSave(form)}
             disabled={saving}
-            className="flex-1 py-2 rounded-md bg-[#E84832] text-[#E7E4DE] text-[12px] cursor-pointer hover:bg-[#4A90D9] transition-opacity disabled:opacity-60"
+            className={`flex-1 py-2 rounded-md bg-[#E84832] text-[#E7E4DE] text-[12px] cursor-pointer hover:bg-[#4A90D9] transition-opacity disabled:opacity-60 ${
+              saving ? "bg-[#4A90D9]" : "bg-[#E84832] hover:bg-[#4A90D9]"
+            }`}
           >
             {saving ? "SAVING..." : book ? "SAVE" : "ADD BOOK"}
           </button>

@@ -140,7 +140,7 @@ export default function App() {
     <div className="min-h-screen bg-[#E7E4DE]">
       <div className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* Header */}
-        <div className="px-4 sm:px-8 md:px-16 lg:px-24 pt-8 mb-4 flex items-start justify-between">
+        <div className="pt-8 mb-4 flex items-start justify-between">
           <div className="flex items-start gap-5">
             <div
               className="text-[52px] leading-none tracking-[0.1em] text-[#E84832]"
@@ -175,7 +175,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-5 px-4 sm:px-8 md:px-16 lg:px-24 items-start">
+        <div className="flex flex-col sm:flex-row gap-5 items-start">
           {/* Sidebar */}
           <div className="w-full sm:w-38 shrink-0">
             <div className="rounded-xl border border-[#E84832] p-3.5">
@@ -269,7 +269,7 @@ export default function App() {
               </div>
 
               {/* Content */}
-              <div className="h-[calc(100vh-320px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-[#E7E4DE]">
+              <div className="h-[calc(100vh-340px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-[#E7E4DE]">
                 {loading && (
                   <div className="py-10 text-center text-xs text-black">
                     Loading…
