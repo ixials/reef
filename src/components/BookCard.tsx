@@ -74,7 +74,7 @@ export function BookRow({ book, onEdit, isAdmin }: BookItemProps) {
         style={{ background: TAG_PALETTE[book.tags[0]] || "#ABA8A3" }}
       />
       <div className="flex-1 min-w-0">
-        <div className="font-bold text-[12px] text-gray-800 truncate max-w-[220px] sm:max-w-none">
+        <div className="font-bold text-[12px] text-gray-800 truncate max-w-[200px] sm:max-w-none">
           {book.title}
         </div>
         <div className="text-[12px] text-black mt-0.5 flex items-center gap-1 truncate">
