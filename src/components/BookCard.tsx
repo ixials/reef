@@ -28,7 +28,7 @@ export function BookCard({ book, onEdit, isAdmin }: BookItemProps) {
           </div>
         </div>
         <div className="flex flex-col items-end gap-1">
-          <StarRating rating={book.rating} size={14} />
+          <StarRating rating={book.rating} size={16} />
           <div className="text-[12px] text-black">
             {book.startDate}
             {book.endDate ? `—${book.endDate}` : ""}
@@ -83,7 +83,7 @@ export function BookRow({ book, onEdit, isAdmin }: BookItemProps) {
         </div>
       </div>
       <div className="flex flex-col items-end gap-0.5">
-        <StarRating rating={book.rating} size={12} />
+        <StarRating rating={book.rating} size={16} />
         <div className="text-[12px] text-black">
           {book.startDate}
           {book.endDate ? `—${book.endDate}` : ""}
