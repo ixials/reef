@@ -3,6 +3,7 @@ import { readBooks, writeBooks, Book } from "./gist";
 import { BookModal } from "./components/BookModal";
 import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
+import mawile from "./assets/mawile.png";
 
 const AUTH_KEY = "reef_token";
 
@@ -142,6 +143,12 @@ export default function App() {
         {/* Header */}
         <div className="pt-8 mb-4 flex items-start justify-between">
           <div className="flex items-start gap-5">
+            <img
+              src={mawile}
+              alt="reef icon"
+              className="w-14 h-14 object-contain"
+            />
+
             <div
               className="text-[52px] leading-none tracking-[0.1em] text-[#E84832]"
               style={{ fontFamily: "'Jersey 15', sans-serif" }}
