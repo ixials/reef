@@ -142,7 +142,7 @@ export default function App() {
       <div className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* Header */}
         <div className="pt-8 mb-4 flex items-start justify-between">
-          <div className="flex items-start gap-5">
+          <div className="flex items-start gap-2 sm:gap-5">
             <img
               src={mawile}
               alt="reef icon"
