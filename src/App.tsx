@@ -3,6 +3,8 @@ import { readBooks, writeBooks, Book } from "./gist";
 import { BookModal } from "./components/BookModal";
 import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
+import { TagFilter } from "./components/TagFilter";
+import { TAG_SECTIONS } from "./colors";
 import mawile from "./assets/mawile.png";
 
 const AUTH_KEY = "reef_token";
@@ -22,6 +24,7 @@ export default function App() {
   const [view, setView] = useState<ViewMode>("card");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortMode>("recent");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const [modal, setModal] = useState<ModalMode>(null);
   const [editBook, setEditBook] = useState<Book | null>(null);
@@ -107,9 +110,16 @@ export default function App() {
     let b = books.filter(
       (b) =>
         b.title.toLowerCase().includes(search.toLowerCase()) ||
-        b.author.toLowerCase().includes(search.toLowerCase()) ||
-        b.tags.some((t) => t.includes(search.toLowerCase())),
+        b.author.toLowerCase().includes(search.toLowerCase()), // ||
+      // b.tags.some((t) => t.includes(search.toLowerCase())),
     );
+
+    if (selectedTags.length > 0) {
+      b = b.filter((book) =>
+        selectedTags.every((tag) => book.tags.includes(tag)),
+      );
+    }
+
     if (sort === "recent") {
       b = [...b].sort((a, z) => {
         if (!a.endDate && !z.endDate) return 0;
@@ -131,7 +141,7 @@ export default function App() {
     if (sort === "rating-down") b = [...b].sort((a, z) => z.rating - a.rating);
     if (sort === "rating-up") b = [...b].sort((a, z) => a.rating - z.rating);
     return b;
-  }, [books, search, sort]);
+  }, [books, search, sort, selectedTags]);
 
   const avgRating = filtered.length
     ? (filtered.reduce((a, b) => a + b.rating, 0) / filtered.length).toFixed(2)
@@ -155,7 +165,7 @@ export default function App() {
             >
               reef.
             </div>
-            <div className="text-[12px] text-black">
+            <div className="text-[12px] text-black hidden sm:block">
               goodreads dupe
               <br />
               bc i wanted
@@ -210,6 +220,12 @@ export default function App() {
                     onChange={(e) => setSearch(e.target.value)}
                   />
                 </div>
+
+                <TagFilter
+                  tagSections={TAG_SECTIONS}
+                  selectedTags={selectedTags}
+                  onChange={setSelectedTags}
+                />
 
                 <div>
                   <select
