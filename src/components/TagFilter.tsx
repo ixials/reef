@@ -47,7 +47,7 @@ export function TagFilter({
       </button>
 
       {open && (
-        <div className="absolute pb-1 top-[38px] right-0 z-50 border border-black bg-[#E7E4DE] min-w-[160px] max-h-[220px] overflow-y-auto">
+        <div className="absolute pb-1 top-[38px] left-0 z-50 border border-black bg-[#E7E4DE] min-w-[160px] max-h-[220px] overflow-y-auto">
           {sections.length === 0 && (
             <div className="px-3 py-2 text-[11px] text-black opacity-50">
               no tags yet
