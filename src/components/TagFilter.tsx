@@ -36,7 +36,7 @@ export function TagFilter({
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="h-[34px] border border-black text-[12px] px-2.5 outline-none cursor-pointer appearance-none flex items-center gap-1.5 whitespace-nowrap"
+        className="w-full min-w-[80px] h-[34px] border border-black text-[12px] px-2.5 outline-none cursor-pointer appearance-none flex items-center justify-between gap-1.5 whitespace-nowrap"
         style={{
           background: selectedTags.length > 0 ? "#E84832" : "transparent",
           color: selectedTags.length > 0 ? "#E7E4DE" : "black",
@@ -47,24 +47,27 @@ export function TagFilter({
       </button>
 
       {open && (
-        <div className="absolute pb-1 top-[38px] left-0 z-50 border border-black bg-[#E7E4DE] min-w-[160px] max-h-[220px] overflow-y-auto">
+        <div className="absolute top-[38px] left-0 z-50 border border-black bg-[#E7E4DE] min-w-[160px] max-h-[220px] overflow-y-auto">
           {sections.length === 0 && (
-            <div className="px-3 py-2 text-[11px] text-black opacity-50">
+            <div className="px-3 py-2 text-[12px] text-black opacity-50">
               no tags yet
             </div>
           )}
-          {sections.map(([section, tags]) => (
+          {sections.map(([section, tags], si) => (
             <div key={section}>
-              <div className="px-3 pt-2 pb-1 font-bold text-[13px] text-black mb-1 select-none">
+              <div className="px-3 pt-2 font-bold text-[13px] text-black mb-1 select-none">
                 {section}
               </div>
-              {Object.entries(tags).map(([tag, color]) => {
+              {Object.entries(tags).map(([tag, color], ti) => {
                 const active = selectedTags.includes(tag);
+                const last =
+                  si === sections.length - 1 &&
+                  ti === Object.entries(tags).length - 1;
                 return (
                   <button
                     key={tag}
                     onClick={() => toggle(tag)}
-                    className="w-full text-left px-3 py-1.5 text-xs flex items-center gap-2 cursor-pointer hover:bg-black hover:text-[#E7E4DE] transition-colors"
+                    className={`w-full text-left px-3 text-xs flex items-center gap-2 cursor-pointer hover:bg-black hover:text-[#E7E4DE] transition-colors ${last ? "pt-1.5 pb-3" : "py-1.5"}`}
                     style={{
                       background: active ? "#E84832" : "transparent",
                       color: active ? "#E7E4DE" : "black",

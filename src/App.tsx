@@ -4,14 +4,15 @@ import { BookModal } from "./components/BookModal";
 import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
 import { TagFilter } from "./components/TagFilter";
+import { SortFilter } from "./components/SortFilter";
 import { TAG_SECTIONS } from "./colors";
 import mawile from "./assets/mawile.png";
 
 const AUTH_KEY = "reef_token";
 
 type ViewMode = "card" | "list";
-type SortMode = "recent" | "rating-down" | "rating-up";
 type ModalMode = "add" | "edit" | "login" | null;
+type SortMode = "recent" | "rating-down" | "rating-up";
 type BookFormData = Omit<Book, "id">;
 
 // ─── App ──────────────────────────────────────────────────────────────────────
@@ -152,7 +153,7 @@ export default function App() {
       <div className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* Header */}
         <div className="pt-8 mb-4 flex items-start justify-between">
-          <div className="flex items-start gap-2 sm:gap-5">
+          <div className="flex items-start gap-3 sm:gap-5">
             <img
               src={mawile}
               alt="reef icon"
@@ -166,7 +167,7 @@ export default function App() {
               reef.
             </div>
             <div className="text-[12px] text-black hidden sm:block">
-              goodreads dupe
+              goodreads redo
               <br />
               bc i wanted
               <br />
@@ -208,8 +209,8 @@ export default function App() {
           <div className="flex-1 min-w-0">
             <div className="rounded-xl overflow-hidden border border-[#E84832]">
               {/* Toolbar */}
-              <div className="flex gap-2 px-3.5 py-3 border-b border-black items-center">
-                <div className="flex-1 relative">
+              <div className="flex flex-wrap gap-2 px-3.5 py-3 border-b border-black items-center">
+                <div className="w-full sm:flex-1 relative">
                   <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-black text-lg select-none">
                     ⌕
                   </span>
@@ -221,23 +222,15 @@ export default function App() {
                   />
                 </div>
 
-                <TagFilter
-                  tagSections={TAG_SECTIONS}
-                  selectedTags={selectedTags}
-                  onChange={setSelectedTags}
-                />
-
-                <div>
-                  <select
-                    value={sort}
-                    onChange={(e) => setSort(e.target.value as SortMode)}
-                    className="h-[34px] border border-black text-[12px] px-2.5 outline-none cursor-pointer appearance-none"
-                  >
-                    <option value="recent">recent</option>
-                    <option value="rating-down">rating ↓</option>
-                    <option value="rating-up">rating ↑</option>
-                  </select>
+                <div className="flex-1 sm:flex-none">
+                  <TagFilter
+                    tagSections={TAG_SECTIONS}
+                    selectedTags={selectedTags}
+                    onChange={setSelectedTags}
+                  />
                 </div>
+
+                <SortFilter sort={sort} onChange={setSort} />
 
                 <div className="flex border border-black rounded-md overflow-hidden">
                   {(["card", "list"] as ViewMode[]).map((v, i) => (
@@ -292,7 +285,7 @@ export default function App() {
               </div>
 
               {/* Content */}
-              <div className="h-[calc(100vh-340px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-[#E7E4DE]">
+              <div className="h-[calc(100vh-370px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-[#E7E4DE]">
                 {loading && (
                   <div className="py-10 text-center text-xs text-black">
                     Loading…
