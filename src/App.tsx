@@ -5,13 +5,14 @@ import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
 import { TagFilter } from "./components/TagFilter";
 import { SortFilter } from "./components/SortFilter";
-import { TAG_SECTIONS } from "./colors";
+import { TagSettings } from "./components/TagSettings";
+import { useTags } from "./use-tags";
 import mawile from "./assets/mawile.png";
 
 const AUTH_KEY = "reef_token";
 
 type ViewMode = "card" | "list";
-type ModalMode = "add" | "edit" | "login" | null;
+type ModalMode = "add" | "edit" | "login" | "settings" | null;
 type SortMode = "recent" | "rating-down" | "rating-up";
 type BookFormData = Omit<Book, "id">;
 
@@ -35,6 +36,8 @@ export default function App() {
   );
   const [loginError, setLoginError] = useState("");
   const isAdmin = !!token;
+
+  const { customTags, mergedTagSections, updateCustomTags } = useTags();
 
   useEffect(() => {
     readBooks()
@@ -201,6 +204,14 @@ export default function App() {
               <div className="pl-3 text-xs">
                 <div className="text-[#E84832]">└ books</div>
                 <div className="black">└ stats</div>
+                {isAdmin && (
+                  <button
+                    onClick={() => setModal("settings")}
+                    className="block text-left text-black hover:text-[#E84832] cursor-pointer transition-colors"
+                  >
+                    └ tags
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -224,7 +235,7 @@ export default function App() {
 
                 <div className="flex-1 sm:flex-none">
                   <TagFilter
-                    tagSections={TAG_SECTIONS}
+                    tagSections={mergedTagSections}
                     selectedTags={selectedTags}
                     onChange={setSelectedTags}
                   />
@@ -363,6 +374,13 @@ export default function App() {
               setLoginError("");
             }}
             error={loginError}
+          />
+        )}
+        {modal === "settings" && (
+          <TagSettings
+            customTags={customTags}
+            onSave={updateCustomTags}
+            onClose={() => setModal(null)}
           />
         )}
       </div>

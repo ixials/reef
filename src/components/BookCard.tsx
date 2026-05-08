@@ -1,7 +1,6 @@
 import { Book } from "../gist";
-import { TAG_PALETTE } from "../colors";
 import { StarRating } from "./StarRating";
-import { Tag } from "./Tag";
+import { Tag, tagColor } from "./Tag";
 
 interface BookItemProps {
   book: Book;
@@ -16,7 +15,7 @@ export function BookCard({ book, onEdit, isAdmin }: BookItemProps) {
         <div className="flex gap-2.5 flex-1">
           <span
             className="w-3.5 h-3.5 rounded-full mt-0.5 shrink-0 inline-block"
-            style={{ background: TAG_PALETTE[book.tags[0]] || "#ABA8A3" }}
+            style={{ background: tagColor(book.tags[0] ?? "") }}
           />
           <div>
             <div className="font-bold text-[12px] text-gray-800 tracking-wide">
@@ -71,7 +70,7 @@ export function BookRow({ book, onEdit, isAdmin }: BookItemProps) {
     >
       <span
         className="w-3.5 h-3.5 rounded-full shrink-0"
-        style={{ background: TAG_PALETTE[book.tags[0]] || "#ABA8A3" }}
+        style={{ background: tagColor(book.tags[0] ?? "") }}
       />
       <div className="flex-1 min-w-0">
         <div className="font-bold text-[12px] text-gray-800 truncate max-w-[200px] sm:max-w-none">

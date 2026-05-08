@@ -1,8 +1,12 @@
-import { TAG_PALETTE } from "../colors";
+import { loadCustomTags } from "./TagSettings";
 
 export function tagColor(tag: string): string {
   tag = tag.toLowerCase().trim();
-  return TAG_PALETTE[tag] || "#ABA8A3";
+  const sections = loadCustomTags();
+  for (const tags of Object.values(sections)) {
+    if (tags[tag]) return tags[tag];
+  }
+  return "#ABA8A3";
 }
 
 interface TagProps {
