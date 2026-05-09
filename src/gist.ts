@@ -16,18 +16,36 @@ export interface Book {
   notes: string;
 }
 
-export async function readBooks(): Promise<Book[]> {
+export type TagSections = Record<string, Record<string, string>>;
+
+export interface GistData {
+  books: Book[];
+  tags: TagSections;
+}
+function parseGist(raw: string): GistData {
+  const parsed = JSON.parse(raw);
+  // handle legacy format: bare array of books
+  if (Array.isArray(parsed)) {
+    return { books: parsed, tags: {} };
+  }
+  return parsed as GistData;
+}
+
+export async function readGist(): Promise<GistData> {
   const res = await fetch(`${API}/gists/${GIST_ID}`, {
     headers: { Accept: "application/vnd.github+json" },
   });
   if (!res.ok) throw new Error(`Gist read failed: ${res.status}`);
   const data = await res.json();
   const raw: string | undefined = data.files?.[GIST_FILENAME]?.content;
-  if (!raw) return [];
-  return JSON.parse(raw) as Book[];
+  if (!raw) return { books: [], tags: {} };
+  return parseGist(raw);
 }
 
-export async function writeBooks(books: Book[], token: string): Promise<void> {
+export async function writeGist(
+  gistData: GistData,
+  token: string,
+): Promise<void> {
   const res = await fetch(`${API}/gists/${GIST_ID}`, {
     method: "PATCH",
     headers: {
@@ -38,7 +56,7 @@ export async function writeBooks(books: Book[], token: string): Promise<void> {
     body: JSON.stringify({
       files: {
         [GIST_FILENAME]: {
-          content: JSON.stringify(books, null, 2),
+          content: JSON.stringify(gistData, null, 2),
         },
       },
     }),
@@ -47,4 +65,10 @@ export async function writeBooks(books: Book[], token: string): Promise<void> {
     const err = (await res.json().catch(() => ({}))) as { message?: string };
     throw new Error(err.message ?? `Gist write failed: ${res.status}`);
   }
+}
+
+// ─── Legacy compat exports ──────────────────────────────────────────────────
+// Keep these so nothing else breaks while you migrate
+export async function readBooks(): Promise<Book[]> {
+  return (await readGist()).books;
 }

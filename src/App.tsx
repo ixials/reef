@@ -1,12 +1,11 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
-import { readBooks, writeBooks, Book } from "./gist";
+import { readGist, writeGist, Book, TagSections } from "./gist";
 import { BookModal } from "./components/BookModal";
 import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
 import { TagFilter } from "./components/TagFilter";
 import { SortFilter } from "./components/SortFilter";
 import { TagSettings } from "./components/TagSettings";
-import { useTags } from "./use-tags";
 import mawile from "./assets/mawile.png";
 
 const AUTH_KEY = "reef_token";
@@ -19,6 +18,7 @@ type BookFormData = Omit<Book, "id">;
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [books, setBooks] = useState<Book[]>([]);
+  const [tags, setTags] = useState<TagSections>({});
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -37,12 +37,11 @@ export default function App() {
   const [loginError, setLoginError] = useState("");
   const isAdmin = !!token;
 
-  const { customTags, mergedTagSections, updateCustomTags } = useTags();
-
   useEffect(() => {
-    readBooks()
-      .then((b) => {
-        setBooks(b);
+    readGist()
+      .then(({ books, tags }) => {
+        setBooks(books);
+        setTags(tags);
         setLoading(false);
       })
       .catch((e: Error) => {
@@ -52,12 +51,13 @@ export default function App() {
   }, []);
 
   const persist = useCallback(
-    async (newBooks: Book[]) => {
+    async (newBooks: Book[], newTags: TagSections) => {
       if (!token) return;
       setSaving(true);
       try {
-        await writeBooks(newBooks, token);
+        await writeGist({ books: newBooks, tags: newTags }, token);
         setBooks(newBooks);
+        setTags(newTags);
       } catch (e) {
         alert("Save failed: " + (e as Error).message);
       } finally {
@@ -92,16 +92,23 @@ export default function App() {
           b.id === editBook.id ? { ...form, id: editBook.id } : b,
         )
       : [...books, { ...form, id: Date.now() }];
-    await persist(newBooks);
+    await persist(newBooks, tags);
     setModal(null);
     setEditBook(null);
   };
 
   const deleteBook = async (id: number) => {
     if (!confirm("Delete this book?")) return;
-    await persist(books.filter((b) => b.id !== id));
+    await persist(
+      books.filter((b) => b.id !== id),
+      tags,
+    );
     setModal(null);
     setEditBook(null);
+  };
+
+  const saveTags = async (newTags: TagSections) => {
+    await persist(books, newTags);
   };
 
   const openEdit = (book: Book) => {
@@ -114,8 +121,8 @@ export default function App() {
     let b = books.filter(
       (b) =>
         b.title.toLowerCase().includes(search.toLowerCase()) ||
-        b.author.toLowerCase().includes(search.toLowerCase()), // ||
-      // b.tags.some((t) => t.includes(search.toLowerCase())),
+        b.author.toLowerCase().includes(search.toLowerCase()) ||
+        b.tags.some((t) => t.includes(search.toLowerCase())),
     );
 
     if (selectedTags.length > 0) {
@@ -235,7 +242,7 @@ export default function App() {
 
                 <div className="flex-1 sm:flex-none">
                   <TagFilter
-                    tagSections={mergedTagSections}
+                    tagSections={tags}
                     selectedTags={selectedTags}
                     onChange={setSelectedTags}
                   />
@@ -328,6 +335,7 @@ export default function App() {
                       book={b}
                       onEdit={openEdit}
                       isAdmin={isAdmin}
+                      tagSections={tags}
                     />
                   ))}
                 {!loading &&
@@ -338,6 +346,7 @@ export default function App() {
                       book={b}
                       onEdit={openEdit}
                       isAdmin={isAdmin}
+                      tagSections={tags}
                     />
                   ))}
               </div>
@@ -364,6 +373,7 @@ export default function App() {
               setEditBook(null);
             }}
             saving={saving}
+            tagSections={tags}
           />
         )}
         {modal === "login" && (
@@ -378,8 +388,8 @@ export default function App() {
         )}
         {modal === "settings" && (
           <TagSettings
-            customTags={customTags}
-            onSave={updateCustomTags}
+            customTags={tags}
+            onSave={saveTags}
             onClose={() => setModal(null)}
           />
         )}

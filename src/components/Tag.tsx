@@ -1,9 +1,8 @@
-import { loadCustomTags } from "./TagSettings";
+import { TagSections } from "../gist";
 
-export function tagColor(tag: string): string {
+export function tagColor(tag: string, tagSections: TagSections): string {
   tag = tag.toLowerCase().trim();
-  const sections = loadCustomTags();
-  for (const tags of Object.values(sections)) {
+  for (const tags of Object.values(tagSections)) {
     if (tags[tag]) return tags[tag];
   }
   return "#ABA8A3";
@@ -11,11 +10,12 @@ export function tagColor(tag: string): string {
 
 interface TagProps {
   label: string;
+  tagSections: TagSections;
   onRemove?: () => void;
 }
 
-export function Tag({ label, onRemove }: TagProps) {
-  const bg = tagColor(label);
+export function Tag({ label, tagSections, onRemove }: TagProps) {
+  const bg = tagColor(label, tagSections);
   return (
     <span
       className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[12px] text-[#E7E4DE]"

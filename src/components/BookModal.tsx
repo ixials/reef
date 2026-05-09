@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Book } from "../gist";
+import { Book, TagSections } from "../gist";
 import { StarRating } from "./StarRating";
 import { Tag } from "./Tag";
 
@@ -11,6 +11,7 @@ interface BookModalProps {
   onDelete: (id: number) => Promise<void>;
   onClose: () => void;
   saving: boolean;
+  tagSections: TagSections;
 }
 
 export function BookModal({
@@ -19,6 +20,7 @@ export function BookModal({
   onDelete,
   onClose,
   saving,
+  tagSections,
 }: BookModalProps) {
   const [form, setForm] = useState<BookFormData>(
     book
@@ -140,6 +142,7 @@ export function BookModal({
                   };
                 })
               }
+              tagSections={tagSections}
             />
           ))}
         </div>

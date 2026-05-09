@@ -95,10 +95,10 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
           {Object.entries(tags).map(([section, sectionTags]) => (
             <div
               key={section}
-              className="rounded-lg border border-black/20 overflow-hidden"
+              className="rounded-lg border border-black overflow-hidden"
             >
               <div className="flex items-center justify-between px-3 py-2 bg-black/5 border-b border-black/10">
-                <span className="text-[12px] font-bold text-black uppercase tracking-widest">
+                <span className="text-[12px] font-bold text-black tracking-widest">
                   {section}
                 </span>
                 <button
@@ -118,7 +118,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                     />
                     <span
                       className="text-[12px] px-2 py-0.5 rounded"
-                      style={{ background: color + "33", color: color }}
+                      style={{ background: color, color: "#E7E4DE" }}
                     >
                       {tag}
                     </span>
@@ -136,11 +136,11 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
 
                 <div className="flex items-center gap-3 pt-1 pb-1">
                   <span
-                    className="w-5 h-5 rounded border border-black/20 flex-shrink-0 inline-block"
+                    className="w-5 h-5 rounded border border-black flex-shrink-0 inline-block"
                     style={{ background: newTagColor[section] || "#ABA8A3" }}
                   />
                   <input
-                    className="w-[76px] h-[28px] border border-black/20 text-[12px] px-2 outline-none bg-transparent font-mono flex-shrink-0"
+                    className="w-[76px] h-[28px] border border-black text-[12px] px-2 outline-none bg-transparent font-mono flex-shrink-0"
                     placeholder="#ABA8A3"
                     value={newTagColor[section] ?? ""}
                     onChange={(e) =>
@@ -151,7 +151,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                     }
                   />
                   <input
-                    className="flex-1 h-[28px] border border-black/20 text-[12px] px-2 outline-none bg-transparent"
+                    className="flex-1 h-[28px] border border-black text-[12px] px-2 outline-none bg-transparent"
                     value={newTagName[section] ?? ""}
                     onChange={(e) =>
                       setNewTagName((p) => ({
@@ -178,7 +178,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <input
-              className="flex-1 h-[32px] border border-black/20 text-[12px] px-2 outline-none bg-transparent"
+              className="flex-1 h-[32px] border border-black text-[12px] px-2 outline-none bg-transparent"
               value={newSection}
               onChange={(e) => setNewSection(e.target.value)}
               onKeyDown={(e) => {

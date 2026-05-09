@@ -1,4 +1,4 @@
-import { Book } from "../gist";
+import { Book, TagSections } from "../gist";
 import { StarRating } from "./StarRating";
 import { Tag, tagColor } from "./Tag";
 
@@ -6,16 +6,22 @@ interface BookItemProps {
   book: Book;
   onEdit: (book: Book) => void;
   isAdmin: boolean;
+  tagSections: TagSections;
 }
 
-export function BookCard({ book, onEdit, isAdmin }: BookItemProps) {
+export function BookCard({
+  book,
+  onEdit,
+  isAdmin,
+  tagSections,
+}: BookItemProps) {
   return (
     <div className="m-4 border border-black mb-3.5 p-4">
       <div className="flex justify-between items-start">
         <div className="flex gap-2.5 flex-1">
           <span
             className="w-3.5 h-3.5 rounded-full mt-0.5 shrink-0 inline-block"
-            style={{ background: tagColor(book.tags[0] ?? "") }}
+            style={{ background: tagColor(book.tags[0] ?? "", tagSections) }}
           />
           <div>
             <div className="font-bold text-[12px] text-gray-800 tracking-wide">
@@ -46,7 +52,7 @@ export function BookCard({ book, onEdit, isAdmin }: BookItemProps) {
         <div className="flex gap-1.5 flex-wrap items-center">
           <span className="text-[12px] text-black mr-0.5">Tags:</span>
           {book.tags.map((t) => (
-            <Tag key={t} label={t} />
+            <Tag key={t} label={t} tagSections={tagSections} />
           ))}
         </div>
         {isAdmin && (
@@ -62,7 +68,7 @@ export function BookCard({ book, onEdit, isAdmin }: BookItemProps) {
   );
 }
 
-export function BookRow({ book, onEdit, isAdmin }: BookItemProps) {
+export function BookRow({ book, onEdit, isAdmin, tagSections }: BookItemProps) {
   return (
     <div
       onClick={() => isAdmin && onEdit(book)}
@@ -70,7 +76,7 @@ export function BookRow({ book, onEdit, isAdmin }: BookItemProps) {
     >
       <span
         className="w-3.5 h-3.5 rounded-full shrink-0"
-        style={{ background: tagColor(book.tags[0] ?? "") }}
+        style={{ background: tagColor(book.tags[0] ?? "", tagSections) }}
       />
       <div className="flex-1 min-w-0">
         <div className="font-bold text-[12px] text-gray-800 truncate max-w-[200px] sm:max-w-none">
