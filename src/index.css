@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@theme {
+  --color-reef-red: #e84832;
+  --color-reef-blue: #4a90d9;
+  --color-reef-cream: #e7e4de;
+  --color-reef-grey: #d8d6d0;
+  --color-reef-default: #aba8a3;
+}
+
 *,
 *::before,
 *::after {
@@ -7,6 +15,9 @@
 }
 
 body {
-  background: #e7e4de;
+  background: var(--color-reef-cream);
   font-family: "JetBrains Mono", monospace;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
 }

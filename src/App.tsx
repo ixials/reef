@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { readGist, writeGist, Book, TagSections } from "./gist";
+import { C } from "./colors";
 import { BookModal } from "./components/BookModal";
 import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
@@ -159,7 +160,7 @@ export default function App() {
     : "-";
 
   return (
-    <div className="min-h-screen bg-[#E7E4DE]">
+    <div className="min-h-screen bg-reef-cream">
       <div className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* Header */}
         <div className="pt-8 mb-4 flex items-start justify-between">
@@ -171,7 +172,7 @@ export default function App() {
             />
 
             <div
-              className="text-[52px] leading-none tracking-[0.1em] text-[#E84832]"
+              className="text-[52px] leading-none tracking-widest text-reef-red"
               style={{ fontFamily: "'Jersey 15', sans-serif" }}
             >
               reef.
@@ -188,14 +189,14 @@ export default function App() {
             {isAdmin ? (
               <button
                 onClick={handleLogout}
-                className="px-3 py-1.5 rounded-md bg-[#E84832] text-[12px] text-[#E7E4DE] cursor-pointer hover:bg-[#4A90D9]"
+                className="px-3 py-1.5 rounded-md bg-reef-red text-[12px] text-reef-cream cursor-pointer hover:bg-reef-blue"
               >
                 LOG OUT
               </button>
             ) : (
               <button
                 onClick={() => setModal("login")}
-                className="px-3 py-1.5 rounded-md bg-[#E84832] text-[12px] text-[#E7E4DE] cursor-pointer hover:bg-[#4A90D9]"
+                className="px-3 py-1.5 rounded-md bg-reef-red text-[12px] text-reef-cream cursor-pointer hover:bg-reef-blue"
               >
                 LOG IN
               </button>
@@ -206,15 +207,15 @@ export default function App() {
         <div className="flex flex-col sm:flex-row gap-5 items-start">
           {/* Sidebar */}
           <div className="w-full sm:w-38 shrink-0">
-            <div className="rounded-xl border border-[#E84832] p-3.5">
+            <div className="rounded-xl border border-reef-red p-3.5">
               <div className="font-bold text-[13px] text-black mb-2">pages</div>
               <div className="pl-3 text-xs">
-                <div className="text-[#E84832]">└ books</div>
+                <div className="text-reef-red">└ books</div>
                 <div className="black">└ stats</div>
                 {isAdmin && (
                   <button
                     onClick={() => setModal("settings")}
-                    className="block text-left text-black hover:text-[#E84832] cursor-pointer transition-colors"
+                    className="block text-left text-black hover:text-reef-red cursor-pointer transition-colors"
                   >
                     └ tags
                   </button>
@@ -225,7 +226,7 @@ export default function App() {
 
           {/* Main */}
           <div className="flex-1 min-w-0">
-            <div className="rounded-xl overflow-hidden border border-[#E84832]">
+            <div className="rounded-xl overflow-hidden border border-reef-red">
               {/* Toolbar */}
               <div className="flex flex-wrap gap-2 px-3.5 py-3 border-b border-black items-center">
                 <div className="w-full sm:flex-1 relative">
@@ -233,7 +234,7 @@ export default function App() {
                     ⌕
                   </span>
                   <input
-                    className="w-full pl-7 pr-2 h-[34px] border border-black text-[12px] outline-none"
+                    className="w-full pl-7 pr-2 h-8.5 border border-black text-[12px] outline-none"
                     placeholder="search..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -255,9 +256,9 @@ export default function App() {
                     <button
                       key={v}
                       onClick={() => setView(v)}
-                      className="w-[34px] h-[34px] flex items-center justify-center cursor-pointer transition-colors"
+                      className="w-8.5 h-8.5 flex items-center justify-center cursor-pointer transition-colors"
                       style={{
-                        background: view === v ? "#E84832" : "transparent",
+                        background: view === v ? C.red : "transparent",
                         borderRight: i === 0 ? "1px solid black" : "none",
                       }}
                     >
@@ -266,7 +267,7 @@ export default function App() {
                           width="13"
                           height="13"
                           viewBox="0 0 14 14"
-                          fill={view === v ? "#E7E4DE" : "#ABA8A3"}
+                          fill={view === v ? C.cream : C.default}
                         >
                           <rect x="0" y="0" width="6" height="6" rx="1" />
                           <rect x="8" y="0" width="6" height="6" rx="1" />
@@ -278,7 +279,7 @@ export default function App() {
                           width="13"
                           height="13"
                           viewBox="0 0 14 14"
-                          fill={view === v ? "#E7E4DE" : "#ABA8A3"}
+                          fill={view === v ? C.cream : C.default}
                         >
                           <rect x="0" y="1" width="14" height="2" rx="1" />
                           <rect x="0" y="6" width="14" height="2" rx="1" />
@@ -295,7 +296,7 @@ export default function App() {
                       setEditBook(null);
                       setModal("add");
                     }}
-                    className="w-[34px] h-[34px] rounded-md bg-[#E84832] text-[#E7E4DE] text-[24px] flex items-center justify-center cursor-pointer hover:bg-[#4A90D9] transition-opacity border-none leading-none"
+                    className="w-8.5 h-8.5 rounded-md bg-reef-red text-reef-cream text-[24px] flex items-center justify-center cursor-pointer hover:bg-reef-blue transition-opacity border-none leading-none"
                   >
                     +
                   </button>
@@ -303,14 +304,14 @@ export default function App() {
               </div>
 
               {/* Content */}
-              <div className="h-[calc(100vh-370px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-[#E7E4DE]">
+              <div className="h-[calc(100vh-370px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-reef-cream">
                 {loading && (
                   <div className="py-10 text-center text-xs text-black">
                     Loading…
                   </div>
                 )}
                 {loadError && (
-                  <div className="p-6 text-xs text-[#E84832]">
+                  <div className="p-6 text-xs text-reef-red">
                     Failed to load: {loadError}
                     <br />
                     <span className="text-black">

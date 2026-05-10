@@ -35,7 +35,9 @@ export function BookCard({
         <div className="flex flex-col items-end gap-1">
           <StarRating rating={book.rating} size={16} />
           <div className="text-[12px] text-black">
-            {book.startDate}—{book.endDate ? `${book.endDate}` : ""}
+            {book.startDate || book.endDate
+              ? `${book.startDate}—${book.endDate}`
+              : ""}
           </div>
         </div>
       </div>
@@ -79,7 +81,7 @@ export function BookRow({ book, onEdit, isAdmin, tagSections }: BookItemProps) {
         style={{ background: tagColor(book.tags[0] ?? "", tagSections) }}
       />
       <div className="flex-1 min-w-0">
-        <div className="font-bold text-[12px] text-gray-800 truncate max-w-[200px] sm:max-w-none">
+        <div className="font-bold text-[12px] text-gray-800 truncate max-w-50 sm:max-w-none">
           {book.title}
         </div>
         <div className="text-[12px] text-black mt-0.5 flex items-center gap-1 truncate">
