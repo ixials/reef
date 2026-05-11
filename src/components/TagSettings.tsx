@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { C } from "../colors";
 
 export type TagSections = Record<string, Record<string, string>>;
 
@@ -49,7 +50,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
 
   const addTag = (section: string) => {
     const name = (newTagName[section] ?? "").trim().toLowerCase();
-    const color = newTagColor[section]?.trim() || "#ABA8A3";
+    const color = newTagColor[section]?.trim() || C.default;
     if (!name) return;
     setTags((prev) => ({
       ...prev,
@@ -81,11 +82,11 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
       }}
     >
       <div
-        className="bg-[#E7E4DE] p-7 rounded-xl border-2 border-[#E84832] flex flex-col"
+        className="bg-reef-cream p-7 rounded-xl border-2 border-reef-red flex flex-col"
         style={{ width: 520, maxHeight: "80vh" }}
       >
         <h2
-          className="mb-2 text-[34px] text-[#E84832] tracking-[0.1em]"
+          className="mb-2 text-[34px] text-reef-red tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
         >
           tag settings{" "}
@@ -103,7 +104,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                 </span>
                 <button
                   onClick={() => deleteSection(section)}
-                  className="text-[14px] text-black/30 hover:text-[#E84832] cursor-pointer"
+                  className="text-[14px] text-black/30 hover:text-reef-red cursor-pointer"
                 >
                   ×
                 </button>
@@ -113,12 +114,12 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                 {Object.entries(sectionTags).map(([tag, color]) => (
                   <div key={tag} className="flex items-center gap-2">
                     <span
-                      className="inline-block w-3 h-3 rounded-sm flex-shrink-0"
+                      className="inline-block w-3 h-3 rounded-sm shrink-0"
                       style={{ background: color }}
                     />
                     <span
                       className="text-[12px] px-2 py-0.5 rounded"
-                      style={{ background: color, color: "#E7E4DE" }}
+                      style={{ background: color, color: C.cream }}
                     >
                       {tag}
                     </span>
@@ -127,7 +128,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                     </span>
                     <button
                       onClick={() => deleteTag(section, tag)}
-                      className="text-[14px] text-black/25 hover:text-[#E84832] cursor-pointer"
+                      className="text-[14px] text-black/25 hover:text-reef-red cursor-pointer"
                     >
                       ×
                     </button>
@@ -136,11 +137,11 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
 
                 <div className="flex items-center gap-3 pt-1 pb-1">
                   <span
-                    className="w-5 h-5 rounded border border-black flex-shrink-0 inline-block"
-                    style={{ background: newTagColor[section] || "#ABA8A3" }}
+                    className="w-5 h-5 rounded border border-black shrink-0 inline-block"
+                    style={{ background: newTagColor[section] || C.default }}
                   />
                   <input
-                    className="w-[76px] h-[28px] border border-black text-[12px] px-2 outline-none bg-transparent font-mono flex-shrink-0"
+                    className="w-19 h-7 border border-black text-[12px] px-2 outline-none bg-transparent font-mono shrink-0"
                     placeholder="#ABA8A3"
                     value={newTagColor[section] ?? ""}
                     onChange={(e) =>
@@ -151,7 +152,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                     }
                   />
                   <input
-                    className="flex-1 h-[28px] border border-black text-[12px] px-2 outline-none bg-transparent"
+                    className="flex-1 h-7 border border-black text-[12px] px-2 outline-none bg-transparent"
                     value={newTagName[section] ?? ""}
                     onChange={(e) =>
                       setNewTagName((p) => ({
@@ -165,7 +166,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                   />
                   <button
                     onClick={() => addTag(section)}
-                    className="text-[12px] px-2 h-[28px] bg-[#E84832] text-[#E7E4DE] rounded cursor-pointer hover:bg-[#4A90D9]"
+                    className="text-[12px] px-2 h-7 bg-reef-red text-reef-cream rounded cursor-pointer hover:bg-reef-blue"
                   >
                     ADD
                   </button>
@@ -178,7 +179,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <input
-              className="flex-1 h-[32px] border border-black text-[12px] px-2 outline-none bg-transparent"
+              className="flex-1 h-8 border border-black text-[12px] px-2 outline-none bg-transparent"
               value={newSection}
               onChange={(e) => setNewSection(e.target.value)}
               onKeyDown={(e) => {
@@ -187,7 +188,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
             />
             <button
               onClick={addSection}
-              className="text-[12px] px-3 h-[32px] border border-[#E84832] text-[#E84832] rounded cursor-pointer hover:bg-[#E84832] hover:text-[#E7E4DE]"
+              className="text-[12px] px-3 h-8 border border-reef-red text-reef-red rounded cursor-pointer hover:bg-reef-red hover:text-reef-cream"
             >
               + SECTION
             </button>
@@ -195,13 +196,13 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
           <div className="flex justify-end gap-2">
             <button
               onClick={onClose}
-              className="text-[12px] px-3 h-[32px] bg-[#ABA8A3] text-[#E7E4DE] rounded cursor-pointer hover:bg-[#4A90D9]"
+              className="text-[12px] px-3 h-8 bg-[#ABA8A3] text-reef-cream rounded cursor-pointer hover:bg-reef-blue"
             >
               CANCEL
             </button>
             <button
               onClick={handleSave}
-              className="text-[12px] px-4 h-[32px] bg-[#E84832] text-[#E7E4DE] rounded cursor-pointer hover:bg-[#4A90D9]"
+              className="text-[12px] px-4 h-8 bg-reef-red text-reef-cream rounded cursor-pointer hover:bg-reef-blue"
             >
               SAVE TAGS
             </button>

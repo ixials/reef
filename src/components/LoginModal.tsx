@@ -21,10 +21,10 @@ export function LoginModal({ onLogin, onClose, error }: LoginModalProps) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="rounded-xl p-7 w-[380px] border-2 border-[#E84832] bg-[#F5EFE0]"
+        className="rounded-xl p-7 w-95 border-2 border-reef-red bg-[#F5EFE0]"
       >
         <h2
-          className="mb-2 text-[34px] text-[#E84832] tracking-[0.1em]"
+          className="mb-2 text-[34px] text-reef-red tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
         >
           admin access
@@ -38,17 +38,17 @@ export function LoginModal({ onLogin, onClose, error }: LoginModalProps) {
           onKeyDown={(e) => e.key === "Enter" && onLogin(val)}
           autoFocus
         />
-        {error && <p className="text-xs text-[#E84832] mb-3">{error}</p>}
+        {error && <p className="text-xs text-reef-red mb-3">{error}</p>}
         <div className="flex gap-2.5">
           <button
             onClick={() => onLogin(val)}
-            className="flex-1 py-2 rounded-md bg-[#E84832] text-[#E7E4DE] text-[12px] cursor-pointer hover:bg-[#4A90D9] transition-opacity disabled:opacity-60"
+            className="flex-1 py-2 rounded-md bg-reef-red text-reef-cream text-[12px] cursor-pointer hover:bg-reef-blue transition-opacity disabled:opacity-60"
           >
             UNLOCK
           </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-md bg-[#ABA8A3] text-[#E7E4DE] text-[12px] cursor-pointer hover:bg-[#4A90D9]"
+            className="px-4 py-2 rounded-md bg-reef-default text-reef-cream text-[12px] cursor-pointer hover:bg-reef-blue"
           >
             CANCEL
           </button>

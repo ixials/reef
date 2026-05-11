@@ -68,10 +68,10 @@ export function BookModal({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="rounded-xl p-7 w-[480px] max-w-[95vw] max-h-[90vh] overflow-y-auto border-2 border-[#E84832] bg-[#E7E4DE]"
+        className="rounded-xl p-7 w-120 max-w-[95vw] max-h-[90vh] overflow-y-auto border-2 border-reef-red bg-reef-cream"
       >
         <h2
-          className="mb-2 text-[34px] text-[#E84832] tracking-[0.1em]"
+          className="mb-2 text-[34px] text-reef-red tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
         >
           {book ? "edit book" : "add book"}
@@ -100,7 +100,7 @@ export function BookModal({
             onChange={(r) => setForm((f) => ({ ...f, rating: r }))}
             size={24}
           />
-          <span className="text-sm text-[#ABA8A3]">{form.rating}/5</span>
+          <span className="text-sm text-reef-default">{form.rating}/5</span>
         </div>
 
         <div className="flex gap-3">
@@ -155,7 +155,7 @@ export function BookModal({
           />
           <button
             onClick={addTag}
-            className="px-4 py-2 rounded-md border border-none bg-[#E84832] text-[12px] text-[#E7E4DE] cursor-pointer hover:bg-[#4A90D9]"
+            className="px-4 py-2 rounded-md border border-none bg-reef-red text-[12px] text-reef-creambg-reef-cream cursor-pointer hover:bg-reef-blue"
           >
             ADD
           </button>
@@ -163,7 +163,7 @@ export function BookModal({
 
         <label className={labelCls}>Notes</label>
         <textarea
-          className="w-full px-2.5 py-2 border border-black bg-[#D8D6D0] text-[12px] outline-none mb-3.5 h-20 resize-y"
+          className="w-full px-2.5 py-2 border border-black bg-reef-grey text-[12px] outline-none mb-3.5 h-20 resize-y"
           value={form.notes}
           onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
         />
@@ -172,8 +172,8 @@ export function BookModal({
           <button
             onClick={() => onSave(form)}
             disabled={saving}
-            className={`flex-1 py-2 rounded-md text-[#E7E4DE] text-[12px] cursor-pointer ${
-              saving ? "bg-[#4A90D9]" : "bg-[#E84832] hover:bg-[#4A90D9]"
+            className={`flex-1 py-2 rounded-md text-reef-cream text-[12px] cursor-pointer ${
+              saving ? "bg-reef-blue" : "bg-reef-red hover:bg-reef-blue"
             }`}
           >
             {saving ? "SAVING..." : book ? "SAVE" : "ADD BOOK"}
@@ -182,14 +182,14 @@ export function BookModal({
             <button
               onClick={() => onDelete(book.id)}
               disabled={saving}
-              className="px-4 py-2 rounded-md bg-[#E8A838] text-[#E7E4DE] text-[12px] cursor-pointer hover:bg-[#4A90D9] transition-colors"
+              className="px-4 py-2 rounded-md bg-[#E8A838] text-reef-cream text-[12px] cursor-pointer hover:bg-reef-blue transition-colors"
             >
               DELETE
             </button>
           )}
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-md bg-[#ABA8A3] text-[#E7E4DE] text-[12px] cursor-pointer hover:bg-[#4A90D9]"
+            className="px-4 py-2 rounded-md bg-reef-default text-reef-cream text-[12px] cursor-pointer hover:bg-reef-blue"
           >
             CANCEL
           </button>

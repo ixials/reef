@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { C } from "../colors";
 
 type SortMode = "recent" | "rating-down" | "rating-up";
 
@@ -33,14 +34,14 @@ export function SortFilter({
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="min-w-[96px] h-[34px] border border-black text-[12px] px-2.5 outline-none cursor-pointer flex items-center justify-between gap-1.5 whitespace-nowrap"
+        className="min-w-24 h-8.5 border border-black text-[12px] px-2.5 outline-none cursor-pointer flex items-center justify-between gap-1.5 whitespace-nowrap"
       >
         {label}
         <span style={{ fontSize: 9, opacity: 0.7 }}>▼</span>
       </button>
 
       {open && (
-        <div className="absolute top-[38px] right-0 z-50 border border-black bg-[#E7E4DE] min-w-full overflow-hidden">
+        <div className="absolute top-9.5 right-0 z-50 border border-black bg-reef-cream min-w-full overflow-hidden">
           {options.map((o) => (
             <button
               key={o.value}
@@ -48,10 +49,10 @@ export function SortFilter({
                 onChange(o.value);
                 setOpen(false);
               }}
-              className="w-full text-left px-3 py-1.5 text-[12px] flex items-center cursor-pointer hover:bg-black hover:text-[#E7E4DE] transition-colors"
+              className="w-full text-left px-3 py-1.5 text-[12px] flex items-center cursor-pointer hover:bg-black hover:text-reef-cream transition-colors"
               style={{
-                background: sort === o.value ? "#E84832" : "transparent",
-                color: sort === o.value ? "#E7E4DE" : "black",
+                background: sort === o.value ? C.red : "transparent",
+                color: sort === o.value ? C.cream : "black",
               }}
             >
               {o.label}

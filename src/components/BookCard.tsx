@@ -43,7 +43,7 @@ export function BookCard({
       </div>
 
       {book.notes ? (
-        <div className="my-3 px-3 py-2.5 text-[12px] text-black leading-relaxed bg-[#D8D6D0]">
+        <div className="my-3 px-3 py-2.5 text-[12px] text-black leading-relaxed bg-reef-grey">
           {book.notes}
         </div>
       ) : (
@@ -60,7 +60,7 @@ export function BookCard({
         {isAdmin && (
           <button
             onClick={() => onEdit(book)}
-            className="px-3.5 py-1.5 rounded-md bg-[#E84832] text-[#E7E4DE] text-[12px] cursor-pointer hover:bg-[#4A90D9] transition-opacity"
+            className="px-3.5 py-1.5 rounded-md bg-reef-red text-reef-cream text-[12px] cursor-pointer hover:bg-reef-blue transition-opacity"
           >
             EDIT
           </button>

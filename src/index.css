@@ -8,10 +8,10 @@
   --color-reef-default: #aba8a3;
 }
 
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
+  scrollbar-width: thin;
+  /* scrollbar-color: var(--color-reef-default) var(--color-reef-cream); */
 }
 
 body {
