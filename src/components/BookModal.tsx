@@ -155,7 +155,7 @@ export function BookModal({
           />
           <button
             onClick={addTag}
-            className="px-4 py-2 rounded-md border border-none bg-reef-red text-[12px] text-reef-creambg-reef-cream cursor-pointer hover:bg-reef-blue"
+            className="px-4 py-2 rounded-md border border-none bg-reef-red text-[12px] text-reef-cream cursor-pointer hover:bg-reef-blue"
           >
             ADD
           </button>

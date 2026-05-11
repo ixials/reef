@@ -132,26 +132,44 @@ export default function App() {
       );
     }
 
+    const parse = (d: string) => {
+      const [month, day, year] = d.split("/");
+      return new Date(
+        2000 + Number(year),
+        Number(month) - 1,
+        Number(day),
+      ).getTime();
+    };
+
     if (sort === "recent") {
       b = [...b].sort((a, z) => {
         if (!a.endDate && !z.endDate) return 0;
         if (!a.endDate) return 1;
         if (!z.endDate) return -1;
 
-        const parse = (d: string) => {
-          const [month, day, year] = d.split("/");
-          return new Date(
-            2000 + Number(year),
-            Number(month) - 1,
-            Number(day),
-          ).getTime();
-        };
-
         return parse(z.endDate) - parse(a.endDate);
       });
     }
-    if (sort === "rating-down") b = [...b].sort((a, z) => z.rating - a.rating);
-    if (sort === "rating-up") b = [...b].sort((a, z) => a.rating - z.rating);
+    if (sort === "rating-down") {
+      b = [...b].sort((a, z) => {
+        const ratingDiff = z.rating - a.rating;
+        if (ratingDiff !== 0) return ratingDiff;
+        if (!a.endDate && !z.endDate) return 0;
+        if (!a.endDate) return 1;
+        if (!z.endDate) return -1;
+        return parse(z.endDate) - parse(a.endDate);
+      });
+    }
+    if (sort === "rating-up") {
+      b = [...b].sort((a, z) => {
+        const ratingDiff = a.rating - z.rating;
+        if (ratingDiff !== 0) return ratingDiff;
+        if (!a.endDate && !z.endDate) return 0;
+        if (!a.endDate) return 1;
+        if (!z.endDate) return -1;
+        return parse(z.endDate) - parse(a.endDate);
+      });
+    }
     return b;
   }, [books, search, sort, selectedTags]);
 

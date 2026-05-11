@@ -11,7 +11,7 @@
 * {
   box-sizing: border-box;
   scrollbar-width: thin;
-  /* scrollbar-color: var(--color-reef-default) var(--color-reef-cream); */
+  scrollbar-color: var(--color-reef-default) transparent;
 }
 
 body {
