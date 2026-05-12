@@ -50,7 +50,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
 
   const addTag = (section: string) => {
     const name = (newTagName[section] ?? "").trim().toLowerCase();
-    const color = newTagColor[section]?.trim() || C.default;
+    const color = newTagColor[section]?.trim() || "#ABA8A3";
     if (!name) return;
     setTags((prev) => ({
       ...prev,
@@ -81,7 +81,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-reef-cream p-7 max-w-[95vw] max-h-[80vh] rounded-xl border-2 border-reef-red flex flex-col">
+      <div className="bg-reef-cream p-7 max-w-[95vw] max-h-[80vh] rounded-xl border-2 border-reef-red flex flex-col min-w-0">
         <h2
           className="mb-2 text-[34px] text-reef-red tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
@@ -132,7 +132,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                   </div>
                 ))}
 
-                <div className="flex items-center gap-3 pt-1 pb-1">
+                <div className="flex items-center gap-3 pt-1 pb-1 min-w-0">
                   <span
                     className="w-5 h-5 rounded border border-black shrink-0 inline-block"
                     style={{ background: newTagColor[section] || C.default }}
@@ -149,7 +149,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                     }
                   />
                   <input
-                    className="flex-1 h-7 border border-black text-[12px] px-2 outline-none bg-transparent"
+                    className="min-w-0 flex-1 h-7 border border-black text-[12px] px-2 outline-none bg-transparent"
                     value={newTagName[section] ?? ""}
                     onChange={(e) =>
                       setNewTagName((p) => ({

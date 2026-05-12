@@ -324,7 +324,7 @@ export default function App() {
               </div>
 
               {/* Content */}
-              <div className="h-[calc(100vh-360px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-reef-cream">
+              <div className="h-[calc(100vh-340px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-reef-cream">
                 {loading && (
                   <div className="py-10 text-center text-xs text-black">
                     Loading…
