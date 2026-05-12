@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { Book, TagSections } from "../gist";
 import { StarRating } from "./StarRating";
 import { Tag, tagColor } from "./Tag";
@@ -7,6 +8,51 @@ interface BookItemProps {
   onEdit: (book: Book) => void;
   isAdmin: boolean;
   tagSections: TagSections;
+}
+
+function CollapsibleNotes({ notes }: { notes: string }) {
+  const [expanded, setExpanded] = useState(false);
+  const [isClamped, setIsClamped] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const check = () => setIsClamped(el.scrollHeight > el.clientHeight);
+    check();
+
+    const observer = new ResizeObserver(check);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [notes]);
+
+  return (
+    <div className="my-3 px-3 py-2.5 text-[12px] text-black leading-relaxed bg-reef-grey">
+      <div
+        ref={ref}
+        className={!expanded ? "line-clamp-5 sm:line-clamp-10" : ""}
+      >
+        {notes}
+      </div>
+      {!expanded && isClamped && (
+        <span
+          onClick={() => setExpanded(true)}
+          className="text-reef-default cursor-pointer"
+        >
+          (read more)
+        </span>
+      )}
+      {expanded && (
+        <span
+          onClick={() => setExpanded(false)}
+          className="text-reef-default cursor-pointer"
+        >
+          (show less)
+        </span>
+      )}
+    </div>
+  );
 }
 
 export function BookCard({
@@ -42,13 +88,7 @@ export function BookCard({
         </div>
       </div>
 
-      {book.notes ? (
-        <div className="my-3 px-3 py-2.5 text-[12px] text-black leading-relaxed bg-reef-grey">
-          {book.notes}
-        </div>
-      ) : (
-        <br />
-      )}
+      {book.notes ? <CollapsibleNotes notes={book.notes} /> : <br />}
 
       <div className="flex justify-between items-center">
         <div className="flex gap-1.5 flex-wrap items-center">

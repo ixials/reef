@@ -81,10 +81,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div
-        className="bg-reef-cream p-7 rounded-xl border-2 border-reef-red flex flex-col"
-        style={{ width: 520, maxHeight: "80vh" }}
-      >
+      <div className="bg-reef-cream p-7 max-w-[95vw] max-h-[80vh] rounded-xl border-2 border-reef-red flex flex-col">
         <h2
           className="mb-2 text-[34px] text-reef-red tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}

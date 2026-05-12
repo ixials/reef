@@ -222,12 +222,14 @@ export default function App() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-5 items-start">
+        <div className="flex flex-col gap-3 sm:flex-row sm:gap-5 items-start">
           {/* Sidebar */}
           <div className="w-full sm:w-38 shrink-0">
             <div className="rounded-xl border border-reef-red p-3.5">
-              <div className="font-bold text-[13px] text-black mb-2">pages</div>
-              <div className="pl-3 text-xs">
+              <div className="hidden sm:block font-bold text-[13px] text-black mb-2">
+                pages
+              </div>
+              <div className="flex flex-row gap-3 sm:flex-col sm:gap-0 pl-3 text-xs">
                 <div className="text-reef-red">└ books</div>
                 <div className="black">└ stats</div>
                 {isAdmin && (
@@ -322,7 +324,7 @@ export default function App() {
               </div>
 
               {/* Content */}
-              <div className="h-[calc(100vh-370px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-reef-cream">
+              <div className="h-[calc(100vh-360px)] sm:h-[calc(100vh-220px)] overflow-y-auto bg-reef-cream">
                 {loading && (
                   <div className="py-10 text-center text-xs text-black">
                     Loading…
