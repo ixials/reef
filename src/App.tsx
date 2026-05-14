@@ -7,6 +7,9 @@ import { LoginModal } from "./components/LoginModal";
 import { TagFilter } from "./components/TagFilter";
 import { SortFilter } from "./components/SortFilter";
 import { TagSettings } from "./components/TagSettings";
+import { CalendarView } from "./components/CalendarView";
+
+type PageMode = "books" | "stats";
 import mawile from "./assets/mawile.png";
 
 const AUTH_KEY = "reef_token";
@@ -18,6 +21,7 @@ type BookFormData = Omit<Book, "id">;
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
+  const [page, setPage] = useState<PageMode>("books");
   const [books, setBooks] = useState<Book[]>([]);
   const [tags, setTags] = useState<TagSections>({});
   const [loading, setLoading] = useState(true);
@@ -230,8 +234,18 @@ export default function App() {
                 pages
               </div>
               <div className="flex flex-row gap-3 sm:flex-col sm:gap-0 pl-3 text-xs">
-                <div className="text-reef-red">└ books</div>
-                <div className="black">└ stats</div>
+                <button
+                  onClick={() => setPage("books")}
+                  className={`block text-left cursor-pointer transition-colors ${page === "books" ? "text-reef-red" : "text-black hover:text-reef-red"}`}
+                >
+                  └ books
+                </button>
+                <button
+                  onClick={() => setPage("stats")}
+                  className={`block text-left cursor-pointer transition-colors ${page === "stats" ? "text-reef-red" : "text-black hover:text-reef-red"}`}
+                >
+                  └ stats
+                </button>
                 {isAdmin && (
                   <button
                     onClick={() => setModal("settings")}
@@ -325,51 +339,57 @@ export default function App() {
 
               {/* Content */}
               <div className="h-[calc(100dvh-340px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-cream">
-                {loading && (
-                  <div className="py-10 text-center text-xs text-black">
-                    Loading…
-                  </div>
+                {page === "stats" ? (
+                  <CalendarView books={books} tagSections={tags} />
+                ) : (
+                  <>
+                    {loading && (
+                      <div className="py-10 text-center text-xs text-black">
+                        Loading…
+                      </div>
+                    )}
+                    {loadError && (
+                      <div className="p-6 text-xs text-reef-red">
+                        Failed to load: {loadError}
+                        <br />
+                        <span className="text-black">
+                          Check GIST_ID in src/gist.ts
+                        </span>
+                      </div>
+                    )}
+                    {!loading && !loadError && filtered.length === 0 && (
+                      <div className="py-10 text-center text-xs text-black">
+                        {books.length === 0
+                          ? isAdmin
+                            ? "No books yet — add one!"
+                            : "No books yet."
+                          : "No results."}
+                      </div>
+                    )}
+                    {!loading &&
+                      view === "card" &&
+                      filtered.map((b) => (
+                        <BookCard
+                          key={b.id}
+                          book={b}
+                          onEdit={openEdit}
+                          isAdmin={isAdmin}
+                          tagSections={tags}
+                        />
+                      ))}
+                    {!loading &&
+                      view === "list" &&
+                      filtered.map((b) => (
+                        <BookRow
+                          key={b.id}
+                          book={b}
+                          onEdit={openEdit}
+                          isAdmin={isAdmin}
+                          tagSections={tags}
+                        />
+                      ))}{" "}
+                  </>
                 )}
-                {loadError && (
-                  <div className="p-6 text-xs text-reef-red">
-                    Failed to load: {loadError}
-                    <br />
-                    <span className="text-black">
-                      Check GIST_ID in src/gist.ts
-                    </span>
-                  </div>
-                )}
-                {!loading && !loadError && filtered.length === 0 && (
-                  <div className="py-10 text-center text-xs text-black">
-                    {books.length === 0
-                      ? isAdmin
-                        ? "No books yet — add one!"
-                        : "No books yet."
-                      : "No results."}
-                  </div>
-                )}
-                {!loading &&
-                  view === "card" &&
-                  filtered.map((b) => (
-                    <BookCard
-                      key={b.id}
-                      book={b}
-                      onEdit={openEdit}
-                      isAdmin={isAdmin}
-                      tagSections={tags}
-                    />
-                  ))}
-                {!loading &&
-                  view === "list" &&
-                  filtered.map((b) => (
-                    <BookRow
-                      key={b.id}
-                      book={b}
-                      onEdit={openEdit}
-                      isAdmin={isAdmin}
-                      tagSections={tags}
-                    />
-                  ))}
               </div>
             </div>
 
