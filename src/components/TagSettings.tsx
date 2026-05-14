@@ -89,7 +89,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
           tag settings{" "}
         </h2>
 
-        <div className="overflow-y-auto flex-1 mb-5 space-y-5">
+        <div className="overflow-y-auto flex-1 mb-5 space-y-5 pr-3 sm:pr-0">
           {Object.entries(tags).map(([section, sectionTags]) => (
             <div
               key={section}
