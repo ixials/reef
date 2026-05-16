@@ -148,7 +148,7 @@ export function BookModal({
         </div>
         <div className="flex gap-2 mb-3.5">
           <input
-            className="flex-1 px-2.5 py-2 border border-black text-[10px] outline-none"
+            className="flex-1 px-2.5 py-2 border border-black text-[12px] outline-none"
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addTag()}

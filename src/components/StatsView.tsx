@@ -166,7 +166,7 @@ export function StatsView({ books, tagSections }: Props) {
         <ResponsiveContainer width="100%" height={200}>
           <LineChart
             data={monthData}
-            margin={{ top: 6, right: 12, bottom: 20, left: 0 }}
+            margin={{ top: 6, right: 12, bottom: 20, left: -12 }}
           >
             <CartesianGrid stroke={C.grey} />
             <XAxis
@@ -190,7 +190,7 @@ export function StatsView({ books, tagSections }: Props) {
                 value: "# books",
                 angle: -90,
                 position: "insideLeft",
-                offset: 10,
+                offset: 20,
                 dy: 20,
                 style: {
                   fontFamily: "monospace",
@@ -328,7 +328,7 @@ export function StatsView({ books, tagSections }: Props) {
           <ResponsiveContainer width="100%" height={160}>
             <BarChart
               data={ratingData}
-              margin={{ top: 4, right: 8, bottom: 4, left: -20 }}
+              margin={{ top: 4, right: 8, bottom: 4, left: -40 }}
             >
               <CartesianGrid stroke={C.grey} vertical={false} />
               <XAxis dataKey="rating" tick={tickStyle} />

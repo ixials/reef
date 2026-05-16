@@ -21,3 +21,10 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
+.recharts-wrapper *,
+.recharts-surface:focus,
+.recharts-sector:focus,
+.recharts-layer:focus {
+  outline: none;
+}

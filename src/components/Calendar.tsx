@@ -44,6 +44,7 @@ export function Calendar({ books, tagSections }: Props) {
     "november",
     "december",
   ];
+
   const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   // Calendar grid
@@ -51,8 +52,17 @@ export function Calendar({ books, tagSections }: Props) {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
 
+  const sortedBooks = [...books].sort((a, z) => {
+    const s1 = a.startDate ? parseDate(a.startDate) : null;
+    const s2 = z.startDate ? parseDate(z.startDate) : null;
+    if (!s1 && !s2) return 0;
+    if (!s1) return 1;
+    if (!s2) return -1;
+    return s1.getTime() - s2.getTime();
+  });
+
   // Books that overlap this month
-  const activeBooks = books.filter((b) => {
+  const activeBooks = sortedBooks.filter((b) => {
     const start = b.startDate ? parseDate(b.startDate) : null;
     const end = b.endDate ? parseDate(b.endDate) : null;
     if (!start && !end) return false;
@@ -66,7 +76,7 @@ export function Calendar({ books, tagSections }: Props) {
   // For each book, compute which cells it spans within this month's grid
   type BookBar = {
     book: Book;
-    startCell: number; // 0-indexed cell in the grid
+    startCell: number;
     endCell: number;
     color: string;
   };

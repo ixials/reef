@@ -6,7 +6,7 @@ import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
 import { TagFilter } from "./components/TagFilter";
 import { SortFilter } from "./components/SortFilter";
-import { TagSettings } from "./components/TagSettings";
+import { TagModal } from "./components/TagModal";
 import { Calendar } from "./components/Calendar";
 import { StatsView } from "./components/StatsView";
 
@@ -227,7 +227,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:gap-5 items-start">
+        <div className="flex flex-col gap-3 sm:flex-row sm:gap-5 items-start w-full">
           {/* Sidebar */}
           <div className="w-full sm:w-38 shrink-0">
             <div className="rounded-xl border border-reef-red p-3.5">
@@ -258,7 +258,7 @@ export default function App() {
           </div>
 
           {/* Main */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 w-full">
             <div className="rounded-xl overflow-hidden border border-reef-red">
               {/* Toolbar */}
               <div className="flex flex-wrap gap-2 px-3.5 py-3 border-b border-black items-center">
@@ -433,7 +433,7 @@ export default function App() {
           />
         )}
         {modal === "settings" && (
-          <TagSettings
+          <TagModal
             customTags={tags}
             onSave={saveTags}
             onClose={() => setModal(null)}

@@ -24,7 +24,7 @@ interface Props {
   onClose: () => void;
 }
 
-export function TagSettings({ customTags, onSave, onClose }: Props) {
+export function TagModal({ customTags, onSave, onClose }: Props) {
   const [tags, setTags] = useState<TagSections>(
     JSON.parse(JSON.stringify(customTags)),
   );
@@ -121,7 +121,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                       {tag}
                     </span>
                     <span className="text-[10px] text-black/30 font-mono flex-1">
-                      {color}
+                      {color.toUpperCase()}
                     </span>
                     <button
                       onClick={() => deleteTag(section, tag)}
@@ -144,7 +144,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
                     onChange={(e) =>
                       setNewTagColor((p) => ({
                         ...p,
-                        [section]: e.target.value,
+                        [section]: e.target.value.toUpperCase(),
                       }))
                     }
                   />
