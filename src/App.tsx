@@ -185,7 +185,7 @@ export default function App() {
     <div className="min-h-screen bg-reef-cream">
       <div className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* Header */}
-        <div className="pt-8 mb-4 flex items-start justify-between">
+        <div className="pt-4 sm:pt-8 mb-2 sm:mb-4 flex items-start justify-between">
           <div className="flex items-start gap-3 sm:gap-5">
             <img
               src={mawile}
@@ -246,14 +246,6 @@ export default function App() {
                 >
                   └ stats
                 </button>
-                {isAdmin && (
-                  <button
-                    onClick={() => setModal("settings")}
-                    className="block text-left text-black hover:text-reef-red cursor-pointer transition-colors"
-                  >
-                    └ tags
-                  </button>
-                )}
               </div>
             </div>
           </div>
@@ -280,6 +272,8 @@ export default function App() {
                     tagSections={tags}
                     selectedTags={selectedTags}
                     onChange={setSelectedTags}
+                    isAdmin={isAdmin}
+                    onOpenSettings={() => setModal("settings")}
                   />
                 </div>
 
@@ -338,9 +332,9 @@ export default function App() {
               </div>
 
               {/* Content */}
-              <div className="h-[calc(100dvh-340px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-cream">
+              <div className="h-[calc(100dvh-320px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-cream">
                 {page === "stats" ? (
-                  <CalendarView books={books} tagSections={tags} />
+                  <CalendarView books={filtered} tagSections={tags} />
                 ) : (
                   <>
                     {loading && (

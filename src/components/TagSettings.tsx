@@ -86,7 +86,7 @@ export function TagSettings({ customTags, onSave, onClose }: Props) {
           className="mb-2 text-[34px] text-reef-red tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
         >
-          tag settings{" "}
+          edit tags
         </h2>
 
         <div className="overflow-y-auto flex-1 mb-5 space-y-5 pr-3 sm:pr-0">

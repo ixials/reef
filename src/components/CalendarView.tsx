@@ -97,8 +97,6 @@ export function CalendarView({ books, tagSections }: Props) {
     };
   });
 
-  // Group bars by week row, handle multi-week spans
-  // For each week row, collect bars that appear in that row
   const numWeeks = totalCells / 7;
 
   // Assign vertical lanes per week to avoid overlap
@@ -160,7 +158,7 @@ export function CalendarView({ books, tagSections }: Props) {
   const titlesShown = new Set<string>();
 
   return (
-    <div className="p-4 sm:p-6">
+    <div className="p-4">
       <div className="border border-black overflow-hidden">
         <div className="flex flex-col h-full">
           {/* Month nav */}
