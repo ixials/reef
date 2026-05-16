@@ -34,7 +34,7 @@ export function SortFilter({
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="min-w-24 h-8.5 border border-black text-[12px] px-2.5 outline-none cursor-pointer flex items-center justify-between gap-1.5 whitespace-nowrap"
+        className="min-w-26 h-8.5 border border-black text-[12px] px-2.5 outline-none cursor-pointer flex items-center justify-between gap-1.5 whitespace-nowrap"
       >
         {label}
         <span style={{ fontSize: 9, opacity: 0.7 }}>▼</span>
