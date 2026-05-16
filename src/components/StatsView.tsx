@@ -19,6 +19,7 @@ import { tagColor } from "./Tag";
 interface Props {
   books: Book[];
   tagSections: TagSections;
+  period: "month" | "year" | "all";
 }
 
 function parseDate(d: string): Date | null {
@@ -42,25 +43,33 @@ const MONTH_NAMES = [
   "dec",
 ];
 
-export function StatsView({ books, tagSections }: Props) {
-  const currentYear = new Date().getFullYear();
+export function StatsView({ books, tagSections, period }: Props) {
+  const now = new Date();
+  const year = now.getFullYear();
+
   const filteredBooks = books.filter((b) => {
-    const end = parseDate(b.endDate);
-    return end?.getFullYear() === currentYear;
+    if (period === "all") return true;
+    const d = parseDate(b.endDate);
+    if (!d) return false;
+    if (period === "month")
+      return (
+        d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()
+      );
+    if (period === "year") return d.getFullYear() === now.getFullYear();
+    return true;
   });
 
   // ── Books by month ────────────────────────────────────────────────────────
   const countsByMonth: Record<string, number> = {};
-  const now = new Date();
-
-  for (let m = 0; m < 12; m++) {
-    const key = `${currentYear}-${String(m).padStart(2, "0")}`;
-    countsByMonth[key] = 0;
+  for (let m = 0; m <= now.getMonth(); m++) {
+    countsByMonth[`${now.getFullYear()}-${String(m).padStart(2, "0")}`] = 0;
   }
 
-  filteredBooks.forEach((b) => {
+  books.forEach((b) => {
     const d = parseDate(b.endDate);
     if (!d) return;
+    if (d.getFullYear() !== now.getFullYear()) return;
+    if (d.getMonth() > now.getMonth()) return;
     const key = `${d.getFullYear()}-${String(d.getMonth()).padStart(2, "0")}`;
     countsByMonth[key] = (countsByMonth[key] ?? 0) + 1;
   });
@@ -69,9 +78,7 @@ export function StatsView({ books, tagSections }: Props) {
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([key, count]) => {
       const [, m] = key.split("-");
-      const monthIdx = Number(m);
-      const isFuture = monthIdx > now.getMonth();
-      return { month: MONTH_NAMES[monthIdx], count: isFuture ? null : count };
+      return { month: MONTH_NAMES[Number(m)], count };
     });
 
   // ── Genre breakdown ───────────────────────────────────────────────────────
@@ -157,11 +164,19 @@ export function StatsView({ books, tagSections }: Props) {
     <div className="p-4 flex flex-col gap-4">
       {/* Books by month */}
       <div className="border border-black p-4">
-        <div
-          className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
-          style={{ fontFamily: "'Jersey 15', sans-serif" }}
-        >
-          books by month
+        <div className="flex items-center justify-center border-black">
+          <div
+            className="text-center text-[28px] text-reef-red tracking-widest"
+            style={{ fontFamily: "'Jersey 15', sans-serif" }}
+          >
+            books by month
+          </div>
+          <span
+            className="text-[16px] text-reef-default ml-2 tracking-normal"
+            style={{ fontFamily: "'Jersey 15', sans-serif" }}
+          >
+            {year}
+          </span>
         </div>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart
@@ -209,7 +224,7 @@ export function StatsView({ books, tagSections }: Props) {
               }}
               labelStyle={{ color: C.red }}
               itemStyle={{ color: "black" }}
-              cursor={{ stroke: "black", strokeWidth: 1 }}
+              cursor={{ stroke: C.blue, strokeWidth: 2 }}
             />
             <Line
               type="linear"
@@ -217,7 +232,11 @@ export function StatsView({ books, tagSections }: Props) {
               stroke={C.red}
               strokeWidth={2}
               dot={{ fill: C.red, r: 4, strokeWidth: 0 }}
-              activeDot={{ r: 5, fill: C.red, stroke: "black", strokeWidth: 1 }}
+              activeDot={{
+                r: 4,
+                fill: C.blue,
+                strokeWidth: 0,
+              }}
             />
           </LineChart>
         </ResponsiveContainer>
@@ -293,11 +312,13 @@ export function StatsView({ books, tagSections }: Props) {
           </div>
           {avgDays !== null && (
             <div className="border border-black p-4 flex flex-col items-start">
-              <div
-                className="text-[48px] text-reef-red leading-none tracking-widest"
-                style={{ fontFamily: "'Jersey 15', sans-serif" }}
-              >
-                {avgDays}
+              <div className="flex items-center justify-between border-black">
+                <div
+                  className="text-[48px] text-reef-red leading-none tracking-widest"
+                  style={{ fontFamily: "'Jersey 15', sans-serif" }}
+                >
+                  {avgDays}
+                </div>
                 <span
                   className="text-[16px] text-reef-default ml-2 tracking-normal"
                   style={{ fontFamily: "'Jersey 15', sans-serif" }}

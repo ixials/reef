@@ -6,6 +6,7 @@ import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
 import { TagFilter } from "./components/TagFilter";
 import { SortFilter } from "./components/SortFilter";
+import { PeriodFilter } from "./components/PeriodFilter";
 import { TagModal } from "./components/TagModal";
 import { Calendar } from "./components/Calendar";
 import { StatsView } from "./components/StatsView";
@@ -18,6 +19,7 @@ const AUTH_KEY = "reef_token";
 type ViewMode = "card" | "list";
 type ModalMode = "add" | "edit" | "login" | "settings" | null;
 type SortMode = "recent" | "rating-down" | "rating-up";
+type StatsPeriod = "month" | "year" | "all";
 type BookFormData = Omit<Book, "id">;
 
 // ─── App ──────────────────────────────────────────────────────────────────────
@@ -32,6 +34,7 @@ export default function App() {
   const [view, setView] = useState<ViewMode>("card");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortMode>("recent");
+  const [statsPeriod, setStatsPeriod] = useState<StatsPeriod>("year");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const [modal, setModal] = useState<ModalMode>(null);
@@ -262,7 +265,9 @@ export default function App() {
             <div className="rounded-xl overflow-hidden border border-reef-red">
               {/* Toolbar */}
               <div className="flex flex-wrap gap-2 px-3.5 py-3 border-b border-black items-center">
-                <div className="w-full sm:flex-1 relative">
+                <div
+                  className={`relative ${page === "calendar" ? "flex-1" : "w-full sm:flex-1"}`}
+                >
                   <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-black text-lg select-none">
                     ⌕
                   </span>
@@ -284,7 +289,18 @@ export default function App() {
                   />
                 </div>
 
-                <SortFilter sort={sort} onChange={setSort} />
+                {page === "books" && (
+                  <>
+                    <SortFilter sort={sort} onChange={setSort} />
+                  </>
+                )}
+
+                {page === "stats" && (
+                  <PeriodFilter
+                    period={statsPeriod}
+                    onChange={setStatsPeriod}
+                  />
+                )}
 
                 <div className="flex border border-black rounded-md overflow-hidden">
                   {(["card", "list"] as ViewMode[]).map((v, i) => (
@@ -339,9 +355,13 @@ export default function App() {
               </div>
 
               {/* Content */}
-              <div className="h-[calc(100dvh-320px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-cream">
+              <div className="h-[calc(100dvh-340px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-cream">
                 {page === "stats" && (
-                  <StatsView books={filtered} tagSections={tags} />
+                  <StatsView
+                    books={filtered}
+                    tagSections={tags}
+                    period={statsPeriod}
+                  />
                 )}
                 {page === "calendar" && (
                   <Calendar books={filtered} tagSections={tags} />
