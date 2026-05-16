@@ -7,9 +7,10 @@ import { LoginModal } from "./components/LoginModal";
 import { TagFilter } from "./components/TagFilter";
 import { SortFilter } from "./components/SortFilter";
 import { TagSettings } from "./components/TagSettings";
-import { CalendarView } from "./components/CalendarView";
+import { Calendar } from "./components/Calendar";
+import { StatsView } from "./components/StatsView";
 
-type PageMode = "books" | "stats";
+type PageMode = "books" | "stats" | "calendar";
 import mawile from "./assets/mawile.png";
 
 const AUTH_KEY = "reef_token";
@@ -246,6 +247,12 @@ export default function App() {
                 >
                   └ stats
                 </button>
+                <button
+                  onClick={() => setPage("calendar")}
+                  className={`block text-left cursor-pointer transition-colors ${page === "calendar" ? "text-reef-red" : "text-black hover:text-reef-red"}`}
+                >
+                  └ calendar
+                </button>
               </div>
             </div>
           </div>
@@ -333,9 +340,13 @@ export default function App() {
 
               {/* Content */}
               <div className="h-[calc(100dvh-320px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-cream">
-                {page === "stats" ? (
-                  <CalendarView books={filtered} tagSections={tags} />
-                ) : (
+                {page === "stats" && (
+                  <StatsView books={filtered} tagSections={tags} />
+                )}
+                {page === "calendar" && (
+                  <Calendar books={filtered} tagSections={tags} />
+                )}
+                {page === "books" && (
                   <>
                     {loading && (
                       <div className="py-10 text-center text-xs text-black">

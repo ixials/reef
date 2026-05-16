@@ -13,7 +13,7 @@ function parseDate(d: string): Date | null {
   return new Date(2000 + Number(year), Number(month) - 1, Number(day));
 }
 
-export function CalendarView({ books, tagSections }: Props) {
+export function Calendar({ books, tagSections }: Props) {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth()); // 0-indexed
 
@@ -175,7 +175,7 @@ export function CalendarView({ books, tagSections }: Props) {
             >
               {monthNames[month]}
               <span
-                className="text-[16px] text-black/40 ml-2 tracking-normal"
+                className="text-[16px] text-reef-default ml-2 tracking-normal"
                 style={{ fontFamily: "'Jersey 15', sans-serif" }}
               >
                 {year}
@@ -272,11 +272,11 @@ export function CalendarView({ books, tagSections }: Props) {
                           bottom,
                           height: BAR_HEIGHT,
                           background: wb.color,
-                          borderRadius: 9,
+                          borderRadius: 10,
                         }}
                       >
                         {showTitle && (
-                          <span className="text-white text-[9px] font-mono tracking-wider px-2 truncate uppercase">
+                          <span className="text-reef-cream text-[10px] tracking-wider px-2 pt-0.5 truncate uppercase">
                             {wb.book.title}
                           </span>
                         )}
