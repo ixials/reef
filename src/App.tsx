@@ -355,7 +355,7 @@ export default function App() {
               </div>
 
               {/* Content */}
-              <div className="h-[calc(100dvh-340px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-cream">
+              <div className="h-[calc(100dvh-300px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-cream">
                 {page === "stats" && (
                   <StatsView
                     books={filtered}
