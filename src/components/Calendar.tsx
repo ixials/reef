@@ -204,7 +204,7 @@ export function Calendar({ books, tagSections }: Props) {
             {dayNames.map((d) => (
               <div
                 key={d}
-                className="text-center text-[11px] font-bold text-black py-1.5 tracking-wider"
+                className="text-center text-[10px] font-bold text-black py-1.5 tracking-wider"
               >
                 {d}
               </div>
@@ -244,11 +244,13 @@ export function Calendar({ books, tagSections }: Props) {
                     return (
                       <div
                         key={dayIdx}
-                        className={`border-r border-black last:border-r-0 pl-2 ${!isCurrentMonth ? "bg-black/5" : ""}`}
+                        className={`pl-2 border-black ${
+                          dayIdx !== 6 ? "border-r" : ""
+                        } ${!isCurrentMonth ? "bg-reef-grey" : ""}`}
                       >
                         {isCurrentMonth && (
                           <span
-                            className={`text-[11px] font-mono mt-1 ${isToday ? "bg-reef-red text-reef-cream rounded-full w-5 h-5 flex items-center justify-center" : "text-black"}`}
+                            className={`text-[10px] font-mono mt-1 ${isToday ? "bg-reef-red text-reef-cream rounded-full w-5 h-5 flex items-center justify-center" : "text-black"}`}
                           >
                             {dayNum}
                           </span>
@@ -286,7 +288,7 @@ export function Calendar({ books, tagSections }: Props) {
                         }}
                       >
                         {showTitle && (
-                          <span className="text-reef-cream text-[10px] tracking-wider px-2 pt-0.5 truncate uppercase">
+                          <span className="text-reef-cream text-[10px] tracking-wider px-2 pt-px truncate uppercase">
                             {wb.book.title}
                           </span>
                         )}

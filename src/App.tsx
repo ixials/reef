@@ -201,7 +201,7 @@ export default function App() {
               className="text-[52px] leading-none tracking-widest text-reef-red"
               style={{ fontFamily: "'Jersey 15', sans-serif" }}
             >
-              reef.
+              reef
             </div>
             <div className="text-[12px] text-black hidden sm:block">
               goodreads redo
@@ -265,9 +265,7 @@ export default function App() {
             <div className="rounded-xl overflow-hidden border border-reef-red">
               {/* Toolbar */}
               <div className="flex flex-wrap gap-2 px-3.5 py-3 border-b border-black items-center">
-                <div
-                  className={`relative ${page === "calendar" ? "flex-1" : "w-full sm:flex-1"}`}
-                >
+                <div className="relative w-full sm:flex-1">
                   <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-black text-lg select-none">
                     ⌕
                   </span>
@@ -290,9 +288,7 @@ export default function App() {
                 </div>
 
                 {page === "books" && (
-                  <>
-                    <SortFilter sort={sort} onChange={setSort} />
-                  </>
+                  <SortFilter sort={sort} onChange={setSort} />
                 )}
 
                 {page === "stats" && (
