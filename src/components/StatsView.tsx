@@ -81,22 +81,24 @@ export function StatsView({ books, tagSections, period }: Props) {
       return { month: MONTH_NAMES[Number(m)], count };
     });
 
-  // ── Genre breakdown ───────────────────────────────────────────────────────
+  // ── Tag breakdown ───────────────────────────────────────────────────────
   const tagCounts: Record<string, number> = {};
+
   filteredBooks.forEach((b) => {
     const tag = b.tags[0];
     if (tag) tagCounts[tag] = (tagCounts[tag] ?? 0) + 1;
   });
+
   const total = filteredBooks.length || 1;
-  const genreEntries = Object.entries(tagCounts).sort(([, a], [, b]) => b - a);
-  const topEight = genreEntries.slice(0, 8);
-  const rest = genreEntries.slice(8);
+  const tagEntries = Object.entries(tagCounts).sort(([, a], [, b]) => b - a);
+  const topEight = tagEntries.slice(0, 8);
+  const rest = tagEntries.slice(8);
   const otherCount = rest.reduce((sum, [, count]) => sum + count, 0);
 
   const allEntries =
     otherCount > 0 ? [...topEight, ["other", otherCount]] : topEight;
 
-  const genreData = allEntries.map(([tag, count]) => ({
+  const tagData = allEntries.map(([tag, count]) => ({
     name: tag,
     value: Number(count),
     pct: Math.round((Number(count) / total) * 100),
@@ -242,18 +244,18 @@ export function StatsView({ books, tagSections, period }: Props) {
         </ResponsiveContainer>
       </div>
 
-      {/* Genre pie */}
+      {/* Tag pie */}
       <div className="border border-black p-4">
         <div
           className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
         >
-          genres
+          tags
         </div>
         <div className="flex items-center gap-4 flex-wrap justify-center">
           <PieChart width={200} height={200}>
             <Pie
-              data={genreData}
+              data={tagData}
               cx={95}
               cy={95}
               innerRadius={0}
@@ -261,14 +263,14 @@ export function StatsView({ books, tagSections, period }: Props) {
               dataKey="value"
               stroke="none"
             >
-              {genreData.map((entry, i) => (
+              {tagData.map((entry, i) => (
                 <Cell key={i} fill={entry.color} />
               ))}
             </Pie>
             <Tooltip content={<PieToolTip />} />
           </PieChart>
           <div className="flex flex-col gap-1.5">
-            {genreData.map((g, i) => (
+            {tagData.map((g, i) => (
               <div key={i} className="flex items-center gap-2">
                 <span
                   className="w-3 h-3 rounded-full shrink-0 inline-block"
@@ -310,32 +312,31 @@ export function StatsView({ books, tagSections, period }: Props) {
               books read
             </div>
           </div>
-          {avgDays !== null && (
-            <div className="border border-black p-4 flex flex-col items-start">
-              <div className="flex items-center justify-between border-black">
-                <div
-                  className="text-[48px] text-reef-red leading-none tracking-widest"
-                  style={{ fontFamily: "'Jersey 15', sans-serif" }}
-                >
-                  {avgDays}
-                </div>
-                <span
-                  className="text-[16px] text-reef-default ml-2 tracking-normal"
-                  style={{ fontFamily: "'Jersey 15', sans-serif" }}
-                >
-                  days
-                </span>
-              </div>
+
+          <div className="border border-black p-4 flex flex-col items-start">
+            <div className="flex items-center justify-between border-black">
               <div
-                className="text-[12px] text-black mt-1"
-                style={{ fontFamily: "monospace" }}
+                className="text-[48px] text-reef-red leading-none tracking-widest"
+                style={{ fontFamily: "'Jersey 15', sans-serif" }}
               >
-                average time
-                <br />
-                to finish
+                {avgDays ?? "--"}
               </div>
+              <span
+                className="text-[16px] text-reef-default ml-2 tracking-normal"
+                style={{ fontFamily: "'Jersey 15', sans-serif" }}
+              >
+                days
+              </span>
             </div>
-          )}
+            <div
+              className="text-[12px] text-black mt-1"
+              style={{ fontFamily: "monospace" }}
+            >
+              average time
+              <br />
+              to finish
+            </div>
+          </div>
         </div>
 
         {/* Ratings histogram */}
