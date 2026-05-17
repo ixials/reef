@@ -357,6 +357,8 @@ export default function App() {
                     books={filtered}
                     tagSections={tags}
                     period={statsPeriod}
+                    selectedTags={selectedTags}
+                    search={search}
                   />
                 )}
                 {page === "calendar" && (
