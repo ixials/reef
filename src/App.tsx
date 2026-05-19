@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { readGist, writeGist, Book, TagSections } from "./gist";
 import { C } from "./colors";
 import { BookModal } from "./components/BookModal";
@@ -36,6 +36,7 @@ export default function App() {
   const [sort, setSort] = useState<SortMode>("recent");
   const [statsPeriod, setStatsPeriod] = useState<StatsPeriod>("year");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const exportFnRef = useRef<(() => void) | null>(null);
 
   const [modal, setModal] = useState<ModalMode>(null);
   const [editBook, setEditBook] = useState<Book | null>(null);
@@ -337,16 +338,52 @@ export default function App() {
                   ))}
                 </div>
 
-                {isAdmin && (
+                {page === "stats" || page === "calendar" ? (
                   <button
-                    onClick={() => {
-                      setEditBook(null);
-                      setModal("add");
-                    }}
-                    className="w-8.5 h-8.5 rounded-md bg-reef-red text-reef-cream text-[24px] flex items-center justify-center cursor-pointer hover:bg-reef-blue transition-opacity border-none leading-none"
+                    onClick={() => exportFnRef.current?.()}
+                    className="w-8.5 h-8.5 rounded-md bg-reef-red text-reef-cream flex items-center justify-center cursor-pointer hover:bg-reef-blue transition-opacity border-none"
                   >
-                    +
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+                      <line
+                        x1="7"
+                        y1="0"
+                        x2="7"
+                        y2="9"
+                        stroke={C.cream}
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M3 7 L7 11.5 L11 7"
+                        stroke={C.cream}
+                        strokeWidth="2.5"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <line
+                        x1="1"
+                        y1="13"
+                        x2="13"
+                        y2="13"
+                        stroke={C.cream}
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   </button>
+                ) : (
+                  isAdmin && (
+                    <button
+                      onClick={() => {
+                        setEditBook(null);
+                        setModal("add");
+                      }}
+                      className="w-8.5 h-8.5 rounded-md bg-reef-red text-reef-cream text-[24px] flex items-center justify-center cursor-pointer hover:bg-reef-blue transition-opacity border-none leading-none"
+                    >
+                      +
+                    </button>
+                  )
                 )}
               </div>
 
@@ -357,12 +394,19 @@ export default function App() {
                     books={filtered}
                     tagSections={tags}
                     period={statsPeriod}
-                    selectedTags={selectedTags}
-                    search={search}
+                    onExportReady={(fn) => {
+                      exportFnRef.current = fn;
+                    }}
                   />
                 )}
                 {page === "calendar" && (
-                  <Calendar books={filtered} tagSections={tags} />
+                  <Calendar
+                    books={filtered}
+                    tagSections={tags}
+                    onExportReady={(fn) => {
+                      exportFnRef.current = fn;
+                    }}
+                  />
                 )}
                 {page === "books" && (
                   <>

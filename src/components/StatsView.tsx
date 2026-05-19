@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Book, TagSections } from "../gist";
 import { C } from "../colors";
 import { tagColor } from "./Tag";
@@ -22,8 +22,7 @@ interface Props {
   books: Book[];
   tagSections: TagSections;
   period: "month" | "year" | "all";
-  selectedTags: string[];
-  search: string;
+  onExportReady?: (fn: () => void) => void;
 }
 
 function parseDate(d: string): Date | null {
@@ -51,29 +50,31 @@ export function StatsView({
   books,
   tagSections,
   period,
-  selectedTags,
-  search,
+  onExportReady,
 }: Props) {
   const now = new Date();
   const year = now.getFullYear();
   const ref = useRef<HTMLDivElement>(null);
-  const [exporting, setExporting] = useState(false);
 
   const exportImage = async () => {
     if (!ref.current) return;
-    setExporting(true);
-    await new Promise((r) => setTimeout(r, 50)); // let render settle
+
+    await new Promise((r) => setTimeout(r, 50)); // Let render settle
     const dataUrl = await toPng(ref.current, {
       cacheBust: true,
       pixelRatio: 2,
       backgroundColor: C.cream,
     });
-    setExporting(false);
+
     const link = document.createElement("a");
     link.download = `reef-stats-${new Date().toISOString().slice(0, 10)}.png`;
     link.href = dataUrl;
     link.click();
   };
+
+  useEffect(() => {
+    onExportReady?.(exportImage);
+  }, []);
 
   const filteredBooks = books.filter((b) => {
     if (period === "all") return true;
@@ -191,101 +192,198 @@ export function StatsView({
   const tickStyle = { fontFamily: "monospace", fontSize: 10, fill: "black" };
 
   return (
-    <div>
-      <div ref={ref} className="p-4 flex flex-col gap-4">
-        {exporting && (
+    <div ref={ref} className="p-4 flex flex-col gap-4">
+      {/* Books by month */}
+      <div className="border border-black p-4">
+        <div className="flex items-center justify-center border-black">
           <div
-            className="px-1 flex flex-wrap gap-4 items-center"
-            style={{ fontFamily: "monospace", fontSize: 12, color: "black" }}
+            className="text-center text-[28px] text-reef-red tracking-widest"
+            style={{ fontFamily: "'Jersey 15', sans-serif" }}
           >
-            <span
-              className="text-center text-[28px] text-reef-red tracking-widest"
-              style={{ fontFamily: "'Jersey 15', sans-serif" }}
-            >
-              reef
-            </span>
-            <span>
-              period:
-              <span className="text-reef-default">
-                {" "}
-                {period === "year"
-                  ? "this year"
-                  : period === "month"
-                    ? "this month"
-                    : "all time"}
-              </span>
-            </span>
-            {selectedTags.length > 0 && (
-              <span>
-                tags:{" "}
-                <span className="text-reef-default">
-                  {selectedTags.join(", ")}
-                </span>
-              </span>
-            )}
-            {search && (
-              <span>
-                search: <span className="text-reef-default">"{search}"</span>
-              </span>
-            )}
-            <span style={{ marginLeft: "auto" }}>
-              {new Date().toLocaleDateString()}
-            </span>
+            books by month
           </div>
-        )}
+          <span
+            className="text-[16px] text-reef-default ml-2 tracking-normal"
+            style={{ fontFamily: "'Jersey 15', sans-serif" }}
+          >
+            {year}
+          </span>
+        </div>
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart
+            data={monthData}
+            margin={{ top: 6, right: 12, bottom: 20, left: -12 }}
+          >
+            <CartesianGrid stroke={C.grey} />
+            <XAxis
+              dataKey="month"
+              tick={tickStyle}
+              label={{
+                value: "month",
+                position: "insideBottom",
+                offset: -12,
+                style: {
+                  fontFamily: "monospace",
+                  fontSize: 10,
+                  fill: C.default,
+                },
+              }}
+            />
+            <YAxis
+              tick={tickStyle}
+              allowDecimals={false}
+              label={{
+                value: "# books",
+                angle: -90,
+                position: "insideLeft",
+                offset: 20,
+                dy: 20,
+                style: {
+                  fontFamily: "monospace",
+                  fontSize: 10,
+                  fill: C.default,
+                },
+              }}
+            />
+            <Tooltip
+              contentStyle={{
+                fontFamily: "monospace",
+                fontSize: 12,
+                border: "1px solid black",
+                borderRadius: 0,
+                background: C.cream,
+              }}
+              labelStyle={{ color: C.red }}
+              itemStyle={{ color: "black" }}
+              cursor={{ stroke: C.blue, strokeWidth: 2 }}
+            />
+            <Line
+              type="linear"
+              dataKey="count"
+              stroke={C.red}
+              strokeWidth={2}
+              dot={{ fill: C.red, r: 4, strokeWidth: 0 }}
+              activeDot={{
+                r: 4,
+                fill: C.blue,
+                strokeWidth: 0,
+              }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
 
-        {/* Books by month */}
-        <div className="border border-black p-4">
-          <div className="flex items-center justify-center border-black">
-            <div
-              className="text-center text-[28px] text-reef-red tracking-widest"
-              style={{ fontFamily: "'Jersey 15', sans-serif" }}
+      {/* Tag pie */}
+      <div className="border border-black p-4">
+        <div
+          className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
+          style={{ fontFamily: "'Jersey 15', sans-serif" }}
+        >
+          tags
+        </div>
+        <div className="flex items-center gap-4 flex-wrap justify-center">
+          <PieChart width={200} height={200}>
+            <Pie
+              data={tagData}
+              cx={95}
+              cy={95}
+              innerRadius={0}
+              outerRadius={90}
+              dataKey="value"
+              stroke="none"
             >
-              books by month
-            </div>
-            <span
-              className="text-[16px] text-reef-default ml-2 tracking-normal"
-              style={{ fontFamily: "'Jersey 15', sans-serif" }}
-            >
-              {year}
-            </span>
+              {tagData.map((entry, i) => (
+                <Cell key={i} fill={entry.color} />
+              ))}
+            </Pie>
+            <Tooltip content={<PieToolTip />} />
+          </PieChart>
+          <div className="flex flex-col gap-1.5">
+            {tagData.map((g, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <span
+                  className="w-3 h-3 rounded-full shrink-0 inline-block"
+                  style={{ background: g.color }}
+                />
+                <span
+                  className="text-[12px]"
+                  style={{ fontFamily: "monospace" }}
+                >
+                  {g.name}
+                </span>
+                <span
+                  className="text-[10px] text-reef-default"
+                  style={{ fontFamily: "monospace" }}
+                >
+                  {g.pct}%
+                </span>
+              </div>
+            ))}
           </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart
-              data={monthData}
-              margin={{ top: 6, right: 12, bottom: 20, left: -12 }}
+        </div>
+      </div>
+
+      {/* Summary + Ratings */}
+      <div className="flex gap-4 flex-wrap sm:flex-nowrap">
+        {/* Summary stats */}
+        <div className="flex flex-col gap-4 shrink-0">
+          <div className="border border-black p-4 flex flex-col items-start">
+            <div
+              className="text-[64px] text-reef-red leading-none tracking-widest"
+              style={{ fontFamily: "'Jersey 15', sans-serif" }}
             >
-              <CartesianGrid stroke={C.grey} />
-              <XAxis
-                dataKey="month"
-                tick={tickStyle}
-                label={{
-                  value: "month",
-                  position: "insideBottom",
-                  offset: -12,
-                  style: {
-                    fontFamily: "monospace",
-                    fontSize: 10,
-                    fill: C.default,
-                  },
-                }}
-              />
-              <YAxis
-                tick={tickStyle}
-                allowDecimals={false}
-                label={{
-                  value: "# books",
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: 20,
-                  dy: 20,
-                  style: {
-                    fontFamily: "monospace",
-                    fontSize: 10,
-                    fill: C.default,
-                  },
-                }}
-              />
+              {booksRead}
+            </div>
+            <div
+              className="text-[12px] text-black mt-1"
+              style={{ fontFamily: "monospace" }}
+            >
+              books read
+            </div>
+          </div>
+
+          <div className="border border-black p-4 flex flex-col items-start">
+            <div className="flex items-center justify-between border-black">
+              <div
+                className="text-[48px] text-reef-red leading-none tracking-widest"
+                style={{ fontFamily: "'Jersey 15', sans-serif" }}
+              >
+                {avgDays ?? "--"}
+              </div>
+              <span
+                className="text-[16px] text-reef-default ml-2 tracking-normal"
+                style={{ fontFamily: "'Jersey 15', sans-serif" }}
+              >
+                days
+              </span>
+            </div>
+            <div
+              className="text-[12px] text-black mt-1"
+              style={{ fontFamily: "monospace" }}
+            >
+              average time
+              <br />
+              to finish
+            </div>
+          </div>
+        </div>
+
+        {/* Ratings histogram */}
+        <div className="border border-black p-4 flex-1 min-w-0">
+          <div
+            className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
+            style={{ fontFamily: "'Jersey 15', sans-serif" }}
+          >
+            ratings
+          </div>
+          <ResponsiveContainer width="100%" height={160}>
+            <BarChart
+              data={ratingData}
+              margin={{ top: 4, right: 8, bottom: 4, left: -40 }}
+            >
+              <CartesianGrid stroke={C.grey} vertical={false} />
+              <XAxis dataKey="rating" tick={tickStyle} />
+              <YAxis tick={tickStyle} allowDecimals={false} />
               <Tooltip
                 contentStyle={{
                   fontFamily: "monospace",
@@ -296,170 +394,21 @@ export function StatsView({
                 }}
                 labelStyle={{ color: C.red }}
                 itemStyle={{ color: "black" }}
-                cursor={{ stroke: C.blue, strokeWidth: 2 }}
+                cursor={{ fill: "transparent" }}
               />
-              <Line
-                type="linear"
+              <Bar
                 dataKey="count"
-                stroke={C.red}
-                strokeWidth={2}
-                dot={{ fill: C.red, r: 4, strokeWidth: 0 }}
-                activeDot={{
-                  r: 4,
-                  fill: C.blue,
-                  strokeWidth: 0,
-                }}
-              />
-            </LineChart>
+                fill={C.red}
+                radius={[2, 2, 0, 0]}
+                activeBar={{ fill: C.blue }}
+              >
+                {ratingData.map((_, i) => (
+                  <Cell key={i} fill={C.red} />
+                ))}
+              </Bar>
+            </BarChart>
           </ResponsiveContainer>
         </div>
-
-        {/* Tag pie */}
-        <div className="border border-black p-4">
-          <div
-            className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
-            style={{ fontFamily: "'Jersey 15', sans-serif" }}
-          >
-            tags
-          </div>
-          <div className="flex items-center gap-4 flex-wrap justify-center">
-            <PieChart width={200} height={200}>
-              <Pie
-                data={tagData}
-                cx={95}
-                cy={95}
-                innerRadius={0}
-                outerRadius={90}
-                dataKey="value"
-                stroke="none"
-              >
-                {tagData.map((entry, i) => (
-                  <Cell key={i} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip content={<PieToolTip />} />
-            </PieChart>
-            <div className="flex flex-col gap-1.5">
-              {tagData.map((g, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <span
-                    className="w-3 h-3 rounded-full shrink-0 inline-block"
-                    style={{ background: g.color }}
-                  />
-                  <span
-                    className="text-[12px]"
-                    style={{ fontFamily: "monospace" }}
-                  >
-                    {g.name}
-                  </span>
-                  <span
-                    className="text-[10px] text-reef-default"
-                    style={{ fontFamily: "monospace" }}
-                  >
-                    {g.pct}%
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Summary + Ratings */}
-        <div className="flex gap-4 flex-wrap sm:flex-nowrap">
-          {/* Summary stats */}
-          <div className="flex flex-col gap-4 shrink-0">
-            <div className="border border-black p-4 flex flex-col items-start">
-              <div
-                className="text-[64px] text-reef-red leading-none tracking-widest"
-                style={{ fontFamily: "'Jersey 15', sans-serif" }}
-              >
-                {booksRead}
-              </div>
-              <div
-                className="text-[12px] text-black mt-1"
-                style={{ fontFamily: "monospace" }}
-              >
-                books read
-              </div>
-            </div>
-
-            <div className="border border-black p-4 flex flex-col items-start">
-              <div className="flex items-center justify-between border-black">
-                <div
-                  className="text-[48px] text-reef-red leading-none tracking-widest"
-                  style={{ fontFamily: "'Jersey 15', sans-serif" }}
-                >
-                  {avgDays ?? "--"}
-                </div>
-                <span
-                  className="text-[16px] text-reef-default ml-2 tracking-normal"
-                  style={{ fontFamily: "'Jersey 15', sans-serif" }}
-                >
-                  days
-                </span>
-              </div>
-              <div
-                className="text-[12px] text-black mt-1"
-                style={{ fontFamily: "monospace" }}
-              >
-                average time
-                <br />
-                to finish
-              </div>
-            </div>
-          </div>
-
-          {/* Ratings histogram */}
-          <div className="border border-black p-4 flex-1 min-w-0">
-            <div
-              className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
-              style={{ fontFamily: "'Jersey 15', sans-serif" }}
-            >
-              ratings
-            </div>
-            <ResponsiveContainer width="100%" height={160}>
-              <BarChart
-                data={ratingData}
-                margin={{ top: 4, right: 8, bottom: 4, left: -40 }}
-              >
-                <CartesianGrid stroke={C.grey} vertical={false} />
-                <XAxis dataKey="rating" tick={tickStyle} />
-                <YAxis tick={tickStyle} allowDecimals={false} />
-                <Tooltip
-                  contentStyle={{
-                    fontFamily: "monospace",
-                    fontSize: 12,
-                    border: "1px solid black",
-                    borderRadius: 0,
-                    background: C.cream,
-                  }}
-                  labelStyle={{ color: C.red }}
-                  itemStyle={{ color: "black" }}
-                  cursor={{ fill: "transparent" }}
-                />
-                <Bar
-                  dataKey="count"
-                  fill={C.red}
-                  radius={[2, 2, 0, 0]}
-                  activeBar={{ fill: C.blue }}
-                >
-                  {ratingData.map((_, i) => (
-                    <Cell key={i} fill={C.red} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-end px-4 pb-4">
-        <button
-          onClick={exportImage}
-          className="text-[12px] px-4 h-8 border bg-reef-red text-reef-cream rounded cursor-pointer hover:bg-reef-blue"
-          style={{ fontFamily: "monospace" }}
-        >
-          EXPORT
-        </button>
       </div>
     </div>
   );

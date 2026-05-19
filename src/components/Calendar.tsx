@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Book, TagSections } from "../gist";
+import { C } from "../colors";
 import { tagColor } from "./Tag";
+import { toPng } from "html-to-image";
 
 interface Props {
   books: Book[];
   tagSections: TagSections;
+  onExportReady?: (fn: () => void) => void;
 }
 
 function parseDate(d: string): Date | null {
@@ -13,9 +16,30 @@ function parseDate(d: string): Date | null {
   return new Date(2000 + Number(year), Number(month) - 1, Number(day));
 }
 
-export function Calendar({ books, tagSections }: Props) {
+export function Calendar({ books, tagSections, onExportReady }: Props) {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth()); // 0-indexed
+  const ref = useRef<HTMLDivElement>(null);
+
+  const exportImage = async () => {
+    if (!ref.current) return;
+
+    await new Promise((r) => setTimeout(r, 50)); // Let render settle
+    const dataUrl = await toPng(ref.current, {
+      cacheBust: true,
+      pixelRatio: 2,
+      backgroundColor: C.cream,
+    });
+
+    const link = document.createElement("a");
+    link.download = `reef-calendar-${new Date().toISOString().slice(0, 10)}.png`;
+    link.href = dataUrl;
+    link.click();
+  };
+
+  useEffect(() => {
+    onExportReady?.(exportImage);
+  }, []);
 
   const prevMonth = () => {
     if (month === 0) {
@@ -168,136 +192,141 @@ export function Calendar({ books, tagSections }: Props) {
   const titlesShown = new Set<string>();
 
   return (
-    <div className="p-4">
-      <div className="border border-black overflow-hidden">
-        <div className="flex flex-col h-full">
-          {/* Month nav */}
-          <div className="flex items-center justify-between gap-6 px-4 py-3 border-b border-black">
-            <button
-              onClick={prevMonth}
-              className="text-black hover:text-reef-red cursor-pointer text-sm transition-colors"
-            >
-              ◀
-            </button>
-            <span
-              className="text-[32px] text-reef-red tracking-widest leading-none"
-              style={{ fontFamily: "'Jersey 15', sans-serif" }}
-            >
-              {monthNames[month]}
+    <div ref={ref} className="p-4 flex flex-col gap-4">
+      <div className="p-4">
+        <div className="border border-black overflow-hidden">
+          <div className="flex flex-col h-full">
+            {/* Month nav */}
+            <div className="flex items-center justify-between gap-6 px-4 py-3 border-b border-black">
+              <button
+                onClick={prevMonth}
+                className="text-black hover:text-reef-red cursor-pointer text-sm transition-colors"
+              >
+                ◀
+              </button>
               <span
-                className="text-[16px] text-reef-default ml-2 tracking-normal"
+                className="text-[32px] text-reef-red tracking-widest leading-none"
                 style={{ fontFamily: "'Jersey 15', sans-serif" }}
               >
-                {year}
-              </span>
-            </span>
-            <button
-              onClick={nextMonth}
-              className="text-black hover:text-reef-red cursor-pointer text-sm transition-colors"
-            >
-              ▶
-            </button>
-          </div>
-
-          {/* Day headers */}
-          <div className="grid grid-cols-7 border-b border-black">
-            {dayNames.map((d) => (
-              <div
-                key={d}
-                className="text-center text-[10px] font-bold text-black py-1.5 tracking-wider"
-              >
-                {d}
-              </div>
-            ))}
-          </div>
-
-          {/* Grid */}
-          <div className="flex-1 overflow-y-auto">
-            {Array.from({ length: numWeeks }).map((_, weekIdx) => {
-              const maxLane = weekBars[weekIdx].reduce(
-                (m, b) => Math.max(m, b.lane),
-                -1,
-              );
-
-              const rowHeight = Math.max(
-                CELL_HEIGHT,
-                BAR_BOTTOM_OFFSET + (maxLane + 1) * (BAR_HEIGHT + BAR_GAP) + 24,
-              );
-
-              return (
-                <div
-                  key={weekIdx}
-                  className="relative grid grid-cols-7 border-b border-black last:border-b-0"
-                  style={{ height: rowHeight }}
+                {monthNames[month]}
+                <span
+                  className="text-[16px] text-reef-default ml-2 tracking-normal"
+                  style={{ fontFamily: "'Jersey 15', sans-serif" }}
                 >
-                  {/* Day cells */}
-                  {Array.from({ length: 7 }).map((_, dayIdx) => {
-                    const cellIdx = weekIdx * 7 + dayIdx;
-                    const dayNum = cellIdx - firstDay + 1;
-                    const isCurrentMonth = dayNum >= 1 && dayNum <= daysInMonth;
-                    const isToday =
-                      isCurrentMonth &&
-                      dayNum === new Date().getDate() &&
-                      month === new Date().getMonth() &&
-                      year === new Date().getFullYear();
+                  {year}
+                </span>
+              </span>
+              <button
+                onClick={nextMonth}
+                className="text-black hover:text-reef-red cursor-pointer text-sm transition-colors"
+              >
+                ▶
+              </button>
+            </div>
 
-                    return (
-                      <div
-                        key={dayIdx}
-                        className={`pl-2 border-black ${
-                          dayIdx !== 6 ? "border-r" : ""
-                        } ${!isCurrentMonth ? "bg-reef-grey" : ""}`}
-                      >
-                        {isCurrentMonth && (
-                          <span
-                            className={`text-[10px] font-mono mt-1 ${isToday ? "bg-reef-red text-reef-cream rounded-full w-5 h-5 flex items-center justify-center" : "text-black"}`}
-                          >
-                            {dayNum}
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
-
-                  {/* Bars */}
-
-                  {weekBars[weekIdx].map((wb, i) => {
-                    const colStart = wb.weekStartCell % 7;
-                    const colEnd = wb.weekEndCell % 7;
-                    const left = `calc(${(colStart / 7) * 100}% + 4px)`;
-                    const right = `calc(${((6 - colEnd) / 7) * 100}% + 4px)`;
-                    const bottom =
-                      BAR_BOTTOM_OFFSET + wb.lane * (BAR_HEIGHT + BAR_GAP);
-                    const spanCols = colEnd - colStart;
-                    const showTitle =
-                      !titlesShown.has(wb.book.title) && spanCols >= 1;
-                    if (showTitle) titlesShown.add(wb.book.title);
-
-                    return (
-                      <div
-                        key={i}
-                        title={wb.book.title}
-                        className="absolute flex items-center overflow-hidden cursor-default"
-                        style={{
-                          left,
-                          right,
-                          bottom,
-                          height: BAR_HEIGHT,
-                          background: wb.color,
-                          borderRadius: 10,
-                        }}
-                      >
-                        {showTitle && (
-                          <span className="text-reef-cream text-[10px] tracking-wider px-2 pt-px truncate uppercase">
-                            {wb.book.title}
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
+            {/* Day headers */}
+            <div className="grid grid-cols-7 border-b border-black">
+              {dayNames.map((d) => (
+                <div
+                  key={d}
+                  className="text-center text-[10px] font-bold text-black py-1.5 tracking-wider"
+                >
+                  {d}
                 </div>
-              );
-            })}
+              ))}
+            </div>
+
+            {/* Grid */}
+            <div className="flex-1 overflow-y-auto">
+              {Array.from({ length: numWeeks }).map((_, weekIdx) => {
+                const maxLane = weekBars[weekIdx].reduce(
+                  (m, b) => Math.max(m, b.lane),
+                  -1,
+                );
+
+                const rowHeight = Math.max(
+                  CELL_HEIGHT,
+                  BAR_BOTTOM_OFFSET +
+                    (maxLane + 1) * (BAR_HEIGHT + BAR_GAP) +
+                    24,
+                );
+
+                return (
+                  <div
+                    key={weekIdx}
+                    className="relative grid grid-cols-7 border-b border-black last:border-b-0"
+                    style={{ height: rowHeight }}
+                  >
+                    {/* Day cells */}
+                    {Array.from({ length: 7 }).map((_, dayIdx) => {
+                      const cellIdx = weekIdx * 7 + dayIdx;
+                      const dayNum = cellIdx - firstDay + 1;
+                      const isCurrentMonth =
+                        dayNum >= 1 && dayNum <= daysInMonth;
+                      const isToday =
+                        isCurrentMonth &&
+                        dayNum === new Date().getDate() &&
+                        month === new Date().getMonth() &&
+                        year === new Date().getFullYear();
+
+                      return (
+                        <div
+                          key={dayIdx}
+                          className={`pl-2 border-black ${
+                            dayIdx !== 6 ? "border-r" : ""
+                          } ${!isCurrentMonth ? "bg-reef-grey" : ""}`}
+                        >
+                          {isCurrentMonth && (
+                            <span
+                              className={`text-[10px] font-mono mt-1 ${isToday ? "bg-reef-red text-reef-cream rounded-full w-5 h-5 flex items-center justify-center" : "text-black"}`}
+                            >
+                              {dayNum}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+
+                    {/* Bars */}
+
+                    {weekBars[weekIdx].map((wb, i) => {
+                      const colStart = wb.weekStartCell % 7;
+                      const colEnd = wb.weekEndCell % 7;
+                      const left = `calc(${(colStart / 7) * 100}% + 4px)`;
+                      const right = `calc(${((6 - colEnd) / 7) * 100}% + 4px)`;
+                      const bottom =
+                        BAR_BOTTOM_OFFSET + wb.lane * (BAR_HEIGHT + BAR_GAP);
+                      const spanCols = colEnd - colStart;
+                      const showTitle =
+                        !titlesShown.has(wb.book.title) && spanCols >= 1;
+                      if (showTitle) titlesShown.add(wb.book.title);
+
+                      return (
+                        <div
+                          key={i}
+                          title={wb.book.title}
+                          className="absolute flex items-center overflow-hidden cursor-default"
+                          style={{
+                            left,
+                            right,
+                            bottom,
+                            height: BAR_HEIGHT,
+                            background: wb.color,
+                            borderRadius: 10,
+                          }}
+                        >
+                          {showTitle && (
+                            <span className="text-reef-cream text-[10px] tracking-wider px-2 pt-px truncate uppercase">
+                              {wb.book.title}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
