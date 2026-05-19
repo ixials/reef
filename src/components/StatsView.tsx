@@ -90,24 +90,51 @@ export function StatsView({
 
   // ── Books by month ────────────────────────────────────────────────────────
   const countsByMonth: Record<string, number> = {};
-  for (let m = 0; m <= now.getMonth(); m++) {
-    countsByMonth[`${now.getFullYear()}-${String(m).padStart(2, "0")}`] = 0;
+
+  if (period === "month" || period === "year") {
+    for (let m = 0; m <= now.getMonth(); m++) {
+      countsByMonth[`${now.getFullYear()}-${String(m).padStart(2, "0")}`] = 0;
+    }
+
+    books.forEach((b) => {
+      const d = parseDate(b.endDate);
+      if (!d) return;
+      if (d.getFullYear() !== now.getFullYear()) return;
+      if (d.getMonth() > now.getMonth()) return;
+      const key = `${d.getFullYear()}-${String(d.getMonth()).padStart(2, "0")}`;
+      countsByMonth[key] = (countsByMonth[key] ?? 0) + 1;
+    });
+  } else {
+    for (let m = 0; m < 12; m++) {
+      countsByMonth[m] = 0;
+    }
+
+    books.forEach((b) => {
+      const d = parseDate(b.endDate);
+      if (!d) return;
+      const key = d.getMonth();
+      countsByMonth[key] = (countsByMonth[key] ?? 0) + 1;
+    });
   }
 
-  books.forEach((b) => {
-    const d = parseDate(b.endDate);
-    if (!d) return;
-    if (d.getFullYear() !== now.getFullYear()) return;
-    if (d.getMonth() > now.getMonth()) return;
-    const key = `${d.getFullYear()}-${String(d.getMonth()).padStart(2, "0")}`;
-    countsByMonth[key] = (countsByMonth[key] ?? 0) + 1;
-  });
-
   const monthData = Object.entries(countsByMonth)
-    .sort(([a], [b]) => a.localeCompare(b))
+    .sort(([a], [b]) => {
+      const getMonthIndex = (key: string) =>
+        key.includes("-") ? Number(key.split("-")[1]) : Number(key);
+
+      return getMonthIndex(a) - getMonthIndex(b);
+    })
     .map(([key, count]) => {
-      const [, m] = key.split("-");
-      return { month: MONTH_NAMES[Number(m)], count };
+      let monthIndex: number;
+
+      if (key.includes("-")) {
+        const [, m] = key.split("-");
+        monthIndex = Number(m);
+      } else {
+        monthIndex = Number(key);
+      }
+
+      return { month: MONTH_NAMES[monthIndex], count };
     });
 
   // ── Tag breakdown ───────────────────────────────────────────────────────
@@ -206,7 +233,7 @@ export function StatsView({
             className="text-[16px] text-reef-default ml-2 tracking-normal"
             style={{ fontFamily: "'Jersey 15', sans-serif" }}
           >
-            {year}
+            {period === "all" ? "all time" : year}
           </span>
         </div>
         <ResponsiveContainer width="100%" height={200}>
