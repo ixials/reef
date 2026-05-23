@@ -239,7 +239,7 @@ export function StatsView({
         <ResponsiveContainer width="100%" height={200}>
           <LineChart
             data={monthData}
-            margin={{ top: 6, right: 12, bottom: 20, left: -12 }}
+            margin={{ top: 6, right: 12, bottom: 20, left: -32 }}
           >
             <CartesianGrid stroke={C.grey} />
             <XAxis
@@ -256,22 +256,7 @@ export function StatsView({
                 },
               }}
             />
-            <YAxis
-              tick={tickStyle}
-              allowDecimals={false}
-              label={{
-                value: "# books",
-                angle: -90,
-                position: "insideLeft",
-                offset: 20,
-                dy: 20,
-                style: {
-                  fontFamily: "monospace",
-                  fontSize: 10,
-                  fill: C.default,
-                },
-              }}
-            />
+            <YAxis tick={tickStyle} allowDecimals={false} />
             <Tooltip
               contentStyle={{
                 fontFamily: "monospace",
@@ -406,10 +391,24 @@ export function StatsView({
           <ResponsiveContainer width="100%" height={160}>
             <BarChart
               data={ratingData}
-              margin={{ top: 4, right: 8, bottom: 4, left: -40 }}
+              margin={{ top: 4, right: 8, bottom: 12, left: -40 }}
             >
               <CartesianGrid stroke={C.grey} vertical={false} />
-              <XAxis dataKey="rating" tick={tickStyle} />
+              <XAxis
+                dataKey="rating"
+                tick={tickStyle}
+                label={{
+                  value: "rating",
+                  position: "insideBottom",
+                  offset: -12,
+                  style: {
+                    fontFamily: "monospace",
+                    fontSize: 10,
+                    fill: C.default,
+                  },
+                }}
+              />
+
               <YAxis tick={tickStyle} allowDecimals={false} />
               <Tooltip
                 contentStyle={{
