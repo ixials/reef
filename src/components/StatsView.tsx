@@ -239,23 +239,10 @@ export function StatsView({
         <ResponsiveContainer width="100%" height={200}>
           <LineChart
             data={monthData}
-            margin={{ top: 6, right: 12, bottom: 20, left: -32 }}
+            margin={{ top: 6, right: 12, bottom: 6, left: -32 }}
           >
             <CartesianGrid stroke={C.grey} />
-            <XAxis
-              dataKey="month"
-              tick={tickStyle}
-              label={{
-                value: "month",
-                position: "insideBottom",
-                offset: -12,
-                style: {
-                  fontFamily: "monospace",
-                  fontSize: 10,
-                  fill: C.default,
-                },
-              }}
-            />
+            <XAxis dataKey="month" tick={tickStyle} />
             <YAxis tick={tickStyle} allowDecimals={false} />
             <Tooltip
               contentStyle={{
@@ -391,23 +378,10 @@ export function StatsView({
           <ResponsiveContainer width="100%" height={160}>
             <BarChart
               data={ratingData}
-              margin={{ top: 4, right: 8, bottom: 12, left: -40 }}
+              margin={{ top: 4, right: 8, bottom: 6, left: -40 }}
             >
               <CartesianGrid stroke={C.grey} vertical={false} />
-              <XAxis
-                dataKey="rating"
-                tick={tickStyle}
-                label={{
-                  value: "rating",
-                  position: "insideBottom",
-                  offset: -12,
-                  style: {
-                    fontFamily: "monospace",
-                    fontSize: 10,
-                    fill: C.default,
-                  },
-                }}
-              />
+              <XAxis dataKey="rating" tick={tickStyle} />
 
               <YAxis tick={tickStyle} allowDecimals={false} />
               <Tooltip
