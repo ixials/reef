@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { C } from "../colors";
 
-type Period = "month" | "year" | "all";
+type Period = "all" | "year" | "this-month" | "last-month";
 
 export function PeriodFilter({
   period,
@@ -25,7 +25,8 @@ export function PeriodFilter({
   const options: { value: Period; label: string }[] = [
     { value: "all", label: "all time" },
     { value: "year", label: "this year" },
-    { value: "month", label: "this month" },
+    { value: "this-month", label: "this month" },
+    { value: "last-month", label: "last month" },
   ];
 
   const label = options.find((o) => o.value === period)?.label ?? "period";

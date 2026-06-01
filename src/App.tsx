@@ -19,7 +19,7 @@ const AUTH_KEY = "reef_token";
 type ViewMode = "card" | "list";
 type ModalMode = "add" | "edit" | "login" | "settings" | null;
 type SortMode = "recent" | "rating-down" | "rating-up";
-type StatsPeriod = "month" | "year" | "all";
+type StatsPeriod = "all" | "year" | "this-month" | "last-month";
 type BookFormData = Omit<Book, "id">;
 
 // ─── App ──────────────────────────────────────────────────────────────────────

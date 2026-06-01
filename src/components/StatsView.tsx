@@ -21,7 +21,7 @@ import {
 interface Props {
   books: Book[];
   tagSections: TagSections;
-  period: "month" | "year" | "all";
+  period: "all" | "year" | "this-month" | "last-month";
   onExportReady?: (fn: () => void) => void;
 }
 
@@ -80,18 +80,25 @@ export function StatsView({
     if (period === "all") return true;
     const d = parseDate(b.endDate);
     if (!d) return false;
-    if (period === "month")
+    if (period === "year") return d.getFullYear() === now.getFullYear();
+    if (period === "this-month")
       return (
         d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()
       );
-    if (period === "year") return d.getFullYear() === now.getFullYear();
+    if (period === "last-month") {
+      const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      return (
+        d.getFullYear() === lastMonth.getFullYear() &&
+        d.getMonth() === lastMonth.getMonth()
+      );
+    }
     return true;
   });
 
   // ── Books by month ────────────────────────────────────────────────────────
   const countsByMonth: Record<string, number> = {};
 
-  if (period === "month" || period === "year") {
+  if (period === "this-month" || period === "year") {
     for (let m = 0; m <= now.getMonth(); m++) {
       countsByMonth[`${now.getFullYear()}-${String(m).padStart(2, "0")}`] = 0;
     }
@@ -101,6 +108,19 @@ export function StatsView({
       if (!d) return;
       if (d.getFullYear() !== now.getFullYear()) return;
       if (d.getMonth() > now.getMonth()) return;
+      const key = `${d.getFullYear()}-${String(d.getMonth()).padStart(2, "0")}`;
+      countsByMonth[key] = (countsByMonth[key] ?? 0) + 1;
+    });
+  } else if (period === "last-month") {
+    for (let m = 0; m < now.getMonth(); m++) {
+      countsByMonth[`${now.getFullYear()}-${String(m).padStart(2, "0")}`] = 0;
+    }
+
+    books.forEach((b) => {
+      const d = parseDate(b.endDate);
+      if (!d) return;
+      if (d.getFullYear() !== now.getFullYear()) return;
+      if (d.getMonth() >= now.getMonth()) return; // >= instead of >
       const key = `${d.getFullYear()}-${String(d.getMonth()).padStart(2, "0")}`;
       countsByMonth[key] = (countsByMonth[key] ?? 0) + 1;
     });
@@ -279,47 +299,56 @@ export function StatsView({
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
         >
           tags
-        </div>
-        <div className="flex items-center gap-4 flex-wrap justify-center">
-          <PieChart width={200} height={200}>
-            <Pie
-              data={tagData}
-              cx={95}
-              cy={95}
-              innerRadius={0}
-              outerRadius={90}
-              dataKey="value"
-              stroke="none"
-            >
-              {tagData.map((entry, i) => (
-                <Cell key={i} fill={entry.color} />
-              ))}
-            </Pie>
-            <Tooltip content={<PieToolTip />} />
-          </PieChart>
-          <div className="flex flex-col gap-1.5">
-            {tagData.map((g, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <span
-                  className="w-3 h-3 rounded-full shrink-0 inline-block"
-                  style={{ background: g.color }}
-                />
-                <span
-                  className="text-[12px]"
-                  style={{ fontFamily: "monospace" }}
-                >
-                  {g.name}
-                </span>
-                <span
-                  className="text-[10px] text-reef-default"
-                  style={{ fontFamily: "monospace" }}
-                >
-                  {g.pct}%
-                </span>
-              </div>
-            ))}
+        </div>{" "}
+        {filteredBooks.length === 0 ? (
+          <div
+            className="flex items-center justify-center h-50 pb-6 text-xs text-black"
+            style={{ fontFamily: "monospace" }}
+          >
+            No books yet.
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center gap-4 flex-wrap justify-center">
+            <PieChart width={200} height={200}>
+              <Pie
+                data={tagData}
+                cx={95}
+                cy={95}
+                innerRadius={0}
+                outerRadius={90}
+                dataKey="value"
+                stroke="none"
+              >
+                {tagData.map((entry, i) => (
+                  <Cell key={i} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip content={<PieToolTip />} />
+            </PieChart>
+            <div className="flex flex-col gap-1.5">
+              {tagData.map((g, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <span
+                    className="w-3 h-3 rounded-full shrink-0 inline-block"
+                    style={{ background: g.color }}
+                  />
+                  <span
+                    className="text-[12px]"
+                    style={{ fontFamily: "monospace" }}
+                  >
+                    {g.name}
+                  </span>
+                  <span
+                    className="text-[10px] text-reef-default"
+                    style={{ fontFamily: "monospace" }}
+                  >
+                    {g.pct}%
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Summary + Ratings */}
