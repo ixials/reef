@@ -18,7 +18,7 @@ const AUTH_KEY = "reef_token";
 
 type ViewMode = "card" | "list";
 type ModalMode = "add" | "edit" | "login" | "settings" | null;
-type SortMode = "recent" | "rating-down" | "rating-up";
+type SortMode = "recent" | "rating-down" | "rating-up" | "review";
 type StatsPeriod = "all" | "year" | "this-month" | "last-month";
 type BookFormData = Omit<Book, "id">;
 
@@ -173,6 +173,17 @@ export default function App() {
       b = [...b].sort((a, z) => {
         const ratingDiff = a.rating - z.rating;
         if (ratingDiff !== 0) return ratingDiff;
+        if (!a.endDate && !z.endDate) return 0;
+        if (!a.endDate) return 1;
+        if (!z.endDate) return -1;
+        return parse(z.endDate) - parse(a.endDate);
+      });
+    }
+    if (sort === "review") {
+      b = [...b].sort((a, z) => {
+        const aHas = a.notes ? 1 : 0;
+        const zHas = z.notes ? 1 : 0;
+        if (zHas !== aHas) return zHas - aHas;
         if (!a.endDate && !z.endDate) return 0;
         if (!a.endDate) return 1;
         if (!z.endDate) return -1;

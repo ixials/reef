@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { C } from "../colors";
 
-type SortMode = "recent" | "rating-down" | "rating-up";
+type SortMode = "recent" | "rating-down" | "rating-up" | "review";
 
 export function SortFilter({
   sort,
@@ -26,6 +26,7 @@ export function SortFilter({
     { value: "recent", label: "recent" },
     { value: "rating-down", label: "rating ↓" },
     { value: "rating-up", label: "rating ↑" },
+    { value: "review", label: "review" },
   ];
 
   const label = options.find((o) => o.value === sort)?.label ?? "sort";
