@@ -6,13 +6,13 @@ export function TagFilter({
   selectedTags,
   onChange,
   isAdmin,
-  onOpenSettings,
+  onOpenTags,
 }: {
   tagSections: Record<string, Record<string, string>>;
   selectedTags: string[];
   onChange: (tags: string[]) => void;
   isAdmin?: boolean;
-  onOpenSettings?: () => void;
+  onOpenTags?: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -93,11 +93,11 @@ export function TagFilter({
               })}
             </div>
           ))}
-          {isAdmin && onOpenSettings && (
+          {isAdmin && onOpenTags && (
             <button
               onClick={() => {
                 setOpen(false);
-                onOpenSettings();
+                onOpenTags();
               }}
               className="w-full text-left px-3 p-2 font-bold text-[13px] text-reef-default hover:text-reef-red transition-colors cursor-pointer border-black border-t"
             >

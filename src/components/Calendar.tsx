@@ -54,7 +54,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
     } else setMonth((m) => m + 1);
   };
 
-  const monthNames = [
+  const MONTH_NAMES = [
     "january",
     "february",
     "march",
@@ -69,7 +69,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
     "december",
   ];
 
-  const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const DAY_NAMES = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   // Calendar grid
   const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
@@ -207,7 +207,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
               className="text-[32px] text-reef-red tracking-widest leading-none"
               style={{ fontFamily: "'Jersey 15', sans-serif" }}
             >
-              {monthNames[month]}
+              {MONTH_NAMES[month]}
               <span
                 className="text-[16px] text-reef-default ml-2 tracking-normal"
                 style={{ fontFamily: "'Jersey 15', sans-serif" }}
@@ -225,7 +225,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
 
           {/* Day headers */}
           <div className="grid grid-cols-7 border-b border-black">
-            {dayNames.map((d) => (
+            {DAY_NAMES.map((d) => (
               <div
                 key={d}
                 className="text-center text-[10px] font-bold text-black py-1.5 tracking-wider"

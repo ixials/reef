@@ -10,14 +10,15 @@ import { PeriodFilter } from "./components/PeriodFilter";
 import { TagModal } from "./components/TagModal";
 import { Calendar } from "./components/Calendar";
 import { StatsView } from "./components/StatsView";
+import { WorldMap } from "./components/WorldMap";
 
-type PageMode = "books" | "stats" | "calendar";
+type PageMode = "books" | "stats" | "calendar" | "map";
 import mawile from "./assets/mawile.png";
 
 const AUTH_KEY = "reef_token";
 
 type ViewMode = "card" | "list";
-type ModalMode = "add" | "edit" | "login" | "settings" | null;
+type ModalMode = "add" | "edit" | "login" | "tags" | null;
 type SortMode = "recent" | "rating-down" | "rating-up" | "review";
 type StatsPeriod = "all" | "year" | "this-month" | "last-month";
 type BookFormData = Omit<Book, "id">;
@@ -34,7 +35,7 @@ export default function App() {
   const [view, setView] = useState<ViewMode>("card");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortMode>("recent");
-  const [statsPeriod, setStatsPeriod] = useState<StatsPeriod>("year");
+  const [statsPeriod, setStatsPeriod] = useState<StatsPeriod>("all");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const exportFnRef = useRef<(() => void) | null>(null);
 
@@ -268,6 +269,12 @@ export default function App() {
                 >
                   └ calendar
                 </button>
+                <button
+                  onClick={() => setPage("map")}
+                  className={`block text-left cursor-pointer transition-colors ${page === "map" ? "text-reef-red" : "text-black hover:text-reef-red"}`}
+                >
+                  └ map
+                </button>
               </div>
             </div>
           </div>
@@ -295,7 +302,7 @@ export default function App() {
                     selectedTags={selectedTags}
                     onChange={setSelectedTags}
                     isAdmin={isAdmin}
-                    onOpenSettings={() => setModal("settings")}
+                    onOpenTags={() => setModal("tags")}
                   />
                 </div>
 
@@ -304,6 +311,13 @@ export default function App() {
                 )}
 
                 {page === "stats" && (
+                  <PeriodFilter
+                    period={statsPeriod}
+                    onChange={setStatsPeriod}
+                  />
+                )}
+
+                {page === "map" && (
                   <PeriodFilter
                     period={statsPeriod}
                     onChange={setStatsPeriod}
@@ -349,7 +363,7 @@ export default function App() {
                   ))}
                 </div>
 
-                {page === "stats" || page === "calendar" ? (
+                {page === "stats" || page === "calendar" || page === "map" ? (
                   <button
                     onClick={() => exportFnRef.current?.()}
                     className="w-8.5 h-8.5 rounded-md bg-reef-red text-reef-cream flex items-center justify-center cursor-pointer hover:bg-reef-blue transition-opacity border-none"
@@ -414,6 +428,16 @@ export default function App() {
                   <Calendar
                     books={filtered}
                     tagSections={tags}
+                    onExportReady={(fn) => {
+                      exportFnRef.current = fn;
+                    }}
+                  />
+                )}
+                {page === "map" && (
+                  <WorldMap
+                    books={filtered}
+                    tagSections={tags}
+                    period={statsPeriod}
                     onExportReady={(fn) => {
                       exportFnRef.current = fn;
                     }}
@@ -505,7 +529,7 @@ export default function App() {
             error={loginError}
           />
         )}
-        {modal === "settings" && (
+        {modal === "tags" && (
           <TagModal
             customTags={tags}
             onSave={saveTags}
