@@ -411,20 +411,15 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
             {(tooltip.books?.length ?? 0) > 0 && (
               <div className="flex flex-col gap-1 mt-1">
                 {(tooltip.books ?? []).map((b, i) => (
-                  <div key={i} className="flex items-center gap-2">
+                  <div key={i} className="flex items-start gap-2">
                     <span
-                      className="w-2.5 h-2.5 rounded-full shrink-0 inline-block"
+                      className="w-2.5 h-2.5 rounded-full shrink-0 inline-block mt-1"
                       style={{
                         background: tagColor(b.tags[0] ?? "", tagSections),
                       }}
                     />
 
-                    <span
-                      className="text-[12px] truncate"
-                      style={{ fontFamily: "monospace" }}
-                    >
-                      {b.title}
-                    </span>
+                    <span className="text-[12px]">{b.title}</span>
                   </div>
                 ))}
               </div>
