@@ -26,6 +26,7 @@ const COUNTRY_NAMES: Record<string, string> = {
   AL: "Albania",
   AM: "Armenia",
   AO: "Angola",
+  AQ: "Antarctica",
   AR: "Argentina",
   AT: "Austria",
   AU: "Australia",
@@ -185,7 +186,7 @@ const COUNTRY_NAMES: Record<string, string> = {
   TN: "Tunisia",
   TR: "Turkey",
   TT: "Trinidad and Tobago",
-  TW: "Taiwan",
+  "CN-TW": "Taiwan",
   TZ: "Tanzania",
   UA: "Ukraine",
   UG: "Uganda",
@@ -339,6 +340,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
           .on("mouseenter", function (event: MouseEvent, f) {
             const p = f.properties as Record<string, string>;
             const iso = p.ISO_A2 === "-99" ? p.ISO_A2_EH : p.ISO_A2;
+            if (!iso || iso === "-99") return;
             const data = countryData[iso];
             if (data)
               d3.select(this).attr("stroke", "black").attr("stroke-width", 1);
