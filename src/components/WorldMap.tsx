@@ -401,9 +401,13 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
             className="absolute pointer-events-none border border-black bg-reef-cream px-3 py-2"
             style={{
               position: "fixed",
-              left: tooltip.x + 20,
+              left: tooltip.x,
               top: tooltip.y - 40,
               maxWidth: 220,
+              transform:
+                tooltip.x > window.innerWidth * 0.7
+                  ? "translateX(calc(-100% - 20px))"
+                  : "translateX(20px)",
             }}
           >
             <div className="text-reef-red text-[12px] lowercase">
