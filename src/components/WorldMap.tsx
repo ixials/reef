@@ -236,7 +236,6 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
     code: string;
     books?: Book[];
   } | null>(null);
-  const [loaded, setLoaded] = useState(false);
 
   const exportImage = async () => {
     if (!ref.current) return;
@@ -298,6 +297,8 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
       countryData[code].books.push(book);
     });
   });
+
+  const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
 
   // Draw map with D3
   useEffect(() => {
@@ -367,9 +368,41 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
             setTooltip(null);
           });
 
-        setLoaded(true);
+        const zoom = d3
+          .zoom<SVGSVGElement, unknown>()
+          .scaleExtent([1, 40])
+          .on("zoom", (event) => {
+            svg.selectAll("path").attr("transform", event.transform);
+          });
+
+        svg.call(zoom);
+        zoomRef.current = zoom;
       });
   }, [books, tagSections, period]);
+
+  const handleZoomIn = () => {
+    if (!svgRef.current || !zoomRef.current) return;
+    d3.select(svgRef.current)
+      .transition()
+      .duration(300)
+      .call(zoomRef.current.scaleBy, 2);
+  };
+
+  const handleZoomOut = () => {
+    if (!svgRef.current || !zoomRef.current) return;
+    d3.select(svgRef.current)
+      .transition()
+      .duration(300)
+      .call(zoomRef.current.scaleBy, 1 / 2);
+  };
+
+  const handleZoomReset = () => {
+    if (!svgRef.current || !zoomRef.current) return;
+    d3.select(svgRef.current)
+      .transition()
+      .duration(300)
+      .call(zoomRef.current.transform, d3.zoomIdentity);
+  };
 
   return (
     <div ref={ref} className="p-4 flex flex-col gap-4">
@@ -395,53 +428,63 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
           </span>
         </div>
 
-        <svg ref={svgRef} className="w-full block" />
-        {tooltip && (
-          <div
-            className="absolute pointer-events-none border border-black bg-reef-cream px-3 py-2"
-            style={{
-              position: "fixed",
-              left: tooltip.x,
-              top: tooltip.y - 40,
-              maxWidth: 220,
-              transform:
-                tooltip.x > window.innerWidth * 0.7
-                  ? "translateX(calc(-100% - 20px))"
-                  : "translateX(20px)",
-            }}
-          >
-            <div className="text-reef-red text-[12px] lowercase">
-              {COUNTRY_NAMES[tooltip.code] ?? tooltip.code}
-            </div>
+        <div className="border border-black relative overflow-hidden">
+          <svg ref={svgRef} className="w-full block" />
 
-            {(tooltip.books?.length ?? 0) > 0 && (
-              <div className="flex flex-col gap-1 mt-1">
-                {(tooltip.books ?? []).map((b, i) => (
-                  <div key={i} className="flex items-start gap-2">
-                    <span
-                      className="w-2.5 h-2.5 rounded-full shrink-0 inline-block mt-1"
-                      style={{
-                        background: tagColor(b.tags[0] ?? "", tagSections),
-                      }}
-                    />
-
-                    <span className="text-[12px]">{b.title}</span>
-                  </div>
-                ))}
-              </div>
-            )}
+          <div className="absolute bottom-3 right-3 flex flex-col gap-1">
+            {[
+              ["+", handleZoomIn],
+              ["-", handleZoomOut],
+              ["⊙", handleZoomReset],
+            ].map(([label, fn]) => (
+              <button
+                key={label as string}
+                onClick={fn as () => void}
+                className="w-7 h-7 border border-black bg-reef-cream text-black text-[14px] flex items-center justify-center hover:bg-reef-red hover:text-reef-cream transition-colors cursor-pointer"
+              >
+                {label as string}
+              </button>
+            ))}
           </div>
-        )}
-      </div>
 
-      {loaded && Object.keys(countryData).length === 0 && (
-        <div
-          className="text-center text-xs text-black mt-3 pb-1"
-          style={{ fontFamily: "monospace" }}
-        >
-          no countries tagged yet.
+          {tooltip && (
+            <div
+              className="absolute pointer-events-none border border-black bg-reef-cream px-3 py-2"
+              style={{
+                position: "fixed",
+                left: tooltip.x,
+                top: tooltip.y - 40,
+                maxWidth: 220,
+                transform:
+                  tooltip.x > window.innerWidth * 0.7
+                    ? "translateX(calc(-100% - 20px))"
+                    : "translateX(20px)",
+              }}
+            >
+              <div className="text-reef-red text-[12px] lowercase">
+                {COUNTRY_NAMES[tooltip.code] ?? tooltip.code}
+              </div>
+
+              {(tooltip.books?.length ?? 0) > 0 && (
+                <div className="flex flex-col gap-1 mt-1">
+                  {(tooltip.books ?? []).map((b, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <span
+                        className="w-2.5 h-2.5 rounded-full shrink-0 inline-block mt-1"
+                        style={{
+                          background: tagColor(b.tags[0] ?? "", tagSections),
+                        }}
+                      />
+
+                      <span className="text-[12px]">{b.title}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
