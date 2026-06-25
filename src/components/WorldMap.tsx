@@ -306,6 +306,8 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
+    let isTouching = false;
+
     const width = svgRef.current.clientWidth || 800;
     const height = Math.round(width * 0.6);
     svgRef.current.setAttribute("viewBox", `0 0 ${width} ${height}`);
@@ -328,6 +330,8 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
           .enter()
           .append("path")
           .attr("d", (f) => pathGen(f) ?? "")
+          .attr("stroke", C.cream)
+          .attr("stroke-width", "0")
           .attr("fill", (f) => {
             const p = f.properties as Record<string, string>;
             const iso = p.ISO_A2 === "-99" ? p.ISO_A2_EH : p.ISO_A2;
@@ -339,12 +343,17 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
             return countryData[iso] ? "pointer" : "default";
           })
           .on("mouseenter", function (event: MouseEvent, f) {
+            if (isTouching) return;
             const p = f.properties as Record<string, string>;
             const iso = p.ISO_A2 === "-99" ? p.ISO_A2_EH : p.ISO_A2;
             if (!iso || iso === "-99") return;
             const data = countryData[iso];
-            if (data)
-              d3.select(this).attr("stroke", "black").attr("stroke-width", 1);
+            if (data) {
+              const k = d3.zoomTransform(svgRef.current!).k;
+              d3.select(this)
+                .attr("stroke", "black")
+                .attr("stroke-width", 1 / k);
+            }
             setTooltip({
               x: event.clientX,
               y: event.clientY,
@@ -353,6 +362,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
             });
           })
           .on("mousemove", function (event: MouseEvent) {
+            if (isTouching) return;
             setTooltip((prev) =>
               prev
                 ? {
@@ -364,8 +374,18 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
             );
           })
           .on("mouseleave", function () {
+            if (isTouching) return;
             d3.select(this).attr("stroke", "none");
             setTooltip(null);
+          })
+          .on("touchstart", () => {
+            isTouching = true;
+            setTooltip(null);
+          })
+          .on("touchend", () => {
+            setTimeout(() => {
+              isTouching = false;
+            }, 300);
           });
 
         const zoom = d3
