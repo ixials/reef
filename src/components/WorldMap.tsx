@@ -378,9 +378,21 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
             d3.select(this).attr("stroke", "none");
             setTooltip(null);
           })
-          .on("touchstart", () => {
+          .on("touchstart", (event: TouchEvent, f) => {
             isTouching = true;
-            setTooltip(null);
+            event.preventDefault();
+
+            const p = f.properties as Record<string, string>;
+            const iso = p.ISO_A2 === "-99" ? p.ISO_A2_EH : p.ISO_A2;
+            if (!iso || iso === "-99") return;
+            const data = countryData[iso];
+            const touch = event.touches[0];
+            setTooltip({
+              x: touch.clientX,
+              y: touch.clientY,
+              code: iso,
+              books: data?.books,
+            });
           })
           .on("touchend", () => {
             setTimeout(() => {
