@@ -298,6 +298,9 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
     });
   });
 
+  const countriesWithData = Object.keys(countryData).length;
+  const totalCountries = Object.keys(COUNTRY_NAMES).length;
+
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
 
   // Draw map with D3
@@ -462,6 +465,21 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
 
         <div className="border border-black relative overflow-hidden">
           <svg ref={svgRef} className="w-full block" />
+
+          <div
+            className="absolute bottom-2 left-2 border border-black bg-reef-cream px-3 py-2"
+            style={{ fontFamily: "'Jersey 15', sans-serif" }}
+          >
+            <span className="text-[20px] text-reef-red tracking-widest">
+              {countriesWithData} / {totalCountries}
+            </span>
+            <span
+              className="text-[16px] text-reef-default ml-2 tracking-normal"
+              style={{ fontFamily: "'Jersey 15', sans-serif" }}
+            >
+              regions
+            </span>
+          </div>
 
           <div className="absolute bottom-3 right-3 flex flex-col gap-1">
             {[
