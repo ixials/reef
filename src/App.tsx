@@ -35,7 +35,7 @@ export default function App() {
   const [view, setView] = useState<ViewMode>("card");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortMode>("recent");
-  const [statsPeriod, setStatsPeriod] = useState<StatsPeriod>("all");
+  const [statsPeriod, setStatsPeriod] = useState<StatsPeriod>("this-month");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const exportFnRef = useRef<(() => void) | null>(null);
 
@@ -151,44 +151,57 @@ export default function App() {
       ).getTime();
     };
 
+    const sortByAdded = (a: Book, z: Book) => z.id - a.id;
+
     if (sort === "recent") {
       b = [...b].sort((a, z) => {
-        if (!a.endDate && !z.endDate) return 0;
+        if (!a.endDate && !z.endDate) return sortByAdded(a, z);
         if (!a.endDate) return 1;
         if (!z.endDate) return -1;
 
-        return parse(z.endDate) - parse(a.endDate);
+        const dateDiff = parse(z.endDate) - parse(a.endDate);
+        return dateDiff !== 0 ? dateDiff : sortByAdded(a, z);
       });
     }
     if (sort === "rating-down") {
       b = [...b].sort((a, z) => {
         const ratingDiff = z.rating - a.rating;
         if (ratingDiff !== 0) return ratingDiff;
-        if (!a.endDate && !z.endDate) return 0;
+
+        if (!a.endDate && !z.endDate) return sortByAdded(a, z);
         if (!a.endDate) return 1;
         if (!z.endDate) return -1;
-        return parse(z.endDate) - parse(a.endDate);
+
+        const dateDiff = parse(z.endDate) - parse(a.endDate);
+        return dateDiff !== 0 ? dateDiff : sortByAdded(a, z);
       });
     }
     if (sort === "rating-up") {
       b = [...b].sort((a, z) => {
         const ratingDiff = a.rating - z.rating;
         if (ratingDiff !== 0) return ratingDiff;
-        if (!a.endDate && !z.endDate) return 0;
+
+        if (!a.endDate && !z.endDate) return sortByAdded(a, z);
         if (!a.endDate) return 1;
         if (!z.endDate) return -1;
-        return parse(z.endDate) - parse(a.endDate);
+
+        const dateDiff = parse(z.endDate) - parse(a.endDate);
+        return dateDiff !== 0 ? dateDiff : sortByAdded(a, z);
       });
     }
     if (sort === "review") {
       b = [...b].sort((a, z) => {
         const aHas = a.notes ? 1 : 0;
         const zHas = z.notes ? 1 : 0;
+
         if (zHas !== aHas) return zHas - aHas;
-        if (!a.endDate && !z.endDate) return 0;
+
+        if (!a.endDate && !z.endDate) return sortByAdded(a, z);
         if (!a.endDate) return 1;
         if (!z.endDate) return -1;
-        return parse(z.endDate) - parse(a.endDate);
+
+        const dateDiff = parse(z.endDate) - parse(a.endDate);
+        return dateDiff !== 0 ? dateDiff : sortByAdded(a, z);
       });
     }
     return b;
