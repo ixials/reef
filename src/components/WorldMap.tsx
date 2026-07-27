@@ -384,17 +384,22 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
           .on("touchstart", (event: TouchEvent, f) => {
             isTouching = true;
             event.preventDefault();
+            event.stopPropagation(); // don't let this bubble to the svg's water handler
 
             const p = f.properties as Record<string, string>;
             const iso = p.ISO_A2 === "-99" ? p.ISO_A2_EH : p.ISO_A2;
             if (!iso || iso === "-99") return;
-            const data = countryData[iso];
-            const touch = event.touches[0];
-            setTooltip({
-              x: touch.clientX,
-              y: touch.clientY,
-              code: iso,
-              books: data?.books,
+
+            setTooltip((prev) => {
+              if (prev && prev.code === iso) return null; // tapped same country -> clear
+              const data = countryData[iso];
+              const touch = event.touches[0];
+              return {
+                x: touch.clientX,
+                y: touch.clientY,
+                code: iso,
+                books: data?.books,
+              };
             });
           })
           .on("touchend", () => {
@@ -402,6 +407,11 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
               isTouching = false;
             }, 300);
           });
+
+        svg.on("touchstart", () => {
+          isTouching = true;
+          setTooltip(null);
+        });
 
         const zoom = d3
           .zoom<SVGSVGElement, unknown>()
