@@ -93,17 +93,18 @@ export function BookModal({
           onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))}
         />
 
-        <label className={labelCls}>Rating</label>
-        <div className="flex items-center gap-2.5 mb-3.5">
-          <StarRating
-            rating={form.rating}
-            onChange={(r) => setForm((f) => ({ ...f, rating: r }))}
-            size={24}
-          />
-          <span className="text-sm text-reef-default">{form.rating}/5</span>
-        </div>
-
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row sm:gap-3">
+          <div className="flex-1">
+            <label className={labelCls}>Rating</label>
+            <div className="flex items-center gap-2 h-8.5">
+              <StarRating
+                rating={form.rating}
+                onChange={(r) => setForm((f) => ({ ...f, rating: r }))}
+                size={20}
+              />
+              <span className="text-sm text-reef-default">{form.rating}/5</span>
+            </div>
+          </div>
           <div className="flex-1">
             <label className={labelCls}>Start date</label>
             <input
@@ -163,7 +164,7 @@ export function BookModal({
 
         <label className={labelCls}>Notes</label>
         <textarea
-          className="w-full px-2.5 py-2 border border-black bg-reef-grey text-[12px] outline-none mb-3.5 h-20 resize-y"
+          className="w-full px-2.5 py-2 border border-black bg-reef-grey text-[12px] outline-none mb-3.5 h-32 resize-y"
           value={form.notes}
           onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
         />
