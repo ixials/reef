@@ -57,9 +57,9 @@ export function BookModal({
   };
 
   const inputCls =
-    "w-full px-2.5 py-2 border border-black text-[12px] outline-none mb-3.5";
+    "w-full px-2.5 py-2 border border-reef-black text-[12px] outline-none mb-3.5";
   const labelCls =
-    "block text-[10px] font-bold text-black lowercase tracking-wider mb-1";
+    "block text-[10px] font-bold text-reef-black lowercase tracking-wider mb-1";
 
   return (
     <div
@@ -105,25 +105,28 @@ export function BookModal({
               <span className="text-sm text-reef-default">{form.rating}/5</span>
             </div>
           </div>
-          <div className="flex-1">
-            <label className={labelCls}>Start date</label>
-            <input
-              className={inputCls}
-              value={form.startDate}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, startDate: e.target.value }))
-              }
-            />
-          </div>
-          <div className="flex-1">
-            <label className={labelCls}>End date</label>
-            <input
-              className={inputCls}
-              value={form.endDate}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, endDate: e.target.value }))
-              }
-            />
+
+          <div className="flex flex-row gap-3 sm:contents">
+            <div className="flex-1">
+              <label className={labelCls}>Start date</label>
+              <input
+                className={inputCls}
+                value={form.startDate}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, startDate: e.target.value }))
+                }
+              />
+            </div>
+            <div className="flex-1">
+              <label className={labelCls}>End date</label>
+              <input
+                className={inputCls}
+                value={form.endDate}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, endDate: e.target.value }))
+                }
+              />
+            </div>
           </div>
         </div>
 
@@ -149,7 +152,7 @@ export function BookModal({
         </div>
         <div className="flex gap-2 mb-3.5">
           <input
-            className="flex-1 px-2.5 py-2 border border-black text-[12px] outline-none"
+            className="flex-1 px-2.5 py-2 border border-reef-black text-[12px] outline-none"
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addTag()}
@@ -164,7 +167,7 @@ export function BookModal({
 
         <label className={labelCls}>Notes</label>
         <textarea
-          className="w-full px-2.5 py-2 border border-black bg-reef-grey text-[12px] outline-none mb-3.5 h-32 resize-y"
+          className="w-full px-2.5 py-2 border border-reef-black bg-reef-grey text-[12px] outline-none mb-3.5 h-32 resize-y"
           value={form.notes}
           onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
         />

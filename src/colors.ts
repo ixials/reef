@@ -4,4 +4,5 @@ export const C = {
   cream: "var(--color-reef-cream)",
   grey: "var(--color-reef-grey)",
   default: "var(--color-reef-default)",
+  black: "var(--color-reef-black)",
 } as const;

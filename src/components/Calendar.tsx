@@ -193,13 +193,13 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
 
   return (
     <div ref={ref} className="p-4 flex flex-col gap-4">
-      <div className="border border-black overflow-hidden">
+      <div className="border border-reef-black overflow-hidden">
         <div className="flex flex-col h-full">
           {/* Month nav */}
-          <div className="flex items-center justify-between gap-6 px-4 py-3 border-b border-black">
+          <div className="flex items-center justify-between gap-6 px-4 py-3 border-b border-reef-black">
             <button
               onClick={prevMonth}
-              className="text-black hover:text-reef-red cursor-pointer text-sm transition-colors"
+              className="text-reef-black hover:text-reef-red cursor-pointer text-sm transition-colors"
             >
               ◀
             </button>
@@ -217,18 +217,18 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
             </span>
             <button
               onClick={nextMonth}
-              className="text-black hover:text-reef-red cursor-pointer text-sm transition-colors"
+              className="text-reef-black hover:text-reef-red cursor-pointer text-sm transition-colors"
             >
               ▶
             </button>
           </div>
 
           {/* Day headers */}
-          <div className="grid grid-cols-7 border-b border-black">
+          <div className="grid grid-cols-7 border-b border-reef-black">
             {DAY_NAMES.map((d) => (
               <div
                 key={d}
-                className="text-center text-[10px] font-bold text-black py-1.5 tracking-wider"
+                className="text-center text-[10px] font-bold text-reef-black py-1.5 tracking-wider"
               >
                 {d}
               </div>
@@ -251,7 +251,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
               return (
                 <div
                   key={weekIdx}
-                  className="relative grid grid-cols-7 border-b border-black last:border-b-0"
+                  className="relative grid grid-cols-7 border-b border-reef-black last:border-b-0"
                   style={{ height: rowHeight }}
                 >
                   {/* Day cells */}
@@ -268,13 +268,13 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
                     return (
                       <div
                         key={dayIdx}
-                        className={`pl-2 border-black ${
+                        className={`pl-2 border-reef-black ${
                           dayIdx !== 6 ? "border-r" : ""
                         } ${!isCurrentMonth ? "bg-reef-grey" : ""}`}
                       >
                         {isCurrentMonth && (
                           <span
-                            className={`text-[10px] font-mono mt-1 ${isToday ? "bg-reef-red text-reef-cream rounded-full w-5 h-5 flex items-center justify-center" : "text-black"}`}
+                            className={`text-[10px] font-mono mt-1 ${isToday ? "bg-reef-red text-reef-cream rounded-full w-5 h-5 flex items-center justify-center" : "text-reef-black"}`}
                           >
                             {dayNum}
                           </span>

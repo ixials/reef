@@ -41,10 +41,10 @@ export function TagFilter({
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full min-w-20 h-8.5 border border-black text-[12px] px-2.5 outline-none cursor-pointer appearance-none flex items-center justify-between gap-1.5 whitespace-nowrap"
+        className="w-full min-w-20 h-8.5 border border-reef-black text-[12px] px-2.5 outline-none cursor-pointer appearance-none flex items-center justify-between gap-1.5 whitespace-nowrap"
         style={{
           background: selectedTags.length > 0 ? C.red : "transparent",
-          color: selectedTags.length > 0 ? C.cream : "black",
+          color: selectedTags.length > 0 ? C.cream : C.black,
         }}
       >
         tags
@@ -52,15 +52,15 @@ export function TagFilter({
       </button>
 
       {open && (
-        <div className="absolute top-9.5 left-0 z-50 border border-black bg-reef-cream min-w-40 max-h-55 overflow-y-auto">
+        <div className="absolute top-9.5 left-0 z-50 border border-reef-black bg-reef-cream min-w-40 max-h-55 overflow-y-auto">
           {sections.length === 0 && (
-            <div className="px-3 py-2 text-[12px] text-black opacity-50">
+            <div className="px-3 py-2 text-[12px] text-reef-black opacity-50">
               no tags yet
             </div>
           )}
           {sections.map(([section, tags], si) => (
             <div key={section}>
-              <div className="px-3 pt-2 font-bold text-[13px] text-black mb-1 select-none">
+              <div className="px-3 pt-2 font-bold text-[13px] text-reef-black mb-1 select-none">
                 {section}
               </div>
               {Object.entries(tags).map(([tag, color], ti) => {
@@ -72,10 +72,10 @@ export function TagFilter({
                   <button
                     key={tag}
                     onClick={() => toggle(tag)}
-                    className={`w-full text-left px-3 text-xs flex items-center gap-2 cursor-pointer hover:bg-black hover:text-reef-cream transition-colors ${last ? "pt-1.5 pb-3" : "py-1.5"}`}
+                    className={`w-full text-left px-3 text-xs flex items-center gap-2 cursor-pointer hover:bg-reef-black hover:text-reef-cream transition-colors ${last ? "pt-1.5 pb-3" : "py-1.5"}`}
                     style={{
                       background: active ? C.red : "transparent",
-                      color: active ? C.cream : "black",
+                      color: active ? C.cream : C.black,
                     }}
                   >
                     <span
@@ -99,7 +99,7 @@ export function TagFilter({
                 setOpen(false);
                 onOpenTags();
               }}
-              className="w-full text-left px-3 p-2 font-bold text-[13px] text-reef-default hover:text-reef-red transition-colors cursor-pointer border-black border-t"
+              className="w-full text-left px-3 p-2 font-bold text-[13px] text-reef-default hover:text-reef-red transition-colors cursor-pointer border-reef-black border-t"
             >
               edit tags
             </button>

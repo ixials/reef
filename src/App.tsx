@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { readGist, writeGist, Book, TagSections } from "./gist";
 import { C } from "./colors";
+import { useTheme } from "./theme";
 import { BookModal } from "./components/BookModal";
 import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
@@ -25,6 +26,7 @@ type BookFormData = Omit<Book, "id">;
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
+  const { theme, toggle } = useTheme();
   const [page, setPage] = useState<PageMode>("books");
   const [books, setBooks] = useState<Book[]>([]);
   const [tags, setTags] = useState<TagSections>({});
@@ -229,7 +231,7 @@ export default function App() {
             >
               reef
             </div>
-            <div className="text-[12px] text-black hidden sm:block">
+            <div className="text-[12px] text-reef-black hidden sm:block">
               goodreads redo
               <br />
               bc i wanted
@@ -237,6 +239,12 @@ export default function App() {
               half stars
             </div>
           </div>
+          <button
+            onClick={toggle}
+            className="px-3 py-1.5 rounded-md bg-reef-red text-[12px] text-reef-cream cursor-pointer hover:bg-reef-blue"
+          >
+            {theme === "dark" ? "☀ LIGHT" : "☾ DARK"}
+          </button>
           <div className="mt-2">
             {isAdmin ? (
               <button
@@ -260,31 +268,31 @@ export default function App() {
           {/* Sidebar */}
           <div className="w-full sm:w-38 shrink-0">
             <div className="rounded-xl border border-reef-red p-3.5">
-              <div className="hidden sm:block font-bold text-[13px] text-black mb-2">
+              <div className="hidden sm:block font-bold text-[13px] text-reef-black mb-2">
                 pages
               </div>
               <div className="flex flex-row gap-3 sm:flex-col sm:gap-0 pl-3 text-xs">
                 <button
                   onClick={() => setPage("books")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "books" ? "text-reef-red" : "text-black hover:text-reef-red"}`}
+                  className={`block text-left cursor-pointer transition-colors ${page === "books" ? "text-reef-red" : "text-reef-black hover:text-reef-red"}`}
                 >
                   └ books
                 </button>
                 <button
                   onClick={() => setPage("stats")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "stats" ? "text-reef-red" : "text-black hover:text-reef-red"}`}
+                  className={`block text-left cursor-pointer transition-colors ${page === "stats" ? "text-reef-red" : "text-reef-black hover:text-reef-red"}`}
                 >
                   └ stats
                 </button>
                 <button
                   onClick={() => setPage("calendar")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "calendar" ? "text-reef-red" : "text-black hover:text-reef-red"}`}
+                  className={`block text-left cursor-pointer transition-colors ${page === "calendar" ? "text-reef-red" : "text-reef-black hover:text-reef-red"}`}
                 >
                   └ calendar
                 </button>
                 <button
                   onClick={() => setPage("map")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "map" ? "text-reef-red" : "text-black hover:text-reef-red"}`}
+                  className={`block text-left cursor-pointer transition-colors ${page === "map" ? "text-reef-red" : "text-reef-black hover:text-reef-red"}`}
                 >
                   └ map
                 </button>
@@ -296,13 +304,13 @@ export default function App() {
           <div className="flex-1 min-w-0 w-full">
             <div className="rounded-xl overflow-hidden border border-reef-red">
               {/* Toolbar */}
-              <div className="flex flex-wrap gap-2 px-3.5 py-3 border-b border-black items-center">
+              <div className="flex flex-wrap gap-2 px-3.5 py-3 border-b border-reef-black items-center">
                 <div className="relative w-full sm:flex-1">
-                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-black text-lg select-none">
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-reef-black text-lg select-none">
                     ⌕
                   </span>
                   <input
-                    className="w-full pl-7 pr-2 h-8.5 border border-black text-[12px] outline-none"
+                    className="w-full pl-7 pr-2 h-8.5 border border-reef-black text-[12px] text-reef-black outline-none"
                     placeholder="search..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -337,7 +345,7 @@ export default function App() {
                   />
                 )}
 
-                <div className="flex border border-black rounded-md overflow-hidden">
+                <div className="flex border border-reef-black rounded-md overflow-hidden">
                   {(["card", "list"] as ViewMode[]).map((v, i) => (
                     <button
                       key={v}
@@ -345,7 +353,10 @@ export default function App() {
                       className="w-8.5 h-8.5 flex items-center justify-center cursor-pointer transition-colors"
                       style={{
                         background: view === v ? C.red : "transparent",
-                        borderRight: i === 0 ? "1px solid black" : "none",
+                        borderRight:
+                          i === 0
+                            ? "1px solid var(--color-reef-black)"
+                            : "none",
                       }}
                     >
                       {v === "card" ? (
@@ -459,7 +470,7 @@ export default function App() {
                 {page === "books" && (
                   <>
                     {loading && (
-                      <div className="py-10 text-center text-xs text-black">
+                      <div className="py-10 text-center text-xs text-reef-black">
                         Loading…
                       </div>
                     )}
@@ -467,13 +478,13 @@ export default function App() {
                       <div className="p-6 text-xs text-reef-red">
                         Failed to load: {loadError}
                         <br />
-                        <span className="text-black">
+                        <span className="text-reef-black">
                           Check GIST_ID in src/gist.ts
                         </span>
                       </div>
                     )}
                     {!loading && !loadError && filtered.length === 0 && (
-                      <div className="py-10 text-center text-xs text-black">
+                      <div className="py-10 text-center text-xs text-reef-black">
                         {books.length === 0
                           ? isAdmin
                             ? "No books yet — add one!"
@@ -508,7 +519,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="mt-2.5 text-[11px] text-black flex justify-between">
+            <div className="mt-2.5 text-[11px] text-reef-black flex justify-between">
               <span>
                 {books.length} book{books.length !== 1 ? "s" : ""} total
               </span>

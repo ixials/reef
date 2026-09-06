@@ -354,7 +354,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
             if (data) {
               const k = d3.zoomTransform(svgRef.current!).k;
               d3.select(this)
-                .attr("stroke", "black")
+                .attr("stroke", C.black)
                 .attr("stroke-width", 1 / k);
             }
             setTooltip({
@@ -451,7 +451,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
 
   return (
     <div ref={ref} className="p-4 flex flex-col gap-4">
-      <div className="border border-black p-4">
+      <div className="border border-reef-black p-4">
         <div className="flex items-center justify-center mb-3">
           <span
             className="text-center text-[28px] text-reef-red tracking-widest"
@@ -473,11 +473,11 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
           </span>
         </div>
 
-        <div className="border border-black relative overflow-hidden">
+        <div className="border border-reef-black relative overflow-hidden">
           <svg ref={svgRef} className="w-full block" />
 
           <div
-            className="absolute bottom-2 left-2 border border-black bg-reef-cream px-3 py-2"
+            className="absolute bottom-2 left-2 border border-reef-black bg-reef-cream px-3 py-2"
             style={{ fontFamily: "'Jersey 15', sans-serif" }}
           >
             <span className="text-[20px] text-reef-red tracking-widest">
@@ -500,7 +500,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
               <button
                 key={label as string}
                 onClick={fn as () => void}
-                className="w-7 h-7 border border-black bg-reef-cream text-black text-[14px] flex items-center justify-center hover:bg-reef-red hover:text-reef-cream transition-colors cursor-pointer"
+                className="w-7 h-7 border border-reef-black bg-reef-cream text-reef-black text-[14px] flex items-center justify-center hover:bg-reef-red hover:text-reef-cream transition-colors cursor-pointer"
               >
                 {label as string}
               </button>
@@ -509,7 +509,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
 
           {tooltip && (
             <div
-              className="absolute pointer-events-none border border-black bg-reef-cream px-3 py-2"
+              className="absolute pointer-events-none border border-reef-black bg-reef-cream px-3 py-2"
               style={{
                 position: "fixed",
                 left: tooltip.x,
@@ -536,7 +536,9 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
                         }}
                       />
 
-                      <span className="text-[12px]">{b.title}</span>
+                      <span className="text-[12px] text-reef-black">
+                        {b.title}
+                      </span>
                     </div>
                   ))}
                 </div>

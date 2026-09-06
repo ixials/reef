@@ -28,7 +28,7 @@ function CollapsibleNotes({ notes }: { notes: string }) {
   }, [notes]);
 
   return (
-    <div className="my-3 px-3 py-2.5 text-[12px] text-black leading-relaxed bg-reef-grey">
+    <div className="my-3 px-3 py-2.5 text-[12px] text-reef-black leading-relaxed bg-reef-grey">
       <div
         ref={ref}
         className={!expanded ? "line-clamp-5 sm:line-clamp-10" : ""}
@@ -62,7 +62,7 @@ export function BookCard({
   tagSections,
 }: BookItemProps) {
   return (
-    <div className="m-4 border border-black mb-3.5 p-4">
+    <div className="m-4 border border-reef-black mb-3.5 p-4">
       <div className="flex justify-between items-start">
         <div className="flex gap-2.5 flex-1">
           <span
@@ -70,17 +70,17 @@ export function BookCard({
             style={{ background: tagColor(book.tags[0] ?? "", tagSections) }}
           />
           <div>
-            <div className="font-bold text-[12px] text-gray-800 tracking-wide">
+            <div className="font-bold text-[12px] text-reef-black tracking-wide">
               {book.title}
             </div>
-            <div className="text-[12px] text-black mt-0.5 flex items-center gap-1">
+            <div className="text-[12px] text-reef-black mt-0.5 flex items-center gap-1">
               {book.author}
             </div>
           </div>
         </div>
         <div className="flex flex-col items-end gap-1">
           <StarRating rating={book.rating} size={16} />
-          <div className="text-[12px] text-black">
+          <div className="text-[12px] text-reef-black">
             {book.startDate || book.endDate
               ? `${book.startDate}—${book.endDate}`
               : ""}
@@ -92,7 +92,7 @@ export function BookCard({
 
       <div className="flex justify-between items-center">
         <div className="flex gap-1.5 flex-wrap items-center">
-          <span className="text-[12px] text-black mr-0.5">Tags:</span>
+          <span className="text-[12px] text-reef-black mr-0.5">Tags:</span>
           {book.tags.map((t) => (
             <Tag key={t} label={t} tagSections={tagSections} />
           ))}
@@ -114,23 +114,23 @@ export function BookRow({ book, onEdit, isAdmin, tagSections }: BookItemProps) {
   return (
     <div
       onClick={() => isAdmin && onEdit(book)}
-      className={`flex items-center gap-3 px-3.5 py-3 border-b border-black last:border-b-0 transition-colors ${isAdmin ? "cursor-pointer hover:bg-[#D8D6D0]" : ""}`}
+      className={`flex items-center gap-3 px-3.5 py-3 border-b border-reef-black last:border-b-0 transition-colors ${isAdmin ? "cursor-pointer hover:bg-[#D8D6D0]" : ""}`}
     >
       <span
         className="w-3.5 h-3.5 rounded-full shrink-0"
         style={{ background: tagColor(book.tags[0] ?? "", tagSections) }}
       />
       <div className="flex-1 min-w-0">
-        <div className="font-bold text-[12px] text-gray-800 truncate max-w-50 sm:max-w-none">
+        <div className="font-bold text-[12px] text-reef-black truncate max-w-50 sm:max-w-none">
           {book.title}
         </div>
-        <div className="text-[12px] text-black mt-0.5 flex items-center gap-1 truncate">
+        <div className="text-[12px] text-reef-black mt-0.5 flex items-center gap-1 truncate">
           {book.author}
         </div>
       </div>
       <div className="flex flex-col items-end gap-0.5">
         <StarRating rating={book.rating} size={16} />
-        <div className="text-[12px] text-black text-right leading-tight">
+        <div className="text-[12px] text-reef-black text-right leading-tight">
           {book.startDate}
           {book.endDate ? (
             <>

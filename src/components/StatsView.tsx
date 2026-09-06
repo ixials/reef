@@ -199,13 +199,13 @@ export function StatsView({
         style={{
           fontFamily: "monospace",
           fontSize: 12,
-          border: "1px solid black",
+          border: "1px solid var(--color-reef-black)",
           background: C.cream,
           padding: "14px 10px",
         }}
       >
         <div style={{ color, marginBottom: 4 }}>{name}</div>
-        <div style={{ color: "black" }}>count : {value}</div>
+        <div style={{ color: C.black }}>count : {value}</div>
       </div>
     );
   };
@@ -236,13 +236,13 @@ export function StatsView({
     ? Math.round(durations.reduce((a, b) => a + b, 0) / durations.length)
     : null;
 
-  const tickStyle = { fontFamily: "monospace", fontSize: 10, fill: "black" };
+  const tickStyle = { fontFamily: "monospace", fontSize: 10, fill: C.black };
 
   return (
     <div ref={ref} className="p-4 flex flex-col gap-4">
       {/* Books by month */}
-      <div className="border border-black p-4">
-        <div className="flex items-center justify-center border-black">
+      <div className="border border-reef-black p-4">
+        <div className="flex items-center justify-center border-reef-black">
           <div
             className="text-center text-[28px] text-reef-red tracking-widest"
             style={{ fontFamily: "'Jersey 15', sans-serif" }}
@@ -268,12 +268,12 @@ export function StatsView({
               contentStyle={{
                 fontFamily: "monospace",
                 fontSize: 12,
-                border: "1px solid black",
+                border: "1px solid var(--color-reef-black)",
                 borderRadius: 0,
                 background: C.cream,
               }}
               labelStyle={{ color: C.red }}
-              itemStyle={{ color: "black" }}
+              itemStyle={{ color: C.black }}
               cursor={{ stroke: C.blue, strokeWidth: 2 }}
             />
             <Line
@@ -293,7 +293,7 @@ export function StatsView({
       </div>
 
       {/* Tag pie */}
-      <div className="border border-black p-4">
+      <div className="border border-reef-black p-4">
         <div
           className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
@@ -302,7 +302,7 @@ export function StatsView({
         </div>{" "}
         {filteredBooks.length === 0 ? (
           <div
-            className="flex items-center justify-center h-50 pb-6 text-xs text-black"
+            className="flex items-center justify-center h-50 pb-6 text-xs text-reef-black"
             style={{ fontFamily: "monospace" }}
           >
             No books yet.
@@ -333,7 +333,7 @@ export function StatsView({
                     style={{ background: g.color }}
                   />
                   <span
-                    className="text-[12px]"
+                    className="text-[12px] text-reef-black"
                     style={{ fontFamily: "monospace" }}
                   >
                     {g.name}
@@ -355,7 +355,7 @@ export function StatsView({
       <div className="flex gap-4 flex-wrap sm:flex-nowrap">
         {/* Summary stats */}
         <div className="flex flex-col gap-4 shrink-0">
-          <div className="border border-black p-4 flex flex-col items-start">
+          <div className="border border-reef-black p-4 flex flex-col items-start">
             <div
               className="text-[64px] text-reef-red leading-none tracking-widest"
               style={{ fontFamily: "'Jersey 15', sans-serif" }}
@@ -363,15 +363,15 @@ export function StatsView({
               {booksRead}
             </div>
             <div
-              className="text-[12px] text-black mt-1"
+              className="text-[12px] text-reef-black mt-1"
               style={{ fontFamily: "monospace" }}
             >
               books read
             </div>
           </div>
 
-          <div className="border border-black p-4 flex flex-col items-start">
-            <div className="flex items-center justify-between border-black">
+          <div className="border border-reef-black p-4 flex flex-col items-start">
+            <div className="flex items-center justify-between border-reef-black">
               <div
                 className="text-[48px] text-reef-red leading-none tracking-widest"
                 style={{ fontFamily: "'Jersey 15', sans-serif" }}
@@ -386,7 +386,7 @@ export function StatsView({
               </span>
             </div>
             <div
-              className="text-[12px] text-black mt-1"
+              className="text-[12px] text-reef-black mt-1"
               style={{ fontFamily: "monospace" }}
             >
               average time
@@ -397,7 +397,7 @@ export function StatsView({
         </div>
 
         {/* Ratings histogram */}
-        <div className="border border-black p-4 flex-1 min-w-0">
+        <div className="border border-reef-black p-4 flex-1 min-w-0">
           <div
             className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
             style={{ fontFamily: "'Jersey 15', sans-serif" }}
@@ -417,12 +417,12 @@ export function StatsView({
                 contentStyle={{
                   fontFamily: "monospace",
                   fontSize: 12,
-                  border: "1px solid black",
+                  border: "1px solid var(--color-reef-black)",
                   borderRadius: 0,
                   background: C.cream,
                 }}
                 labelStyle={{ color: C.red }}
-                itemStyle={{ color: "black" }}
+                itemStyle={{ color: C.black }}
                 cursor={{ fill: "transparent" }}
               />
               <Bar

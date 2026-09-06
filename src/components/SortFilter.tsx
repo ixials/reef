@@ -35,14 +35,14 @@ export function SortFilter({
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="min-w-26 h-8.5 border border-black text-[12px] px-2.5 outline-none cursor-pointer flex items-center justify-between gap-1.5 whitespace-nowrap"
+        className="min-w-26 h-8.5 border border-reef-black text-[12px] text-reef-black px-2.5 outline-none cursor-pointer flex items-center justify-between gap-1.5 whitespace-nowrap"
       >
         {label}
         <span style={{ fontSize: 9, opacity: 0.7 }}>▼</span>
       </button>
 
       {open && (
-        <div className="absolute top-9.5 right-0 z-50 border border-black bg-reef-cream min-w-full overflow-hidden">
+        <div className="absolute top-9.5 right-0 z-50 border border-reef-black bg-reef-cream min-w-full overflow-hidden">
           {options.map((o) => (
             <button
               key={o.value}
@@ -50,10 +50,10 @@ export function SortFilter({
                 onChange(o.value);
                 setOpen(false);
               }}
-              className="w-full text-left px-3 py-1.5 text-[12px] flex items-center cursor-pointer hover:bg-black hover:text-reef-cream transition-colors"
+              className="w-full text-left px-3 py-1.5 text-[12px] flex items-center cursor-pointer hover:bg-reef-black hover:text-reef-cream transition-colors"
               style={{
                 background: sort === o.value ? C.red : "transparent",
-                color: sort === o.value ? C.cream : "black",
+                color: sort === o.value ? C.cream : C.black,
               }}
             >
               {o.label}
