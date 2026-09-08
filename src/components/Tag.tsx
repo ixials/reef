@@ -19,7 +19,7 @@ export function Tag({ label, tagSections, onRemove }: TagProps) {
   const bg = tagColor(label, tagSections);
   return (
     <span
-      className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[12px] text-reef-cream"
+      className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[12px] text-reef-bg"
       style={{ background: bg }}
     >
       {label}

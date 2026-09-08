@@ -57,9 +57,9 @@ export function BookModal({
   };
 
   const inputCls =
-    "w-full px-2.5 py-2 border border-reef-black text-[12px] outline-none mb-3.5";
+    "w-full px-2.5 py-2 border border-reef-text text-[12px] text-reef-text outline-none mb-3.5";
   const labelCls =
-    "block text-[10px] font-bold text-reef-black lowercase tracking-wider mb-1";
+    "block text-[10px] font-bold text-reef-text lowercase tracking-wider mb-1";
 
   return (
     <div
@@ -68,10 +68,10 @@ export function BookModal({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="rounded-xl p-7 w-120 max-w-[95vw] max-h-[90vh] overflow-y-auto border-2 border-reef-red bg-reef-cream"
+        className="rounded-xl p-7 w-120 max-w-[95vw] max-h-[90vh] overflow-y-auto border-2 border-reef-theme bg-reef-bg"
       >
         <h2
-          className="mb-2 text-[34px] text-reef-red tracking-widest"
+          className="mb-2 text-[34px] text-reef-theme tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
         >
           {book ? "edit book" : "add book"}
@@ -152,14 +152,14 @@ export function BookModal({
         </div>
         <div className="flex gap-2 mb-3.5">
           <input
-            className="flex-1 px-2.5 py-2 border border-reef-black text-[12px] outline-none"
+            className="flex-1 px-2.5 py-2 border border-reef-text text-[12px] text-reef-text outline-none"
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addTag()}
           />
           <button
             onClick={addTag}
-            className="px-4 py-2 rounded-md border border-none bg-reef-red text-[12px] text-reef-cream cursor-pointer hover:bg-reef-blue"
+            className="px-4 py-2 rounded-md border border-none bg-reef-theme text-[12px] text-reef-bg cursor-pointer hover:bg-reef-highlight"
           >
             ADD
           </button>
@@ -167,7 +167,7 @@ export function BookModal({
 
         <label className={labelCls}>Notes</label>
         <textarea
-          className="w-full px-2.5 py-2 border border-reef-black bg-reef-grey text-[12px] outline-none mb-3.5 h-32 resize-y"
+          className="w-full px-2.5 py-2 border border-reef-text bg-reef-light-bg text-[12px] outline-none mb-3.5 h-32 resize-y"
           value={form.notes}
           onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
         />
@@ -176,8 +176,10 @@ export function BookModal({
           <button
             onClick={() => onSave(form)}
             disabled={saving}
-            className={`flex-1 py-2 rounded-md text-reef-cream text-[12px] cursor-pointer ${
-              saving ? "bg-reef-blue" : "bg-reef-red hover:bg-reef-blue"
+            className={`flex-1 py-2 rounded-md text-reef-bg text-[12px] cursor-pointer ${
+              saving
+                ? "bg-reef-highlight"
+                : "bg-reef-theme hover:bg-reef-highlight"
             }`}
           >
             {saving ? "SAVING..." : book ? "SAVE" : "ADD BOOK"}
@@ -186,14 +188,14 @@ export function BookModal({
             <button
               onClick={() => onDelete(book.id)}
               disabled={saving}
-              className="px-4 py-2 rounded-md bg-[#E8A838] text-reef-cream text-[12px] cursor-pointer hover:bg-reef-blue transition-colors"
+              className="px-4 py-2 rounded-md bg-[#E8A838] text-reef-bg text-[12px] cursor-pointer hover:bg-reef-highlight transition-colors"
             >
               DELETE
             </button>
           )}
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-md bg-reef-default text-reef-cream text-[12px] cursor-pointer hover:bg-reef-blue"
+            className="px-4 py-2 rounded-md bg-reef-default text-reef-bg text-[12px] cursor-pointer hover:bg-reef-highlight"
           >
             CANCEL
           </button>

@@ -1,8 +1,8 @@
 export const C = {
-  red: "var(--color-reef-red)",
-  blue: "var(--color-reef-blue)",
-  cream: "var(--color-reef-cream)",
-  grey: "var(--color-reef-grey)",
+  theme: "var(--color-reef-theme)",
+  highlight: "var(--color-reef-highlight)",
+  bg: "var(--color-reef-bg)",
+  lightBg: "var(--color-reef-light-bg)",
   default: "var(--color-reef-default)",
-  black: "var(--color-reef-black)",
+  text: "var(--color-reef-text)",
 } as const;

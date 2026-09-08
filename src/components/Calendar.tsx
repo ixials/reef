@@ -28,7 +28,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
     const dataUrl = await toPng(ref.current, {
       cacheBust: true,
       pixelRatio: 2,
-      backgroundColor: C.cream,
+      backgroundColor: C.bg,
     });
 
     const link = document.createElement("a");
@@ -193,18 +193,18 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
 
   return (
     <div ref={ref} className="p-4 flex flex-col gap-4">
-      <div className="border border-reef-black overflow-hidden">
+      <div className="border border-reef-text overflow-hidden">
         <div className="flex flex-col h-full">
           {/* Month nav */}
-          <div className="flex items-center justify-between gap-6 px-4 py-3 border-b border-reef-black">
+          <div className="flex items-center justify-between gap-6 px-4 py-3 border-b border-reef-text">
             <button
               onClick={prevMonth}
-              className="text-reef-black hover:text-reef-red cursor-pointer text-sm transition-colors"
+              className="text-reef-text hover:text-reef-theme cursor-pointer text-sm transition-colors"
             >
               ◀
             </button>
             <span
-              className="text-[32px] text-reef-red tracking-widest leading-none"
+              className="text-[32px] text-reef-theme tracking-widest leading-none"
               style={{ fontFamily: "'Jersey 15', sans-serif" }}
             >
               {MONTH_NAMES[month]}
@@ -217,18 +217,18 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
             </span>
             <button
               onClick={nextMonth}
-              className="text-reef-black hover:text-reef-red cursor-pointer text-sm transition-colors"
+              className="text-reef-text hover:text-reef-theme cursor-pointer text-sm transition-colors"
             >
               ▶
             </button>
           </div>
 
           {/* Day headers */}
-          <div className="grid grid-cols-7 border-b border-reef-black">
+          <div className="grid grid-cols-7 border-b border-reef-text">
             {DAY_NAMES.map((d) => (
               <div
                 key={d}
-                className="text-center text-[10px] font-bold text-reef-black py-1.5 tracking-wider"
+                className="text-center text-[10px] font-bold text-reef-text py-1.5 tracking-wider"
               >
                 {d}
               </div>
@@ -251,7 +251,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
               return (
                 <div
                   key={weekIdx}
-                  className="relative grid grid-cols-7 border-b border-reef-black last:border-b-0"
+                  className="relative grid grid-cols-7 border-b border-reef-text last:border-b-0"
                   style={{ height: rowHeight }}
                 >
                   {/* Day cells */}
@@ -268,13 +268,13 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
                     return (
                       <div
                         key={dayIdx}
-                        className={`pl-2 border-reef-black ${
+                        className={`pl-2 border-reef-text ${
                           dayIdx !== 6 ? "border-r" : ""
-                        } ${!isCurrentMonth ? "bg-reef-grey" : ""}`}
+                        } ${!isCurrentMonth ? "bg-reef-light-bg" : ""}`}
                       >
                         {isCurrentMonth && (
                           <span
-                            className={`text-[10px] font-mono mt-1 ${isToday ? "bg-reef-red text-reef-cream rounded-full w-5 h-5 flex items-center justify-center" : "text-reef-black"}`}
+                            className={`text-[10px] font-mono mt-1 ${isToday ? "bg-reef-theme text-reef-bg rounded-full w-5 h-5 flex items-center justify-center" : "text-reef-text"}`}
                           >
                             {dayNum}
                           </span>
@@ -312,7 +312,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
                         }}
                       >
                         {showTitle && (
-                          <span className="text-reef-cream text-[10px] tracking-wider px-2 pt-px truncate uppercase">
+                          <span className="text-reef-bg text-[10px] tracking-wider px-2 pt-px truncate uppercase">
                             {wb.book.title}
                           </span>
                         )}

@@ -214,7 +214,7 @@ export default function App() {
     : "-";
 
   return (
-    <div className="min-h-screen bg-reef-cream">
+    <div className="min-h-screen bg-reef-bg">
       <div className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* Header */}
         <div className="pt-4 sm:pt-8 mb-2 sm:mb-4 flex items-start justify-between">
@@ -226,12 +226,12 @@ export default function App() {
             />
 
             <div
-              className="text-[52px] leading-none tracking-widest text-reef-red"
+              className="text-[52px] leading-none tracking-widest text-reef-theme"
               style={{ fontFamily: "'Jersey 15', sans-serif" }}
             >
               reef
             </div>
-            <div className="text-[12px] text-reef-black hidden sm:block">
+            <div className="text-[12px] text-reef-text hidden sm:block">
               goodreads redo
               <br />
               bc i wanted
@@ -239,24 +239,24 @@ export default function App() {
               half stars
             </div>
           </div>
-          <button
-            onClick={toggle}
-            className="px-3 py-1.5 rounded-md bg-reef-red text-[12px] text-reef-cream cursor-pointer hover:bg-reef-blue"
-          >
-            {theme === "dark" ? "☀ LIGHT" : "☾ DARK"}
-          </button>
-          <div className="mt-2">
+          <div className="flex flex-row gap-2 mt-2">
+            <button
+              onClick={toggle}
+              className="w-8.5 h-8.5 rounded-md bg-reef-theme text-[18px] text-reef-bg cursor-pointer hover:bg-reef-highlight"
+            >
+              {theme === "dark" ? "☀" : "☾"}
+            </button>
             {isAdmin ? (
               <button
                 onClick={handleLogout}
-                className="px-3 py-1.5 rounded-md bg-reef-red text-[12px] text-reef-cream cursor-pointer hover:bg-reef-blue"
+                className="px-3 py-1.5 rounded-md bg-reef-theme text-[12px] text-reef-bg cursor-pointer hover:bg-reef-highlight"
               >
                 LOG OUT
               </button>
             ) : (
               <button
                 onClick={() => setModal("login")}
-                className="px-3 py-1.5 rounded-md bg-reef-red text-[12px] text-reef-cream cursor-pointer hover:bg-reef-blue"
+                className="px-3 py-1.5 rounded-md bg-reef-theme text-[12px] text-reef-bg cursor-pointer hover:bg-reef-highlight"
               >
                 LOG IN
               </button>
@@ -267,32 +267,32 @@ export default function App() {
         <div className="flex flex-col gap-3 sm:flex-row sm:gap-5 items-start w-full">
           {/* Sidebar */}
           <div className="w-full sm:w-38 shrink-0">
-            <div className="rounded-xl border border-reef-red p-3.5">
-              <div className="hidden sm:block font-bold text-[13px] text-reef-black mb-2">
+            <div className="rounded-xl border border-reef-theme p-3.5">
+              <div className="hidden sm:block font-bold text-[13px] text-reef-text mb-2">
                 pages
               </div>
               <div className="flex flex-row gap-3 sm:flex-col sm:gap-0 pl-3 text-xs">
                 <button
                   onClick={() => setPage("books")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "books" ? "text-reef-red" : "text-reef-black hover:text-reef-red"}`}
+                  className={`block text-left cursor-pointer transition-colors ${page === "books" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
                 >
                   └ books
                 </button>
                 <button
                   onClick={() => setPage("stats")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "stats" ? "text-reef-red" : "text-reef-black hover:text-reef-red"}`}
+                  className={`block text-left cursor-pointer transition-colors ${page === "stats" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
                 >
                   └ stats
                 </button>
                 <button
                   onClick={() => setPage("calendar")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "calendar" ? "text-reef-red" : "text-reef-black hover:text-reef-red"}`}
+                  className={`block text-left cursor-pointer transition-colors ${page === "calendar" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
                 >
                   └ calendar
                 </button>
                 <button
                   onClick={() => setPage("map")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "map" ? "text-reef-red" : "text-reef-black hover:text-reef-red"}`}
+                  className={`block text-left cursor-pointer transition-colors ${page === "map" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
                 >
                   └ map
                 </button>
@@ -302,15 +302,15 @@ export default function App() {
 
           {/* Main */}
           <div className="flex-1 min-w-0 w-full">
-            <div className="rounded-xl overflow-hidden border border-reef-red">
+            <div className="rounded-xl overflow-hidden border border-reef-theme">
               {/* Toolbar */}
-              <div className="flex flex-wrap gap-2 px-3.5 py-3 border-b border-reef-black items-center">
+              <div className="flex flex-wrap gap-2 px-3.5 py-3 border-b border-reef-text items-center">
                 <div className="relative w-full sm:flex-1">
-                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-reef-black text-lg select-none">
+                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-reef-text text-lg select-none">
                     ⌕
                   </span>
                   <input
-                    className="w-full pl-7 pr-2 h-8.5 border border-reef-black text-[12px] text-reef-black outline-none"
+                    className="w-full pl-7 pr-2 h-8.5 border border-reef-text text-[12px] text-reef-text outline-none"
                     placeholder="search..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -345,18 +345,16 @@ export default function App() {
                   />
                 )}
 
-                <div className="flex border border-reef-black rounded-md overflow-hidden">
+                <div className="flex border border-reef-text rounded-md overflow-hidden">
                   {(["card", "list"] as ViewMode[]).map((v, i) => (
                     <button
                       key={v}
                       onClick={() => setView(v)}
                       className="w-8.5 h-8.5 flex items-center justify-center cursor-pointer transition-colors"
                       style={{
-                        background: view === v ? C.red : "transparent",
+                        background: view === v ? C.theme : "transparent",
                         borderRight:
-                          i === 0
-                            ? "1px solid var(--color-reef-black)"
-                            : "none",
+                          i === 0 ? "1px solid var(--color-reef-text)" : "none",
                       }}
                     >
                       {v === "card" ? (
@@ -364,7 +362,7 @@ export default function App() {
                           width="13"
                           height="13"
                           viewBox="0 0 14 14"
-                          fill={view === v ? C.cream : C.default}
+                          fill={view === v ? C.bg : C.default}
                         >
                           <rect x="0" y="0" width="6" height="6" rx="1" />
                           <rect x="8" y="0" width="6" height="6" rx="1" />
@@ -376,7 +374,7 @@ export default function App() {
                           width="13"
                           height="13"
                           viewBox="0 0 14 14"
-                          fill={view === v ? C.cream : C.default}
+                          fill={view === v ? C.bg : C.default}
                         >
                           <rect x="0" y="1" width="14" height="2" rx="1" />
                           <rect x="0" y="6" width="14" height="2" rx="1" />
@@ -390,7 +388,7 @@ export default function App() {
                 {page === "stats" || page === "calendar" || page === "map" ? (
                   <button
                     onClick={() => exportFnRef.current?.()}
-                    className="w-8.5 h-8.5 rounded-md bg-reef-red text-reef-cream flex items-center justify-center cursor-pointer hover:bg-reef-blue transition-opacity border-none"
+                    className="w-8.5 h-8.5 rounded-md bg-reef-theme text-reef-bg flex items-center justify-center cursor-pointer hover:bg-reef-highlight transition-opacity border-none"
                   >
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
                       <line
@@ -398,13 +396,13 @@ export default function App() {
                         y1="0"
                         x2="7"
                         y2="9"
-                        stroke={C.cream}
+                        stroke={C.bg}
                         strokeWidth="2.5"
                         strokeLinecap="round"
                       />
                       <path
                         d="M3 7 L7 11.5 L11 7"
-                        stroke={C.cream}
+                        stroke={C.bg}
                         strokeWidth="2.5"
                         fill="none"
                         strokeLinecap="round"
@@ -415,7 +413,7 @@ export default function App() {
                         y1="13"
                         x2="13"
                         y2="13"
-                        stroke={C.cream}
+                        stroke={C.bg}
                         strokeWidth="2.5"
                         strokeLinecap="round"
                       />
@@ -428,7 +426,7 @@ export default function App() {
                         setEditBook(null);
                         setModal("add");
                       }}
-                      className="w-8.5 h-8.5 rounded-md bg-reef-red text-reef-cream text-[24px] flex items-center justify-center cursor-pointer hover:bg-reef-blue transition-opacity border-none leading-none"
+                      className="w-8.5 h-8.5 rounded-md bg-reef-theme text-reef-bg text-[24px] flex items-center justify-center cursor-pointer hover:bg-reef-highlight transition-opacity border-none leading-none"
                     >
                       +
                     </button>
@@ -437,7 +435,7 @@ export default function App() {
               </div>
 
               {/* Content */}
-              <div className="h-[calc(100dvh-300px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-cream">
+              <div className="h-[calc(100dvh-300px)] sm:h-[calc(100dvh-220px)] overflow-y-auto bg-reef-bg">
                 {page === "stats" && (
                   <StatsView
                     books={filtered}
@@ -470,21 +468,21 @@ export default function App() {
                 {page === "books" && (
                   <>
                     {loading && (
-                      <div className="py-10 text-center text-xs text-reef-black">
+                      <div className="py-10 text-center text-xs text-reef-text">
                         Loading…
                       </div>
                     )}
                     {loadError && (
-                      <div className="p-6 text-xs text-reef-red">
+                      <div className="p-6 text-xs text-reef-theme">
                         Failed to load: {loadError}
                         <br />
-                        <span className="text-reef-black">
+                        <span className="text-reef-text">
                           Check GIST_ID in src/gist.ts
                         </span>
                       </div>
                     )}
                     {!loading && !loadError && filtered.length === 0 && (
-                      <div className="py-10 text-center text-xs text-reef-black">
+                      <div className="py-10 text-center text-xs text-reef-text">
                         {books.length === 0
                           ? isAdmin
                             ? "No books yet — add one!"
@@ -519,7 +517,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="mt-2.5 text-[11px] text-reef-black flex justify-between">
+            <div className="mt-2.5 text-[11px] text-reef-text flex justify-between">
               <span>
                 {books.length} book{books.length !== 1 ? "s" : ""} total
               </span>

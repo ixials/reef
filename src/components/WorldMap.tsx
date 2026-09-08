@@ -243,7 +243,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
     const dataUrl = await toPng(ref.current, {
       cacheBust: true,
       pixelRatio: 2,
-      backgroundColor: C.cream,
+      backgroundColor: C.bg,
     });
     const link = document.createElement("a");
     link.download = `reef-worldmap-${new Date().toISOString().slice(0, 10)}.png`;
@@ -333,7 +333,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
           .enter()
           .append("path")
           .attr("d", (f) => pathGen(f) ?? "")
-          .attr("stroke", C.cream)
+          .attr("stroke", C.bg)
           .attr("stroke-width", "0")
           .attr("fill", (f) => {
             const p = f.properties as Record<string, string>;
@@ -354,7 +354,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
             if (data) {
               const k = d3.zoomTransform(svgRef.current!).k;
               d3.select(this)
-                .attr("stroke", C.black)
+                .attr("stroke", C.text)
                 .attr("stroke-width", 1 / k);
             }
             setTooltip({
@@ -451,10 +451,10 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
 
   return (
     <div ref={ref} className="p-4 flex flex-col gap-4">
-      <div className="border border-reef-black p-4">
+      <div className="border border-reef-text p-4">
         <div className="flex items-center justify-center mb-3">
           <span
-            className="text-center text-[28px] text-reef-red tracking-widest"
+            className="text-center text-[28px] text-reef-theme tracking-widest"
             style={{ fontFamily: "'Jersey 15', sans-serif" }}
           >
             world map
@@ -473,14 +473,14 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
           </span>
         </div>
 
-        <div className="border border-reef-black relative overflow-hidden">
+        <div className="border border-reef-text relative overflow-hidden">
           <svg ref={svgRef} className="w-full block" />
 
           <div
-            className="absolute bottom-2 left-2 border border-reef-black bg-reef-cream px-3 py-2"
+            className="absolute bottom-2 left-2 border border-reef-text bg-reef-bg px-3 py-2"
             style={{ fontFamily: "'Jersey 15', sans-serif" }}
           >
-            <span className="text-[20px] text-reef-red tracking-widest">
+            <span className="text-[20px] text-reef-theme tracking-widest">
               {countriesWithData} / {totalCountries}
             </span>
             <span
@@ -500,7 +500,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
               <button
                 key={label as string}
                 onClick={fn as () => void}
-                className="w-7 h-7 border border-reef-black bg-reef-cream text-reef-black text-[14px] flex items-center justify-center hover:bg-reef-red hover:text-reef-cream transition-colors cursor-pointer"
+                className="w-7 h-7 border border-reef-text bg-reef-bg text-reef-text text-[14px] flex items-center justify-center hover:bg-reef-theme hover:text-reef-bg transition-colors cursor-pointer"
               >
                 {label as string}
               </button>
@@ -509,7 +509,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
 
           {tooltip && (
             <div
-              className="absolute pointer-events-none border border-reef-black bg-reef-cream px-3 py-2"
+              className="absolute pointer-events-none border border-reef-text bg-reef-bg px-3 py-2"
               style={{
                 position: "fixed",
                 left: tooltip.x,
@@ -536,7 +536,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
                         }}
                       />
 
-                      <span className="text-[12px] text-reef-black">
+                      <span className="text-[12px] text-reef-text">
                         {b.title}
                       </span>
                     </div>

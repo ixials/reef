@@ -81,9 +81,9 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-reef-cream p-7 max-w-[95vw] max-h-[80vh] rounded-xl border-2 border-reef-red flex flex-col min-w-0">
+      <div className="bg-reef-bg p-7 max-w-[95vw] max-h-[80vh] rounded-xl border-2 border-reef-theme flex flex-col min-w-0">
         <h2
-          className="mb-2 text-[34px] text-reef-red tracking-widest"
+          className="mb-2 text-[34px] text-reef-theme tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
         >
           edit tags
@@ -93,15 +93,15 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
           {Object.entries(tags).map(([section, sectionTags]) => (
             <div
               key={section}
-              className="rounded-lg border border-reef-black overflow-hidden"
+              className="rounded-lg border border-reef-text overflow-hidden"
             >
-              <div className="flex items-center justify-between px-3 py-2 bg-reef-black/5 border-b border-reef-black/10">
-                <span className="text-[12px] font-bold text-reef-black tracking-widest">
+              <div className="flex items-center justify-between px-3 py-2 bg-reef-text/5 border-b border-reef-text/10">
+                <span className="text-[12px] font-bold text-reef-text tracking-widest">
                   {section}
                 </span>
                 <button
                   onClick={() => deleteSection(section)}
-                  className="text-[14px] text-reef-black/30 hover:text-reef-red cursor-pointer"
+                  className="text-[14px] text-reef-text/30 hover:text-reef-theme cursor-pointer"
                 >
                   ×
                 </button>
@@ -116,16 +116,16 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
                     />
                     <span
                       className="text-[12px] px-2 py-0.5 rounded"
-                      style={{ background: color, color: C.cream }}
+                      style={{ background: color, color: C.bg }}
                     >
                       {tag}
                     </span>
-                    <span className="text-[10px] text-reef-black/30 font-mono flex-1">
+                    <span className="text-[10px] text-reef-text/30 font-mono flex-1">
                       {color.toUpperCase()}
                     </span>
                     <button
                       onClick={() => deleteTag(section, tag)}
-                      className="text-[14px] text-reef-black/25 hover:text-reef-red cursor-pointer"
+                      className="text-[14px] text-reef-text/25 hover:text-reef-theme cursor-pointer"
                     >
                       ×
                     </button>
@@ -134,11 +134,11 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
 
                 <div className="flex items-center gap-3 pt-1 pb-1 min-w-0">
                   <span
-                    className="w-5 h-5 rounded border border-reef-black shrink-0 inline-block"
+                    className="w-5 h-5 rounded border border-reef-text shrink-0 inline-block"
                     style={{ background: newTagColor[section] || C.default }}
                   />
                   <input
-                    className="w-19 h-7 border border-reef-black text-[12px] text-reef-black px-2 outline-none bg-transparent font-mono shrink-0"
+                    className="w-19 h-7 border border-reef-text text-[12px] text-reef-text px-2 outline-none bg-transparent font-mono shrink-0"
                     placeholder="#ABA8A3"
                     value={newTagColor[section] ?? ""}
                     onChange={(e) =>
@@ -149,7 +149,7 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
                     }
                   />
                   <input
-                    className="min-w-0 flex-1 h-7 border border-reef-black text-[12px] text-reef-black px-2 outline-none bg-transparent"
+                    className="min-w-0 flex-1 h-7 border border-reef-text text-[12px] text-reef-text px-2 outline-none bg-transparent"
                     value={newTagName[section] ?? ""}
                     onChange={(e) =>
                       setNewTagName((p) => ({
@@ -163,7 +163,7 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
                   />
                   <button
                     onClick={() => addTag(section)}
-                    className="text-[12px] px-2 h-7 bg-reef-red text-reef-cream rounded cursor-pointer hover:bg-reef-blue"
+                    className="text-[12px] px-2 h-7 bg-reef-theme text-reef-bg rounded cursor-pointer hover:bg-reef-highlight"
                   >
                     ADD
                   </button>
@@ -176,7 +176,7 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <input
-              className="flex-1 h-8 border border-reef-black text-[12px] text-reef-black px-2 outline-none bg-transparent"
+              className="flex-1 h-8 border border-reef-text text-[12px] text-reef-text px-2 outline-none bg-transparent"
               value={newSection}
               onChange={(e) => setNewSection(e.target.value)}
               onKeyDown={(e) => {
@@ -185,7 +185,7 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
             />
             <button
               onClick={addSection}
-              className="text-[12px] px-3 h-8 border border-reef-red text-reef-red rounded cursor-pointer hover:bg-reef-red hover:text-reef-cream"
+              className="text-[12px] px-3 h-8 border border-reef-theme text-reef-theme rounded cursor-pointer hover:bg-reef-theme hover:text-reef-bg"
             >
               + SECTION
             </button>
@@ -193,13 +193,13 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
           <div className="flex justify-end gap-2">
             <button
               onClick={onClose}
-              className="text-[12px] px-3 h-8 bg-[#ABA8A3] text-reef-cream rounded cursor-pointer hover:bg-reef-blue"
+              className="text-[12px] px-3 h-8 bg-[#ABA8A3] text-reef-bg rounded cursor-pointer hover:bg-reef-highlight"
             >
               CANCEL
             </button>
             <button
               onClick={handleSave}
-              className="text-[12px] px-4 h-8 bg-reef-red text-reef-cream rounded cursor-pointer hover:bg-reef-blue"
+              className="text-[12px] px-4 h-8 bg-reef-theme text-reef-bg rounded cursor-pointer hover:bg-reef-highlight"
             >
               SAVE TAGS
             </button>

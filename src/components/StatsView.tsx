@@ -63,7 +63,7 @@ export function StatsView({
     const dataUrl = await toPng(ref.current, {
       cacheBust: true,
       pixelRatio: 2,
-      backgroundColor: C.cream,
+      backgroundColor: C.bg,
     });
 
     const link = document.createElement("a");
@@ -199,13 +199,13 @@ export function StatsView({
         style={{
           fontFamily: "monospace",
           fontSize: 12,
-          border: "1px solid var(--color-reef-black)",
-          background: C.cream,
+          border: "1px solid var(--color-reef-text)",
+          background: C.bg,
           padding: "14px 10px",
         }}
       >
         <div style={{ color, marginBottom: 4 }}>{name}</div>
-        <div style={{ color: C.black }}>count : {value}</div>
+        <div style={{ color: C.text }}>count : {value}</div>
       </div>
     );
   };
@@ -236,15 +236,15 @@ export function StatsView({
     ? Math.round(durations.reduce((a, b) => a + b, 0) / durations.length)
     : null;
 
-  const tickStyle = { fontFamily: "monospace", fontSize: 10, fill: C.black };
+  const tickStyle = { fontFamily: "monospace", fontSize: 10, fill: C.text };
 
   return (
     <div ref={ref} className="p-4 flex flex-col gap-4">
       {/* Books by month */}
-      <div className="border border-reef-black p-4">
-        <div className="flex items-center justify-center border-reef-black">
+      <div className="border border-reef-text p-4">
+        <div className="flex items-center justify-center border-reef-text">
           <div
-            className="text-center text-[28px] text-reef-red tracking-widest"
+            className="text-center text-[28px] text-reef-theme tracking-widest"
             style={{ fontFamily: "'Jersey 15', sans-serif" }}
           >
             books by month
@@ -261,30 +261,30 @@ export function StatsView({
             data={monthData}
             margin={{ top: 6, right: 12, bottom: 6, left: -32 }}
           >
-            <CartesianGrid stroke={C.grey} />
+            <CartesianGrid stroke={C.lightBg} />
             <XAxis dataKey="month" tick={tickStyle} />
             <YAxis tick={tickStyle} allowDecimals={false} />
             <Tooltip
               contentStyle={{
                 fontFamily: "monospace",
                 fontSize: 12,
-                border: "1px solid var(--color-reef-black)",
+                border: "1px solid var(--color-reef-text)",
                 borderRadius: 0,
-                background: C.cream,
+                background: C.bg,
               }}
-              labelStyle={{ color: C.red }}
-              itemStyle={{ color: C.black }}
-              cursor={{ stroke: C.blue, strokeWidth: 2 }}
+              labelStyle={{ color: C.theme }}
+              itemStyle={{ color: C.text }}
+              cursor={{ stroke: C.highlight, strokeWidth: 2 }}
             />
             <Line
               type="linear"
               dataKey="count"
-              stroke={C.red}
+              stroke={C.theme}
               strokeWidth={2}
-              dot={{ fill: C.red, r: 4, strokeWidth: 0 }}
+              dot={{ fill: C.theme, r: 4, strokeWidth: 0 }}
               activeDot={{
                 r: 4,
-                fill: C.blue,
+                fill: C.highlight,
                 strokeWidth: 0,
               }}
             />
@@ -293,16 +293,16 @@ export function StatsView({
       </div>
 
       {/* Tag pie */}
-      <div className="border border-reef-black p-4">
+      <div className="border border-reef-text p-4">
         <div
-          className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
+          className="text-center text-[28px] text-reef-theme mb-3 tracking-widest"
           style={{ fontFamily: "'Jersey 15', sans-serif" }}
         >
           tags
         </div>{" "}
         {filteredBooks.length === 0 ? (
           <div
-            className="flex items-center justify-center h-50 pb-6 text-xs text-reef-black"
+            className="flex items-center justify-center h-50 pb-6 text-xs text-reef-text"
             style={{ fontFamily: "monospace" }}
           >
             No books yet.
@@ -333,7 +333,7 @@ export function StatsView({
                     style={{ background: g.color }}
                   />
                   <span
-                    className="text-[12px] text-reef-black"
+                    className="text-[12px] text-reef-text"
                     style={{ fontFamily: "monospace" }}
                   >
                     {g.name}
@@ -355,25 +355,25 @@ export function StatsView({
       <div className="flex gap-4 flex-wrap sm:flex-nowrap">
         {/* Summary stats */}
         <div className="flex flex-col gap-4 shrink-0">
-          <div className="border border-reef-black p-4 flex flex-col items-start">
+          <div className="border border-reef-text p-4 flex flex-col items-start">
             <div
-              className="text-[64px] text-reef-red leading-none tracking-widest"
+              className="text-[64px] text-reef-theme leading-none tracking-widest"
               style={{ fontFamily: "'Jersey 15', sans-serif" }}
             >
               {booksRead}
             </div>
             <div
-              className="text-[12px] text-reef-black mt-1"
+              className="text-[12px] text-reef-text mt-1"
               style={{ fontFamily: "monospace" }}
             >
               books read
             </div>
           </div>
 
-          <div className="border border-reef-black p-4 flex flex-col items-start">
-            <div className="flex items-center justify-between border-reef-black">
+          <div className="border border-reef-text p-4 flex flex-col items-start">
+            <div className="flex items-center justify-between border-reef-text">
               <div
-                className="text-[48px] text-reef-red leading-none tracking-widest"
+                className="text-[48px] text-reef-theme leading-none tracking-widest"
                 style={{ fontFamily: "'Jersey 15', sans-serif" }}
               >
                 {avgDays ?? "--"}
@@ -386,7 +386,7 @@ export function StatsView({
               </span>
             </div>
             <div
-              className="text-[12px] text-reef-black mt-1"
+              className="text-[12px] text-reef-text mt-1"
               style={{ fontFamily: "monospace" }}
             >
               average time
@@ -397,9 +397,9 @@ export function StatsView({
         </div>
 
         {/* Ratings histogram */}
-        <div className="border border-reef-black p-4 flex-1 min-w-0">
+        <div className="border border-reef-text p-4 flex-1 min-w-0">
           <div
-            className="text-center text-[28px] text-reef-red mb-3 tracking-widest"
+            className="text-center text-[28px] text-reef-theme mb-3 tracking-widest"
             style={{ fontFamily: "'Jersey 15', sans-serif" }}
           >
             ratings
@@ -409,7 +409,7 @@ export function StatsView({
               data={ratingData}
               margin={{ top: 4, right: 8, bottom: 6, left: -40 }}
             >
-              <CartesianGrid stroke={C.grey} vertical={false} />
+              <CartesianGrid stroke={C.lightBg} vertical={false} />
               <XAxis dataKey="rating" tick={tickStyle} />
 
               <YAxis tick={tickStyle} allowDecimals={false} />
@@ -417,22 +417,22 @@ export function StatsView({
                 contentStyle={{
                   fontFamily: "monospace",
                   fontSize: 12,
-                  border: "1px solid var(--color-reef-black)",
+                  border: "1px solid var(--color-reef-text)",
                   borderRadius: 0,
-                  background: C.cream,
+                  background: C.bg,
                 }}
-                labelStyle={{ color: C.red }}
-                itemStyle={{ color: C.black }}
+                labelStyle={{ color: C.theme }}
+                itemStyle={{ color: C.text }}
                 cursor={{ fill: "transparent" }}
               />
               <Bar
                 dataKey="count"
-                fill={C.red}
+                fill={C.theme}
                 radius={[2, 2, 0, 0]}
-                activeBar={{ fill: C.blue }}
+                activeBar={{ fill: C.highlight }}
               >
                 {ratingData.map((_, i) => (
-                  <Cell key={i} fill={C.red} />
+                  <Cell key={i} fill={C.theme} />
                 ))}
               </Bar>
             </BarChart>
