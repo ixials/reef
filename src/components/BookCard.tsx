@@ -100,7 +100,7 @@ export function BookCard({
         {isAdmin && (
           <button
             onClick={() => onEdit(book)}
-            className="px-3.5 py-1.5 rounded-md bg-reef-theme text-reef-bg text-[12px] cursor-pointer hover:bg-reef-highlight transition-opacity"
+            className="px-3.5 py-1.5 rounded-md bg-reef-theme text-reef-button-text text-[12px] cursor-pointer hover:bg-reef-highlight transition-opacity"
           >
             EDIT
           </button>
@@ -114,7 +114,7 @@ export function BookRow({ book, onEdit, isAdmin, tagSections }: BookItemProps) {
   return (
     <div
       onClick={() => isAdmin && onEdit(book)}
-      className={`flex items-center gap-3 px-3.5 py-3 border-b border-reef-text last:border-b-0 transition-colors ${isAdmin ? "cursor-pointer hover:bg-[#D8D6D0]" : ""}`}
+      className={`flex items-center gap-3 px-3.5 py-3 border-b border-reef-text last:border-b-0 transition-colors ${isAdmin ? "cursor-pointer hover:bg-reef-light-bg" : ""}`}
     >
       <span
         className="w-3.5 h-3.5 rounded-full shrink-0"

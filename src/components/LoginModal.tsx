@@ -10,9 +10,9 @@ interface LoginModalProps {
 export function LoginModal({ onLogin, onClose, error }: LoginModalProps) {
   const [val, setVal] = useState("");
   const inputCls =
-    "w-full px-2.5 py-2 border border-black text-[12px] outline-none mb-3.5";
+    "w-full px-2.5 py-2 border border-reef-text text-[12px] text-reef-text outline-none mb-3.5";
   const labelCls =
-    "block text-[10px] font-bold text-black lowercase tracking-wider mb-1";
+    "block text-[10px] font-bold text-reef-text lowercase tracking-wider mb-1";
 
   return (
     <div
@@ -21,7 +21,7 @@ export function LoginModal({ onLogin, onClose, error }: LoginModalProps) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="rounded-xl p-7 w-95 border-2 border-reef-theme bg-[#F5EFE0]"
+        className="rounded-xl p-7 w-95 border-2 border-reef-theme bg-reef-bg"
       >
         <h2
           className="mb-2 text-[34px] text-reef-theme tracking-widest"
@@ -42,13 +42,13 @@ export function LoginModal({ onLogin, onClose, error }: LoginModalProps) {
         <div className="flex gap-2.5">
           <button
             onClick={() => onLogin(val)}
-            className="flex-1 py-2 rounded-md bg-reef-theme text-reef-bg text-[12px] cursor-pointer hover:bg-reef-highlight transition-opacity disabled:opacity-60"
+            className="flex-1 py-2 rounded-md bg-reef-theme text-reef-button-text text-[12px] cursor-pointer hover:bg-reef-highlight transition-opacity disabled:opacity-60"
           >
             UNLOCK
           </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-md bg-reef-default text-reef-bg text-[12px] cursor-pointer hover:bg-reef-highlight"
+            className="px-4 py-2 rounded-md bg-reef-default text-reef-button-text text-[12px] cursor-pointer hover:bg-reef-highlight"
           >
             CANCEL
           </button>

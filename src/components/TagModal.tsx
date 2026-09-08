@@ -163,7 +163,7 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
                   />
                   <button
                     onClick={() => addTag(section)}
-                    className="text-[12px] px-2 h-7 bg-reef-theme text-reef-bg rounded cursor-pointer hover:bg-reef-highlight"
+                    className="text-[12px] px-2 h-7 bg-reef-theme text-reef-button-text rounded cursor-pointer hover:bg-reef-highlight"
                   >
                     ADD
                   </button>
@@ -185,7 +185,7 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
             />
             <button
               onClick={addSection}
-              className="text-[12px] px-3 h-8 border border-reef-theme text-reef-theme rounded cursor-pointer hover:bg-reef-theme hover:text-reef-bg"
+              className="text-[12px] px-3 h-8 border border-reef-theme text-reef-theme rounded cursor-pointer hover:bg-reef-theme hover:text-reef-button-text"
             >
               + SECTION
             </button>
@@ -193,13 +193,13 @@ export function TagModal({ customTags, onSave, onClose }: Props) {
           <div className="flex justify-end gap-2">
             <button
               onClick={onClose}
-              className="text-[12px] px-3 h-8 bg-[#ABA8A3] text-reef-bg rounded cursor-pointer hover:bg-reef-highlight"
+              className="text-[12px] px-3 h-8 bg-reef-default text-reef-button-text rounded cursor-pointer hover:bg-reef-highlight"
             >
               CANCEL
             </button>
             <button
               onClick={handleSave}
-              className="text-[12px] px-4 h-8 bg-reef-theme text-reef-bg rounded cursor-pointer hover:bg-reef-highlight"
+              className="text-[12px] px-4 h-8 bg-reef-theme text-reef-button-text rounded cursor-pointer hover:bg-reef-highlight"
             >
               SAVE TAGS
             </button>

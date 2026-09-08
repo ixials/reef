@@ -50,7 +50,7 @@ export function SortFilter({
                 onChange(o.value);
                 setOpen(false);
               }}
-              className="w-full text-left px-3 py-1.5 text-[12px] flex items-center cursor-pointer hover:bg-reef-text hover:text-reef-bg transition-colors"
+              className="w-full text-left px-3 py-1.5 text-[12px] flex items-center cursor-pointer transition-colors"
               style={{
                 background: sort === o.value ? C.theme : "transparent",
                 color: sort === o.value ? C.bg : C.text,

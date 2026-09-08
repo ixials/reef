@@ -159,7 +159,7 @@ export function BookModal({
           />
           <button
             onClick={addTag}
-            className="px-4 py-2 rounded-md border border-none bg-reef-theme text-[12px] text-reef-bg cursor-pointer hover:bg-reef-highlight"
+            className="px-4 py-2 rounded-md border border-none bg-reef-theme text-[12px] text-reef-button-text cursor-pointer hover:bg-reef-highlight"
           >
             ADD
           </button>
@@ -176,7 +176,7 @@ export function BookModal({
           <button
             onClick={() => onSave(form)}
             disabled={saving}
-            className={`flex-1 py-2 rounded-md text-reef-bg text-[12px] cursor-pointer ${
+            className={`flex-1 py-2 rounded-md text-reef-button-text text-[12px] cursor-pointer ${
               saving
                 ? "bg-reef-highlight"
                 : "bg-reef-theme hover:bg-reef-highlight"
@@ -188,14 +188,14 @@ export function BookModal({
             <button
               onClick={() => onDelete(book.id)}
               disabled={saving}
-              className="px-4 py-2 rounded-md bg-[#E8A838] text-reef-bg text-[12px] cursor-pointer hover:bg-reef-highlight transition-colors"
+              className="px-4 py-2 rounded-md bg-[#E8A838] text-reef-button-text text-[12px] cursor-pointer hover:bg-reef-highlight transition-colors"
             >
               DELETE
             </button>
           )}
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-md bg-reef-default text-reef-bg text-[12px] cursor-pointer hover:bg-reef-highlight"
+            className="px-4 py-2 rounded-md bg-reef-default text-reef-button-text text-[12px] cursor-pointer hover:bg-reef-highlight"
           >
             CANCEL
           </button>

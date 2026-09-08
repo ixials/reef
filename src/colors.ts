@@ -5,4 +5,5 @@ export const C = {
   lightBg: "var(--color-reef-light-bg)",
   default: "var(--color-reef-default)",
   text: "var(--color-reef-text)",
+  buttonText: "var(--color-reef-button-text)",
 } as const;

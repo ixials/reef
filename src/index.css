@@ -7,6 +7,7 @@
   --color-reef-light-bg: #d8d6d0;
   --color-reef-default: #aba8a3;
   --color-reef-text: #000000;
+  --color-reef-button-text: #e7e4de;
 }
 
 .dark {
@@ -16,6 +17,7 @@
   --color-reef-light-bg: #303030;
   --color-reef-default: #6b6b6b;
   --color-reef-text: #e7e4de;
+  --color-reef-button-text: #e7e4de;
 }
 
 * {

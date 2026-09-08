@@ -52,7 +52,7 @@ export function TagFilter({
       </button>
 
       {open && (
-        <div className="absolute top-9.5 left-0 z-50 border border-reef-text bg-reef-text min-w-40 max-h-55 overflow-y-auto">
+        <div className="absolute top-9.5 left-0 z-50 border border-reef-text bg-reef-bg min-w-40 max-h-55 overflow-y-auto">
           {sections.length === 0 && (
             <div className="px-3 py-2 text-[12px] text-reef-text opacity-50">
               no tags yet
@@ -72,7 +72,7 @@ export function TagFilter({
                   <button
                     key={tag}
                     onClick={() => toggle(tag)}
-                    className={`w-full text-left px-3 text-xs flex items-center gap-2 cursor-pointer hover:bg-reef-text hover:text-reef-bg transition-colors ${last ? "pt-1.5 pb-3" : "py-1.5"}`}
+                    className={`w-full text-left px-3 text-xs flex items-center gap-2 cursor-pointer transition-colors ${last ? "pt-1.5 pb-3" : "py-1.5"}`}
                     style={{
                       background: active ? C.theme : "transparent",
                       color: active ? C.bg : C.text,

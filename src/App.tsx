@@ -242,21 +242,21 @@ export default function App() {
           <div className="flex flex-row gap-2 mt-2">
             <button
               onClick={toggle}
-              className="w-8.5 h-8.5 rounded-md bg-reef-theme text-[18px] text-reef-bg cursor-pointer hover:bg-reef-highlight"
+              className="w-8.5 h-8.5 rounded-md bg-reef-theme text-[18px] text-reef-button-text cursor-pointer hover:bg-reef-highlight"
             >
               {theme === "dark" ? "☀" : "☾"}
             </button>
             {isAdmin ? (
               <button
                 onClick={handleLogout}
-                className="px-3 py-1.5 rounded-md bg-reef-theme text-[12px] text-reef-bg cursor-pointer hover:bg-reef-highlight"
+                className="px-3 py-1.5 rounded-md bg-reef-theme text-[12px] text-reef-button-text cursor-pointer hover:bg-reef-highlight"
               >
                 LOG OUT
               </button>
             ) : (
               <button
                 onClick={() => setModal("login")}
-                className="px-3 py-1.5 rounded-md bg-reef-theme text-[12px] text-reef-bg cursor-pointer hover:bg-reef-highlight"
+                className="px-3 py-1.5 rounded-md bg-reef-theme text-[12px] text-reef-button-text cursor-pointer hover:bg-reef-highlight"
               >
                 LOG IN
               </button>
@@ -362,7 +362,7 @@ export default function App() {
                           width="13"
                           height="13"
                           viewBox="0 0 14 14"
-                          fill={view === v ? C.bg : C.default}
+                          fill={view === v ? C.buttonText : C.default}
                         >
                           <rect x="0" y="0" width="6" height="6" rx="1" />
                           <rect x="8" y="0" width="6" height="6" rx="1" />
@@ -374,7 +374,7 @@ export default function App() {
                           width="13"
                           height="13"
                           viewBox="0 0 14 14"
-                          fill={view === v ? C.bg : C.default}
+                          fill={view === v ? C.buttonText : C.default}
                         >
                           <rect x="0" y="1" width="14" height="2" rx="1" />
                           <rect x="0" y="6" width="14" height="2" rx="1" />
@@ -388,7 +388,7 @@ export default function App() {
                 {page === "stats" || page === "calendar" || page === "map" ? (
                   <button
                     onClick={() => exportFnRef.current?.()}
-                    className="w-8.5 h-8.5 rounded-md bg-reef-theme text-reef-bg flex items-center justify-center cursor-pointer hover:bg-reef-highlight transition-opacity border-none"
+                    className="w-8.5 h-8.5 rounded-md bg-reef-theme flex items-center justify-center cursor-pointer hover:bg-reef-highlight transition-opacity border-none"
                   >
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
                       <line
@@ -396,13 +396,13 @@ export default function App() {
                         y1="0"
                         x2="7"
                         y2="9"
-                        stroke={C.bg}
+                        stroke={C.buttonText}
                         strokeWidth="2.5"
                         strokeLinecap="round"
                       />
                       <path
                         d="M3 7 L7 11.5 L11 7"
-                        stroke={C.bg}
+                        stroke={C.buttonText}
                         strokeWidth="2.5"
                         fill="none"
                         strokeLinecap="round"
@@ -413,7 +413,7 @@ export default function App() {
                         y1="13"
                         x2="13"
                         y2="13"
-                        stroke={C.bg}
+                        stroke={C.buttonText}
                         strokeWidth="2.5"
                         strokeLinecap="round"
                       />
@@ -426,7 +426,7 @@ export default function App() {
                         setEditBook(null);
                         setModal("add");
                       }}
-                      className="w-8.5 h-8.5 rounded-md bg-reef-theme text-reef-bg text-[24px] flex items-center justify-center cursor-pointer hover:bg-reef-highlight transition-opacity border-none leading-none"
+                      className="w-8.5 h-8.5 rounded-md bg-reef-theme text-reef-button-text text-[24px] flex items-center justify-center cursor-pointer hover:bg-reef-highlight transition-opacity border-none leading-none"
                     >
                       +
                     </button>

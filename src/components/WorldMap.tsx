@@ -521,7 +521,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
                     : "translateX(20px)",
               }}
             >
-              <div className="text-reef-red text-[12px] lowercase">
+              <div className="text-reef-red text-[12px] text-reef-text lowercase">
                 {COUNTRY_NAMES[tooltip.code] ?? tooltip.code}
               </div>
 
