@@ -5,6 +5,7 @@ import { useTheme } from "./theme";
 import { BookModal } from "./components/BookModal";
 import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
+import { LogoutModal } from "./components/Logoutmodal";
 import { TagFilter } from "./components/TagFilter";
 import { SortFilter } from "./components/SortFilter";
 import { PeriodFilter } from "./components/PeriodFilter";
@@ -19,7 +20,7 @@ import mawile from "./assets/mawile.png";
 const AUTH_KEY = "reef_token";
 
 type ViewMode = "card" | "list";
-type ModalMode = "add" | "edit" | "login" | "tags" | null;
+type ModalMode = "add" | "edit" | "login" | "logout" | "tags" | null;
 type SortMode = "recent" | "rating-down" | "rating-up" | "review";
 type StatsPeriod = "all" | "year" | "this-month" | "last-month";
 type BookFormData = Omit<Book, "id">;
@@ -48,6 +49,7 @@ export default function App() {
     localStorage.getItem(AUTH_KEY),
   );
   const [loginError, setLoginError] = useState("");
+  const [logoutError, setLogoutError] = useState("");
   const isAdmin = !!token;
 
   useEffect(() => {
@@ -97,6 +99,7 @@ export default function App() {
   const handleLogout = () => {
     localStorage.removeItem(AUTH_KEY);
     setToken(null);
+    setModal(null);
   };
 
   const saveBook = async (form: BookFormData) => {
@@ -248,7 +251,7 @@ export default function App() {
             </button>
             {isAdmin ? (
               <button
-                onClick={handleLogout}
+                onClick={() => setModal("logout")}
                 className="px-3 py-1.5 rounded-md bg-reef-theme text-[12px] text-reef-button-text cursor-pointer hover:bg-reef-highlight"
               >
                 LOG OUT
@@ -549,6 +552,16 @@ export default function App() {
               setLoginError("");
             }}
             error={loginError}
+          />
+        )}
+        {modal === "logout" && (
+          <LogoutModal
+            onLogout={handleLogout}
+            onClose={() => {
+              setModal(null);
+              setLogoutError("");
+            }}
+            error={logoutError}
           />
         )}
         {modal === "tags" && (
