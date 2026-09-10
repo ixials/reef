@@ -1,3 +1,3 @@
 # Reef
 
-Personal book tracker because Goodreads doesn't let me give half stars
+Personal book tracker with custom tags, stats, calendar, and map
