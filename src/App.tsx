@@ -14,8 +14,9 @@ import { Calendar } from "./components/Calendar";
 import { StatsView } from "./components/StatsView";
 import { WorldMap } from "./components/WorldMap";
 
-type PageMode = "books" | "stats" | "calendar" | "map";
+import { Sun, Moon } from "lucide-react";
 import mawile from "./assets/mawile.png";
+type PageMode = "books" | "stats" | "calendar" | "map";
 
 const AUTH_KEY = "reef_token";
 
@@ -245,9 +246,13 @@ export default function App() {
           <div className="flex flex-row gap-2 mt-2">
             <button
               onClick={toggle}
-              className="w-8.5 h-8.5 rounded-md bg-reef-theme text-[18px] text-reef-button-text cursor-pointer hover:bg-reef-highlight"
+              className="w-8.5 h-8.5 rounded-md flex items-center justify-center bg-reef-theme text-[18px] text-reef-button-text cursor-pointer hover:bg-reef-highlight"
             >
-              {theme === "dark" ? "☀" : "☾"}
+              {theme === "dark" ? (
+                <Sun size={15} stroke-width={3} color={C.buttonText} />
+              ) : (
+                <Moon size={15} stroke-width={3} color={C.buttonText} />
+              )}
             </button>
             {isAdmin ? (
               <button

@@ -90,7 +90,7 @@ export function BookCard({
 
       {book.notes ? <CollapsibleNotes notes={book.notes} /> : <br />}
 
-      <div className="flex justify-between items-center">
+      <div className="flex gap-2 justify-between items-center">
         <div className="flex gap-1.5 flex-wrap items-center">
           <span className="text-[12px] text-reef-text mr-0.5">Tags:</span>
           {book.tags.map((t) => (
