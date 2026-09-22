@@ -500,7 +500,7 @@ export function WorldMap({ books, tagSections, period, onExportReady }: Props) {
               <button
                 key={label as string}
                 onClick={fn as () => void}
-                className="w-7 h-7 border border-reef-text bg-reef-bg text-reef-text text-[14px] flex items-center justify-center hover:bg-reef-theme hover:text-reef-bg transition-colors cursor-pointer"
+                className="w-7 h-7 border border-reef-text bg-reef-bg text-reef-text text-[14px] flex items-center justify-center hover:bg-reef-theme hover:text-reef-bg cursor-pointer"
               >
                 {label as string}
               </button>

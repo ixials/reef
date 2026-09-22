@@ -199,7 +199,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
           <div className="flex items-center justify-between gap-6 px-4 py-3 border-b border-reef-text">
             <button
               onClick={prevMonth}
-              className="text-reef-text hover:text-reef-theme cursor-pointer text-sm transition-colors"
+              className="text-reef-text hover:text-reef-theme cursor-pointer text-sm"
             >
               ◀
             </button>
@@ -217,7 +217,7 @@ export function Calendar({ books, tagSections, onExportReady }: Props) {
             </span>
             <button
               onClick={nextMonth}
-              className="text-reef-text hover:text-reef-theme cursor-pointer text-sm transition-colors"
+              className="text-reef-text hover:text-reef-theme cursor-pointer text-sm"
             >
               ▶
             </button>

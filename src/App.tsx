@@ -5,7 +5,7 @@ import { useTheme } from "./theme";
 import { BookModal } from "./components/BookModal";
 import { BookCard, BookRow } from "./components/BookCard";
 import { LoginModal } from "./components/LoginModal";
-import { LogoutModal } from "./components/Logoutmodal";
+import { LogoutModal } from "./components/LogoutModal";
 import { TagFilter } from "./components/TagFilter";
 import { SortFilter } from "./components/SortFilter";
 import { PeriodFilter } from "./components/PeriodFilter";
@@ -282,25 +282,25 @@ export default function App() {
               <div className="flex flex-row gap-3 sm:flex-col sm:gap-0 pl-3 text-xs">
                 <button
                   onClick={() => setPage("books")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "books" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
+                  className={`block text-left cursor-pointer ${page === "books" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
                 >
                   └ books
                 </button>
                 <button
                   onClick={() => setPage("stats")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "stats" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
+                  className={`block text-left cursor-pointer ${page === "stats" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
                 >
                   └ stats
                 </button>
                 <button
                   onClick={() => setPage("calendar")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "calendar" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
+                  className={`block text-left cursor-pointer ${page === "calendar" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
                 >
                   └ calendar
                 </button>
                 <button
                   onClick={() => setPage("map")}
-                  className={`block text-left cursor-pointer transition-colors ${page === "map" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
+                  className={`block text-left cursor-pointer ${page === "map" ? "text-reef-theme" : "text-reef-text hover:text-reef-theme"}`}
                 >
                   └ map
                 </button>
@@ -358,7 +358,7 @@ export default function App() {
                     <button
                       key={v}
                       onClick={() => setView(v)}
-                      className="w-8.5 h-8.5 flex items-center justify-center cursor-pointer transition-colors"
+                      className="w-8.5 h-8.5 flex items-center justify-center cursor-pointer"
                       style={{
                         background: view === v ? C.theme : "transparent",
                         borderRight:
@@ -396,7 +396,7 @@ export default function App() {
                 {page === "stats" || page === "calendar" || page === "map" ? (
                   <button
                     onClick={() => exportFnRef.current?.()}
-                    className="w-8.5 h-8.5 rounded-md bg-reef-theme flex items-center justify-center cursor-pointer hover:bg-reef-highlight transition-opacity border-none"
+                    className="w-8.5 h-8.5 rounded-md bg-reef-theme flex items-center justify-center cursor-pointer hover:bg-reef-highlight border-none"
                   >
                     <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
                       <line
@@ -434,7 +434,7 @@ export default function App() {
                         setEditBook(null);
                         setModal("add");
                       }}
-                      className="w-8.5 h-8.5 rounded-md bg-reef-theme text-reef-button-text text-[24px] flex items-center justify-center cursor-pointer hover:bg-reef-highlight transition-opacity border-none leading-none"
+                      className="w-8.5 h-8.5 rounded-md bg-reef-theme text-reef-button-text text-[24px] flex items-center justify-center cursor-pointer hover:bg-reef-highlight border-none leading-none"
                     >
                       +
                     </button>

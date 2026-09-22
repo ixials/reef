@@ -167,7 +167,7 @@ export function BookModal({
 
         <label className={labelCls}>Notes</label>
         <textarea
-          className="w-full px-2.5 py-2 border border-reef-text bg-reef-light-bg text-[12px] outline-none mb-3.5 h-32 resize-y"
+          className="w-full px-2.5 py-2 border border-reef-text bg-reef-light-bg text-[12px] text-reef-text outline-none mb-3.5 h-32 resize-y"
           value={form.notes}
           onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
         />
