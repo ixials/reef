@@ -249,9 +249,9 @@ export default function App() {
               className="w-8.5 h-8.5 rounded-md flex items-center justify-center bg-reef-theme text-[18px] text-reef-button-text cursor-pointer hover:bg-reef-highlight"
             >
               {theme === "dark" ? (
-                <Sun size={15} stroke-width={3} color={C.buttonText} />
+                <Sun size={15} strokeWidth={3} color={C.buttonText} />
               ) : (
-                <Moon size={15} stroke-width={3} color={C.buttonText} />
+                <Moon size={15} strokeWidth={3} color={C.buttonText} />
               )}
             </button>
             {isAdmin ? (
