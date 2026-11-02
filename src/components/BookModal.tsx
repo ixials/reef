@@ -2,6 +2,22 @@ import { useState } from "react";
 import { Book, TagSections } from "../gist";
 import { StarRating } from "./StarRating";
 import { Tag } from "./Tag";
+import {
+  DndContext,
+  closestCenter,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 type BookFormData = Omit<Book, "id">;
 
@@ -12,6 +28,42 @@ interface BookModalProps {
   onClose: () => void;
   saving: boolean;
   tagSections: TagSections;
+}
+
+function SortableTag({
+  label,
+  tagSections,
+  onRemove,
+}: {
+  label: string;
+  tagSections: TagSections;
+  onRemove: () => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: label });
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={{
+        transform: CSS.Translate.toString(transform),
+        transition,
+        zIndex: isDragging ? 10 : undefined,
+        WebkitTouchCallout: "none",
+      }}
+      className="cursor-grab active:cursor-grabbing select-none"
+    >
+      <Tag label={label} tagSections={tagSections} onRemove={onRemove} />
+    </div>
+  );
 }
 
 export function BookModal({
@@ -44,6 +96,22 @@ export function BookModal({
         },
   );
   const [tagInput, setTagInput] = useState("");
+
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 200, tolerance: 8 },
+    }),
+  );
+
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (!over || active.id === over.id) return;
+    setForm((f) => {
+      const from = f.tags.indexOf(String(active.id));
+      const to = f.tags.indexOf(String(over.id));
+      return { ...f, tags: arrayMove(f.tags, from, to) };
+    });
+  };
 
   const addTag = () => {
     const t = tagInput.trim().toLowerCase();
@@ -131,25 +199,29 @@ export function BookModal({
         </div>
 
         <label className={labelCls}>Tags</label>
-        <div className="flex flex-wrap gap-1.5 mb-2">
-          {form.tags.map((t) => (
-            <Tag
-              key={t}
-              label={t}
-              onRemove={() =>
-                setForm((f) => {
-                  const newTags = f.tags.filter((x) => x !== t);
-
-                  return {
-                    ...f,
-                    tags: newTags,
-                  };
-                })
-              }
-              tagSections={tagSections}
-            />
-          ))}
-        </div>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={form.tags} strategy={rectSortingStrategy}>
+            <div className="flex flex-wrap gap-1.5 mb-2">
+              {form.tags.map((t) => (
+                <SortableTag
+                  key={t}
+                  label={t}
+                  tagSections={tagSections}
+                  onRemove={() =>
+                    setForm((f) => ({
+                      ...f,
+                      tags: f.tags.filter((x) => x !== t),
+                    }))
+                  }
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
         <div className="flex gap-2 mb-3.5">
           <input
             className="flex-1 px-2.5 py-2 border border-reef-text text-[12px] text-reef-text outline-none"
