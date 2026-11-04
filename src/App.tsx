@@ -236,11 +236,11 @@ export default function App() {
               reef
             </div>
             <div className="text-[12px] text-reef-text hidden sm:block">
-              goodreads redo
+              book tracker
               <br />
-              bc i wanted
+              with half stars
               <br />
-              half stars
+              (the best system)
             </div>
           </div>
           <div className="flex flex-row gap-2 mt-2">
