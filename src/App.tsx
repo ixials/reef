@@ -13,14 +13,13 @@ import { TagModal } from "./components/TagModal";
 import { Calendar } from "./components/Calendar";
 import { StatsView } from "./components/StatsView";
 import { WorldMap } from "./components/WorldMap";
-
 import { Sun, Moon } from "lucide-react";
 import mawile from "./assets/mawile.png";
-type PageMode = "books" | "stats" | "calendar" | "map";
 
 const AUTH_KEY = "reef_token";
 
 type ViewMode = "card" | "list";
+type PageMode = "books" | "stats" | "calendar" | "map";
 type ModalMode = "add" | "edit" | "login" | "logout" | "tags" | null;
 type SortMode = "recent" | "rating-down" | "rating-up" | "review";
 type StatsPeriod = "all" | "year" | "this-month" | "last-month";

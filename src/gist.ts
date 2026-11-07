@@ -24,7 +24,6 @@ export interface GistData {
 }
 function parseGist(raw: string): GistData {
   const parsed = JSON.parse(raw);
-  // handle legacy format: bare array of books
   if (Array.isArray(parsed)) {
     return { books: parsed, tags: {} };
   }
@@ -65,10 +64,4 @@ export async function writeGist(
     const err = (await res.json().catch(() => ({}))) as { message?: string };
     throw new Error(err.message ?? `Gist write failed: ${res.status}`);
   }
-}
-
-// ─── Legacy compat exports ──────────────────────────────────────────────────
-// Keep these so nothing else breaks while you migrate
-export async function readBooks(): Promise<Book[]> {
-  return (await readGist()).books;
 }
